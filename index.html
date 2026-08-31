@@ -2125,6 +2125,19 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
   text-align:center;font-family:inherit;color:var(--ink);outline:none}
 #ts-xl .xlin:focus{background:#fff;box-shadow:inset 0 0 0 2px var(--primary-mid)}
 #ts-xl .xlin.ok{background:#E4F1E8}
+
+/* وضع الإكسل في جدول الفعاليات */
+body.mev-xl #mev-table td{padding:0}
+body.mev-xl #mev-table td:not(.xl):not(.rowtools){padding:5px 6px}
+body.mev-xl #mev-table .xlin{min-width:80px}
+body.mev-xl #mev-table th{background:#DCE9F7;color:#0B3B6B;position:sticky;top:0;z-index:3}
+body.mev-xl #mev-table td{border:1px solid #D8E4F0}
+body.mev-xl #mev-table tbody tr:hover td{background:#F7FBFF}
+
+/* إخفاء أدوات المدير عن غير المدير */
+body.not-admin #open-settings,body.not-admin #tb-set,
+body.not-admin #open-restore,body.not-admin #open-asview,
+body.not-admin #open-delreqs{display:none !important}
 </style>
 </head>
 <body>
@@ -2618,6 +2631,11 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
           <span id="appr-badges"></span>
           <button class="btn ghost sm" id="appr-all">اعتماد الكل</button></div>
         <div id="appr-list"></div>
+        <div class="hm-sec-title" style="margin-top:18px;color:#8A6B10">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+          تغييرات بانتظار الاعتماد <span id="chg-count"></span>
+        </div>
+        <div id="chg-list"></div>
       </div>
     </div>
 
@@ -2859,7 +2877,7 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
         <button class="icon-only" id="mev-year-rep" title="تكرار المحدد خلال العام"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></button>
         <button class="icon-only" id="mev-clone" title="استنساخ فعاليات من شهر إلى شهر"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 4h12v12"/><rect x="4" y="8" width="12" height="12" rx="2"/><path d="m10 14 2 2 4-4"/></svg></button>
         <button class="icon-only" id="mev-newyear" title="إضافة سنة جديدة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M12 14v5M9.5 16.5h5"/></svg></button>
-        <button class="icon-only" id="mev-view" title="تبديل العرض: مربعات / جدول"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
+        <button class="icon-only" id="mev-view" title="تبديل العرض: مربعات / جدول / إكسل"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
         <label class="icon-only" id="mev-imp-lbl" title="استرجاع من ملف نسخة احتياطية" style="margin:0;cursor:pointer;color:#245F3C;border-color:#BFE0D2;background:#E6F2EA">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
           <input type="file" id="mev-imp" accept=".json" style="display:none"></label>
@@ -3466,6 +3484,10 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
           <input id="dk-i-pct" type="range" min="0" max="100" step="5" value="0" style="flex:1">
           <b id="dk-i-pctv" style="font-family:var(--watad);min-width:42px;text-align:center">0%</b>
         </div></div>
+      <div><label for="dk-i-owner2">خصوصية البند</label><select id="dk-i-priv">
+        <option value="">عام — يراه المدير والأقسام المعنية</option>
+        <option value="sec">خاص بالقسم — يظهر عند قسمي فقط</option>
+      </select></div>
       <div><label for="dk-i-prio">الأولوية</label><select id="dk-i-prio">
         <option value="عادية">عادية</option><option value="عاجلة">عاجلة</option>
         <option value="حرجة">حرجة</option></select></div>
@@ -4437,6 +4459,7 @@ const DB={contacts:[],mails:[],tasks:[],seq:1,
   msgTpls:[],
   desk:[],
   delReqs:[],
+  changes:[],
   audit:[],
   plan:{strat:[],exec:[],events:[],monthly:[],lists:{refs:["الخطة الاستراتيجية للوزارة","رؤية قطر الوطنية 2030","مبادرة إدارية","توجيه سعادة الوكيل"],statuses:["لم يبدأ","جارٍ التنفيذ","متأخر","منجز","متوقف"],national:[],kpis:[]}},
   settings:{appName:"متابعات مكتب مساعد المدير",appTag:"الدليل · المراسلات · المهام",logo:null,current:1,admin:{u:"admin",p:"admin"}},
@@ -4516,7 +4539,39 @@ function curUser(){
   if(LOCAL_CUR){const u=DB.users.find(x=>x.id===LOCAL_CUR);if(u)return u}
   return DB.users.find(u=>u.id===DB.settings.current)||DB.users[0];
 }
+
+/* ===== قواعد ظهور الأوراق والأدوات حسب القسم ===== */
+const PRISON_SECS=["الإرشاد الديني","القرآن الكريم وعلومه"];
+function canPrison(){
+  const sc=myScope();
+  if(!sc)return true;                       /* المدير يرى الكل */
+  return PRISON_SECS.some(x=>canonSec(x)===canonSec(sc));
+}
+function isAdminUser2(){
+  const u=curUser();
+  return !!(u&&!myScope()&&u.perms&&u.perms.settings);
+}
+function applyScopeRules(){
+  /* المؤسسات العقابية */
+  const pt=document.querySelector('#plan-tabs [data-sheet="prison"]');
+  if(pt)pt.style.display=canPrison()?"":"none";
+  const pp=$("#sheet-prison");
+  if(pp&&!canPrison()&&pp.classList.contains("on")){
+    pp.classList.remove("on");
+    const first=document.querySelector('#plan-tabs .mtab:not([style*="none"])');
+    if(first)first.click();
+  }
+  /* الإعدادات: لمدير النظام فقط */
+  const adm=isAdminUser2();
+  document.body.classList.toggle("not-admin",!adm);
+  ["#open-settings","#tb-set","#open-restore","#open-asview","#open-delreqs"].forEach(id=>{
+    const n=$(id);
+    if(n)n.style.setProperty("display",adm?"":"none",adm?"":"important");
+  });
+}
+
 function applyPerms(){
+  setTimeout(()=>{try{applyScopeRules()}catch(e){}},40);
   const real=curUser();if(!real)return;
   const only=myScope();
   /* أثناء التصفح كقسم: صلاحيات مستخدم القسم */
@@ -4837,7 +4892,7 @@ function readRec(){
 }
 async function saveEverything(){
   await save("dir:contacts",DB.contacts);await save("dir:mails",DB.mails);
-  await save("dir:memos",DB.memos);await save("dir:reqs",DB.reqs||[]);await save("dir:schools",DB.schools||[]);await save("dir:schMeta",DB.schMeta||{});await save("dir:msgs",DB.msgs||[]);await save("dir:schReqs",DB.schReqs||[]);await save("dir:secMails",DB.secMails||[]);await save("dir:msgTpls",DB.msgTpls||[]);await save("dir:desk",DB.desk||[]);await save("dir:delReqs",DB.delReqs||[]);await save("dir:lists",DB.lists);
+  await save("dir:memos",DB.memos);await save("dir:reqs",DB.reqs||[]);await save("dir:schools",DB.schools||[]);await save("dir:schMeta",DB.schMeta||{});await save("dir:msgs",DB.msgs||[]);await save("dir:schReqs",DB.schReqs||[]);await save("dir:secMails",DB.secMails||[]);await save("dir:msgTpls",DB.msgTpls||[]);await save("dir:desk",DB.desk||[]);await save("dir:delReqs",DB.delReqs||[]);await save("dir:changes",DB.changes||[]);await save("dir:lists",DB.lists);
   await save("dir:users",DB.users);await save("dir:settings",DB.settings);
   await save("dir:tasks",{list:DB.tasks,seq:DB.seq});
   await savePlanParts();
@@ -5737,7 +5792,7 @@ function deskRows(){
   const mine=myScope();
   const today=new Date().toISOString().slice(0,10);
   return (DB.desk||[])
-    .filter(r=>!mine||(r.secs||[]).some(x=>canonSec(x)===mine))
+    .filter(dkVisible)
     .filter(r=>!sec||(r.secs||[]).some(x=>canonSec(x)===canonSec(sec)))
     .filter(r=>{
       if(view==="all")return true;
@@ -5781,6 +5836,14 @@ function renderDeskSheet(){
     nm.innerHTML="<b style='font-family:var(--watad);font-size:12px'>"+(r.title||"—")+"</b>";
     if(r.desc)nm.appendChild(el("div","mini",String(r.desc).slice(0,90)));
     if(r.owner)nm.appendChild(el("div","mini","المسؤول: "+r.owner));
+    if(r.priv==="sec"){
+      const pz=el("span","chip");
+      pz.style.cssText="font-size:9.5px;font-weight:800;background:var(--primary-light);"
+        +"border:1px solid var(--primary-mid);color:var(--primary-dark)";
+      pz.textContent="🔒 خاص بالقسم";
+      pz.title="يظهر عند قسم "+(r.ownerSec||"—")+" فقط";
+      nm.appendChild(pz);
+    }
     if(r.rep){
       const rz=el("span","chip");
       rz.style.cssText="font-size:9.5px;font-weight:800;background:var(--ok-bg);"
@@ -5889,6 +5952,7 @@ function openDesk(rec){
   $("#dk-i-owner").value=rec?(rec.owner||""):"";
   $("#dk-i-prio").value=rec?(rec.prio||"عادية"):"عادية";
   if($("#dk-i-emp"))$("#dk-i-emp").value=rec?(rec.emp||""):"";
+  if($("#dk-i-priv"))$("#dk-i-priv").value=rec?(rec.priv||""):(myScope()?"sec":"");
   const pv=$("#dk-i-pct");
   if(pv){pv.value=String(rec?(Number(rec.pct)||0):0);
     const pl=$("#dk-i-pctv");if(pl)pl.textContent=pv.value+"%";
@@ -5913,6 +5977,9 @@ if($("#dk-save"))$("#dk-save").onclick=async()=>{
     route:DK_ROUTE.slice(),
     startSec:($("#dk-i-start")&&$("#dk-i-start").value)||"",
     emp:($("#dk-i-emp")&&$("#dk-i-emp").value||"").trim(),
+    priv:($("#dk-i-priv")&&$("#dk-i-priv").value)||"",
+    ownerSec:myScope()||(($("#dk-i-priv")&&$("#dk-i-priv").value==="sec")
+      ?((DK_ROUTE&&DK_ROUTE[0])||""):""),
     pct:Number(($("#dk-i-pct")&&$("#dk-i-pct").value))||0,
     rep:!!($("#dk-i-rep")&&$("#dk-i-rep").checked),
     repMode:($("#dk-i-repmode")&&$("#dk-i-repmode").value)||"monthly",
@@ -5927,10 +5994,12 @@ if($("#dk-save"))$("#dk-save").onclick=async()=>{
     const i=DB.desk.findIndex(x=>x.id===DK_ID);
     if(i>=0)DB.desk[i]=Object.assign(DB.desk[i],o);
     audit("تعديل","رزنامة المكتب",o.title);
+    try{await logChange("desk","edit",o.title,fmt(o.from))}catch(e){}
   }else{
     DB.desk.push(Object.assign({id:Date.now(),done:false,replies:{},
       by_user:(curUser()?curUser().name:""),createdAt:new Date().toISOString().slice(0,10)},o));
     audit("إضافة","رزنامة المكتب",o.title);
+    try{await logChange("desk","add",o.title,fmt(o.from))}catch(e){}
   }
   /* إنشاء النسخ المتكررة */
   let made=0;
@@ -6283,7 +6352,7 @@ function dkAlerts(){
   const out=[];
   (DB.desk||[]).forEach(r=>{
     if(r.done)return;
-    if(mine&&!(r.secs||[]).some(x=>canonSec(x)===mine))return;
+    if(!dkVisible(r))return;
     const C=dkCurrent(r);
     const due=r.to||r.from||"";
     const stop=dkStopDays(r);
@@ -6609,6 +6678,19 @@ function dkEnsureMonth(m,y){
   return n;
 }
 
+
+/* ===== رؤية بنود الرزنامة ===== */
+function dkVisible(r){
+  const mine=myScope();
+  if(!mine)return true;                       /* المدير يرى الكل */
+  if(r.priv==="sec"){
+    /* خاص بقسم: يراه قسمه فقط */
+    const own=canonSec(r.ownerSec||((r.secs||[])[0]||""));
+    return own===canonSec(mine);
+  }
+  return (r.secs||[]).some(x=>canonSec(x)===canonSec(mine));
+}
+
 /* ================= تسليم متطلبات الأقسام ================= */
 function dkSecs(r){return (r.route&&r.route.length)?r.route.slice():(r.secs||[]).slice()}
 function dkDeliv(r){
@@ -6920,7 +7002,7 @@ let DKS_M=new Date().getMonth()+1,DKS_Y=new Date().getFullYear();
 function dksScope(){return ($("#dks-scope")&&$("#dks-scope").value)||"month"}
 function dksRows(){
   const sc=dksScope();
-  const all=DB.desk||[];
+  const all=(DB.desk||[]).filter(dkVisible);
   if(sc==="all")return all;
   if(sc==="year")return all.filter(r=>String(r.from||"").slice(0,4)===String(DKS_Y));
   const from=DKS_Y+"-"+pad(DKS_M)+"-01";
@@ -7271,7 +7353,7 @@ function dkOccurrences(m,y,sec){
   const from=y+"-"+pad(m)+"-01";
   const to=y+"-"+pad(m)+"-"+pad(new Date(y,m,0).getDate());
   return (DB.desk||[]).filter(r=>{
-    if(mine&&!(r.secs||[]).some(x=>canonSec(x)===mine))return false;
+    if(!dkVisible(r))return false;
     if(sec&&!(r.secs||[]).some(x=>canonSec(x)===canonSec(sec)))return false;
     const a=r.from||"",b=r.to||r.from||"";
     return a&&!(b<from||a>to);
@@ -7876,6 +7958,7 @@ function tidyToolbars(){
 
 /* ===== توحيد فتح الإعدادات ===== */
 function openSettings(pane){
+  if(!isAdminUser2())return alert("الإعدادات من صلاحيات مدير النظام.");
   const box=$("#ov-set");if(!box)return;
   try{
     if($("#s-name"))$("#s-name").value=DB.settings.appName||"";
@@ -8449,7 +8532,7 @@ function migrateNotice(r){
 
 const SNAP_KEYS=["dir:contacts","dir:mails","dir:tasks","dir:memos","dir:schools","dir:schMeta",
   "dir:plan_strat","dir:plan_exec","dir:plan_events","dir:plan_monthly","dir:plan_lists","dir:plan_fin","dir:plan_prisons","dir:plan_qevents","dir:plan_mevents","dir:plan_mplans","dir:plan_descs","dir:plan_annual","dir:plan_qevents",
-  "dir:lists","dir:users","dir:settings","dir:msgs","dir:reqs","dir:schReqs","dir:secMails","dir:msgTpls","dir:desk","dir:delReqs"];
+  "dir:lists","dir:users","dir:settings","dir:msgs","dir:reqs","dir:schReqs","dir:secMails","dir:msgTpls","dir:desk","dir:delReqs","dir:changes"];
 function snapList(){try{return JSON.parse((LS&&LS.getItem("snapIndex"))||"[]")}catch(e){return []}}
 function snapCounts(d){
   const n=x=>Array.isArray(x)?x.length:0;
@@ -9495,12 +9578,91 @@ function pendingList(){
   });
   return out;
 }
+
+/* ================= سجل التغييرات للاعتماد ================= */
+async function logChange(kind,action,label,extra,sec){
+  const u=curUser();
+  if(!myScope()&&!ASSCOPE)return;          /* المدير لا يحتاج اعتمادًا لنفسه */
+  DB.changes=DB.changes||[];
+  DB.changes.push({cid:Date.now()+Math.floor(Math.random()*999),
+    kind,action,label:label||"",extra:extra||"",
+    sec:sec||myScope()||"",by:(u?u.name:""),
+    at:new Date().toISOString().slice(0,16).replace("T"," "),
+    state:"pending"});
+  try{await saveVerified("dir:changes",DB.changes,"سجل التغييرات")}catch(e){}
+  try{drawChanges()}catch(e){}
+}
+const CHG_ACT={add:"إضافة",edit:"تعديل",del:"حذف"};
+const CHG_KIND={contact:"الدليل",mail:"المراسلات",task:"المهام",memo:"الأرشيف المركزي",
+  school:"فعاليات المدارس",mevent:"الفعاليات الشهرية",desk:"رزنامة المكتب",
+  exec:"الخطة التنفيذية",strat:"الخطة الاستراتيجية"};
+function chgPending(){
+  const mine=myScope();
+  return (DB.changes||[]).filter(x=>x.state==="pending")
+    .filter(x=>!mine||canonSec(x.sec)===canonSec(mine));
+}
+function drawChanges(){
+  ["#chg-list","#chg-list2"].forEach(id=>drawChangesIn(id,
+    id==="#chg-list"?"#chg-count":"#chg-count2"));
+}
+function drawChangesIn(listId,countId){
+  const box=$(listId);if(!box)return;
+  const mine=myScope();
+  const rows=(DB.changes||[]).slice().reverse()
+    .filter(x=>!mine||canonSec(x.sec)===canonSec(mine));
+  const cnt=$(countId);
+  const pend=rows.filter(x=>x.state==="pending").length;
+  if(cnt)cnt.textContent=pend?("("+pend+")"):"";
+  box.innerHTML="";
+  if(!rows.length){box.appendChild(el("div","empty","لا توجد تغييرات بانتظار الاعتماد."));return}
+  rows.slice(0,120).forEach(x=>{
+    const d=el("div","list-item");
+    const col={add:"var(--ok)",edit:"var(--primary)",del:"var(--coral)"}[x.action]||"var(--muted)";
+    d.style.cssText="align-items:flex-start;gap:10px;border-inline-start:4px solid "+col
+      +(x.state==="pending"?";background:var(--amber-bg);border-color:var(--amber)":"");
+    const t=el("div","nm");
+    t.innerHTML="<b>"+(CHG_ACT[x.action]||x.action)+" — "+(CHG_KIND[x.kind]||x.kind)+"</b>";
+    t.appendChild(el("span","sub",(x.label||"")+(x.extra?(" · "+x.extra):"")));
+    t.appendChild(el("div","mini",(x.sec||"—")+" · "+(x.by||"—")+" · "+x.at
+      +(x.state!=="pending"?("  ←  "+(x.state==="approved"?"معتمد":"مرفوض")
+        +" بواسطة "+(x.byAdmin||"—")):"")));
+    d.appendChild(t);
+    if(x.state==="pending"&&isAdminUser2()){
+      const ok=el("button","btn sm","اعتماد");
+      ok.onclick=async()=>{
+        x.state="approved";x.byAdmin=curUser()?curUser().name:"";
+        x.doneAt=new Date().toISOString().slice(0,16).replace("T"," ");
+        await saveVerified("dir:changes",DB.changes,"سجل التغييرات");
+        audit("اعتماد تغيير",x.kind,x.label);
+        if(x.sec)await sendMsg([x.sec],"اعتماد "+(CHG_ACT[x.action]||""),
+          (CHG_KIND[x.kind]||x.kind)+": "+(x.label||"")+"\nاعتُمد التغيير ✓");
+        drawChanges();toast("اعتُمد التغيير ✓");
+      };
+      const no=el("button","btn ghost sm","رفض");
+      no.onclick=async()=>{
+        const why=prompt("سبب الرفض:","");
+        if(why===null)return;
+        x.state="rejected";x.byAdmin=curUser()?curUser().name:"";
+        x.why=(why||"").trim();
+        x.doneAt=new Date().toISOString().slice(0,16).replace("T"," ");
+        await saveVerified("dir:changes",DB.changes,"سجل التغييرات");
+        if(x.sec)await sendMsg([x.sec],"رُفض التغيير",
+          (CHG_KIND[x.kind]||x.kind)+": "+(x.label||"")+"\nالسبب: "+(x.why||"—"));
+        drawChanges();toast("رُفض التغيير");
+      };
+      d.appendChild(ok);d.appendChild(no);
+    }
+    box.appendChild(d);
+  });
+}
+
 function drawAppr(listId,badgeId,countId){
   const box=$(listId);if(!box)return;
   const at=$("#appr-title");
   if(at)at.textContent=myScope()?("ردود قسم "+myScope()+" بانتظار الاعتماد"):"ردود بانتظار الاعتماد";
   ["#appr-all","#papr-all"].forEach(id=>{const n=$(id);if(n)n.style.display=isAdminUser()?"":"none"});
   const rows=pendingList();
+  try{drawChanges()}catch(e){}
   box.innerHTML="";
   const cnt=$(countId);if(cnt)cnt.textContent=rows.length?("("+rows.length+")"):"";
   const bd=$(badgeId);
@@ -10952,7 +11114,11 @@ function renderMEvents(){
   /* الجدول */
   /* عرض المربعات */
   const cw=$("#mev-cards");
-  const cardMode=(LS&&LS.getItem("mevView"))==="cards";
+  const VIEW=mevView();
+  const cardMode=VIEW==="cards";
+  const xlMode=VIEW==="excel";
+  document.body.classList.toggle("mev-xl",xlMode);
+  try{paintViewBtn()}catch(e){}
   cw.style.display=cardMode?"grid":"none";
   $("#mev-tablewrap").style.display=cardMode?"none":"block";
   if(cardMode){
@@ -11580,6 +11746,7 @@ async function requestDelete(kind,id,label,extra){
     at:new Date().toISOString().slice(0,16).replace("T"," ")});
   await saveVerified("dir:delReqs",DB.delReqs,"طلبات الحذف");
   audit("طلب حذف",kind,label+" — "+w);
+  try{await logChange(kind,"del",label,w)}catch(e){}
   try{await sendMsg([],"طلب حذف جديد — "+label,
     "القسم: "+(myScope()||"—")+"\nالعنصر: "+label+"\nالسبب: "+w)}catch(e){}
   alert("أُرسل طلب الحذف إلى مدير النظام ✓\n\nالعنصر: "+label
@@ -12820,6 +12987,7 @@ if($("#mev-save"))$("#mev-save").onclick=async()=>{
   if(MEV_ID){
     const i=DB.plan.mevents.findIndex(x=>x.id===MEV_ID);
     if(i>=0)DB.plan.mevents[i]=Object.assign(DB.plan.mevents[i],o,{returned:false,returnNote:""});
+    try{logChange("mevent","edit",o.name||"",monthName(Number(o.month))+" "+o.year)}catch(e){}
     const rec2=DB.plan.mevents[i];
     if(rec2){
       /* الربط بالخطة ينتشر دائمًا على كل النسخ */
@@ -13475,6 +13643,37 @@ if($("#mev-sep"))$("#mev-sep").onclick=async()=>{
   alert("\u0623\u064f\u0636\u064a\u0641\u062a "+n+" \u0641\u0639\u0627\u0644\u064a\u0629 \u0644\u0634\u0647\u0631 \u0633\u0628\u062a\u0645\u0628\u0631 2026 \u2713\n\n"
     +Object.entries(bySec).map(([k,v])=>"\u2022 "+k+": "+v).join("\n")
     +"\n\n\u0627\u0644\u062a\u0627\u0631\u064a\u062e: \u0645\u0646 01-09-2026 \u0625\u0644\u0649 30-09-2026");
+};
+
+
+/* ===== أوضاع العرض الثلاثة ===== */
+const MEV_VIEWS=[["cards","مربعات",'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>'],
+  ["table","جدول",'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/>'],
+  ["excel","إكسل",'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16M15 4v16"/><path d="m17 7 2 2M19 7l-2 2"/>']];
+function mevView(){
+  try{const v=LS&&LS.getItem("mevView");if(v)return v}catch(e){}
+  return "table";
+}
+function setMevView(v){
+  try{if(LS)LS.setItem("mevView",v)}catch(e){}
+  renderMEvents();
+  const cur=MEV_VIEWS.find(x=>x[0]===v);
+  toast("العرض: "+(cur?cur[1]:v));
+}
+function paintViewBtn(){
+  const b=$("#mev-view");if(!b)return;
+  const v=mevView();
+  const i=MEV_VIEWS.findIndex(x=>x[0]===v);
+  const cur=MEV_VIEWS[i<0?1:i];
+  b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+cur[2]+'</svg>';
+  b.title="العرض الحالي: "+cur[1]+" — اضغط للتبديل";
+}
+if($("#mev-view"))$("#mev-view").onclick=()=>{
+  const v=mevView();
+  const i=MEV_VIEWS.findIndex(x=>x[0]===v);
+  const next=MEV_VIEWS[((i<0?1:i)+1)%MEV_VIEWS.length][0];
+  setMevView(next);
+  paintViewBtn();
 };
 
 /* ===== ترحيل الفعاليات المحددة إلى قسم آخر ===== */
@@ -14394,6 +14593,7 @@ if($("#mevp-save"))$("#mevp-save").onclick=async()=>{
   DB.plan.mevents=DB.plan.mevents||[];
   const months=new Set();
   let seq=0;
+  try{logChange("mevent","add",rows.length+" فعالية","استيراد/لصق")}catch(e){}
   rows.forEach(r=>{
     delete r.dup;delete r.miss;delete r.progMatch;delete r.progAuto;delete r.descAuto;
     delete r.spanTo;
@@ -16547,10 +16747,17 @@ function myMsgs(){
     .sort((a,b)=>String(b.at).localeCompare(String(a.at)));
 }
 const msgUnread=m=>!(m.read||[]).includes(curUser()?curUser().id:0);
+/* الإشعارات المسموحة فقط */
+const NOTIF_RE=[/طلب\s*(دخول|تسجيل|اسم\s*مستخدم)/,/مستخدم\s*جديد/,/طلب\s*حذف/,
+  /اعتماد/,/اعتُمد/,/رُفض/,/تعديل/,/حذف/,/إضاف/,/أُضيف/,/بانتظار/,/مرحّل/,/تسليم/,/تذكير/];
+function notifAllowed(m){
+  const t=((m&&m.subject)||"")+" "+((m&&m.body)||"");
+  return NOTIF_RE.some(re=>re.test(t));
+}
 function renderInbox(){
   const box=$("#inbox-list");if(!box)return;
   const rows=myMsgs();box.innerHTML="";
-  const n=rows.filter(msgUnread).length;
+  const n=rows.filter(msgUnread).filter(notifAllowed).length;
   const b=$("#inbox-n");if(b)b.textContent=n?("("+n+")"):"";
   if(!rows.length){box.appendChild(el("div","empty","لا توجد رسائل."));return}
   rows.forEach(m=>{
@@ -16912,7 +17119,9 @@ function topbarSync(){
     uj.textContent=t;
   }
   const b=$("#tb-bell-n");
-  if(b){const n=(myMsgs()||[]).filter(msgUnread).length;b.classList.toggle("on",!!n)}
+  if(b){const n=(myMsgs()||[]).filter(msgUnread).filter(notifAllowed).length
+      +(isAdminUser2()?((DB.reqs||[]).filter(r=>!r.done).length+delPending().length):0);
+    b.classList.toggle("on",!!n)}
   const dbg=$("#dr-badge");
   if(dbg){const n2=delPending().length;dbg.classList.toggle("on",!!n2);
     const btn=$("#open-delreqs");
@@ -17712,7 +17921,7 @@ function renderAll(){initFilters();try{renderInbox()}catch(e){}
   renderPlan();renderContacts();renderMails();renderTasks();renderMemos();try{renderStats()}catch(e){}
   try{renderCounters()}catch(e){}
   try{if($("#ov-stats")&&$("#ov-stats").classList.contains("on"))renderDash()}catch(e){}
-  fillAllSelects();applyPerms();try{topbarSync();buildNotebook();drawPerf();renderHome();groupMevToolbar();tidyToolbars()}catch(e){}}
+  fillAllSelects();applyPerms();try{applyScopeRules();topbarSync();buildNotebook();drawPerf();renderHome();groupMevToolbar();tidyToolbars()}catch(e){}}
 
 
 /* ================= التزامن مع Firebase ================= */
@@ -17725,11 +17934,11 @@ const firebaseConfig={
   appId:"1:183460755575:web:9e5021291185c8408b2e72",
   measurementId:"G-FYLY6DYZGQ"
 };
-const APP_BUILD="2026-08-24-W";
+const APP_BUILD="2026-08-24-X";
 const DEVICE_ID=(()=>{try{let d=LS&&LS.getItem("deviceId");if(!d){d="d"+Math.random().toString(36).slice(2,10);LS&&LS.setItem("deviceId",d)}return d}catch(e){return "d0"}})();
 const SYNC={db:null,ready:false,loaded:false,space:"office-1",last:{},unsub:[],authErr:""};
 const KEYS=["dir:contacts","dir:mails","dir:tasks","dir:memos","dir:lists","dir:users","dir:settings",
-  "dir:reqs","dir:schools","dir:schMeta","dir:msgs","dir:schReqs","dir:secMails","dir:msgTpls","dir:desk","dir:delReqs","dir:plan_strat","dir:plan_exec","dir:plan_events","dir:plan_monthly","dir:plan_lists","dir:plan_cols","dir:plan_fin","dir:plan_prisons"];
+  "dir:reqs","dir:schools","dir:schMeta","dir:msgs","dir:schReqs","dir:secMails","dir:msgTpls","dir:desk","dir:delReqs","dir:changes","dir:plan_strat","dir:plan_exec","dir:plan_events","dir:plan_monthly","dir:plan_lists","dir:plan_cols","dir:plan_fin","dir:plan_prisons"];
 const docId=k=>k.replace(/[:/]/g,"_");
 if($("#sync-chip"))$("#sync-chip").onclick=async()=>{
   if(SYNC.ready){await pushAll();return toast("تمت المزامنة")}
@@ -17846,6 +18055,7 @@ function applyRemote(key,json,remoteAt){
   else if(key==="dir:msgTpls"){DB.msgTpls=v;try{renderTpls()}catch(e){}}
   else if(key==="dir:desk"){DB.desk=v;try{renderDeskSheet()}catch(e){}}
   else if(key==="dir:delReqs"){DB.delReqs=v;try{renderDelReqs()}catch(e){}}
+  else if(key==="dir:changes"){DB.changes=v;try{drawChanges()}catch(e){}}
   else if(key==="dir:plan_strat")DB.plan.strat=v;
   else if(key==="dir:plan_exec")DB.plan.exec=v;
   else if(key==="dir:plan_events")DB.plan.events=v;
@@ -17911,7 +18121,7 @@ function listen(){
 }
 async function pushAll(){
   await pushKey("dir:contacts",DB.contacts);await pushKey("dir:mails",DB.mails);
-  await pushKey("dir:memos",DB.memos);await pushKey("dir:reqs",DB.reqs||[]);await pushKey("dir:schools",DB.schools||[]);await pushKey("dir:schMeta",DB.schMeta||{});await pushKey("dir:msgs",DB.msgs||[]);await pushKey("dir:schReqs",DB.schReqs||[]);await pushKey("dir:secMails",DB.secMails||[]);await pushKey("dir:msgTpls",DB.msgTpls||[]);await pushKey("dir:desk",DB.desk||[]);await pushKey("dir:delReqs",DB.delReqs||[]);await pushKey("dir:lists",DB.lists);
+  await pushKey("dir:memos",DB.memos);await pushKey("dir:reqs",DB.reqs||[]);await pushKey("dir:schools",DB.schools||[]);await pushKey("dir:schMeta",DB.schMeta||{});await pushKey("dir:msgs",DB.msgs||[]);await pushKey("dir:schReqs",DB.schReqs||[]);await pushKey("dir:secMails",DB.secMails||[]);await pushKey("dir:msgTpls",DB.msgTpls||[]);await pushKey("dir:desk",DB.desk||[]);await pushKey("dir:delReqs",DB.delReqs||[]);await pushKey("dir:changes",DB.changes||[]);await pushKey("dir:lists",DB.lists);
   await pushKey("dir:users",DB.users);await pushKey("dir:settings",DB.settings);
   await pushKey("dir:tasks",{list:DB.tasks,seq:DB.seq});
   await savePlanParts(true);
@@ -18785,6 +18995,7 @@ async function boot(){
     DB.msgTpls=await load("dir:msgTpls",[]);
     DB.desk=await load("dir:desk",[]);
     DB.delReqs=await load("dir:delReqs",[]);
+    DB.changes=await load("dir:changes",[]);
     DB.audit=await load("dir:audit",[]);
     const legacy=await load("dir:plan",null);
     if(legacy&&(legacy.strat||legacy.exec))DB.plan=legacy;
