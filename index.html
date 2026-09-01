@@ -2138,6 +2138,15 @@ body.mev-xl #mev-table tbody tr:hover td{background:#F7FBFF}
 body.not-admin #open-settings,body.not-admin #tb-set,
 body.not-admin #open-restore,body.not-admin #open-asview,
 body.not-admin #open-delreqs{display:none !important}
+
+/* أيقونة الحفظ */
+#mev-save.dirty{background:var(--amber-bg);border-color:var(--amber);color:#7A4E12;
+  animation:pulseSave 1.6s ease-in-out infinite}
+#mev-save.saved{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);animation:none}
+@keyframes pulseSave{0%,100%{box-shadow:0 0 0 0 rgba(212,175,99,.5)}50%{box-shadow:0 0 0 6px rgba(212,175,99,0)}}
+
+#tb-refresh.spin svg{animation:spin360 .7s linear}
+@keyframes spin360{from{transform:rotate(0)}to{transform:rotate(-360deg)}}
 </style>
 </head>
 <body>
@@ -2225,6 +2234,7 @@ body.not-admin #open-delreqs{display:none !important}
     <button class="icon-only tb-ic" id="open-delreqs" title="طلبات الحذف"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg><i id="dr-badge"></i></button>
     <button class="icon-only tb-ic" id="tb-set" title="الإعدادات" data-perm="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9 2 2 0 1 1-2.8 2.8 1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5 2 2 0 1 1-4 0 1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3 2 2 0 1 1-2.8-2.8 1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1 2 2 0 1 1 0-4 1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9 2 2 0 1 1 2.8-2.8 1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5 2 2 0 1 1 4 0 1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3 2 2 0 1 1 2.8 2.8 1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1 2 2 0 1 1 0 4 1.7 1.7 0 0 0-1.5 1"/></svg></button>
     <button class="icon-only tb-ic" id="dark-toggle" title="الوضع الليلي"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8"/></svg></button>
+    <button class="icon-only tb-ic" id="tb-refresh" title="تحديث البيانات (F5)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></button>
     <button class="icon-only tb-ic out" id="tb-logout" title="تسجيل الخروج"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg></button>
   </div>
   <div class="search-wrap">
@@ -2877,6 +2887,8 @@ body.not-admin #open-delreqs{display:none !important}
         <button class="icon-only" id="mev-year-rep" title="تكرار المحدد خلال العام"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></button>
         <button class="icon-only" id="mev-clone" title="استنساخ فعاليات من شهر إلى شهر"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 4h12v12"/><rect x="4" y="8" width="12" height="12" rx="2"/><path d="m10 14 2 2 4-4"/></svg></button>
         <button class="icon-only" id="mev-newyear" title="إضافة سنة جديدة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M12 14v5M9.5 16.5h5"/></svg></button>
+        <button class="icon-only" id="mev-save" title="حفظ التغييرات"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg></button>
+        <button class="icon-only" id="mev-send" title="إرسال المدخلات لمكتب المساعد" style="color:#0B3B6B;border-color:#BBD3EA;background:#E5EFFA"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></button>
         <button class="icon-only" id="mev-view" title="تبديل العرض: مربعات / جدول / إكسل"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
         <label class="icon-only" id="mev-imp-lbl" title="استرجاع من ملف نسخة احتياطية" style="margin:0;cursor:pointer;color:#245F3C;border-color:#BFE0D2;background:#E6F2EA">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
@@ -2901,6 +2913,7 @@ body.not-admin #open-delreqs{display:none !important}
           </select>
         </div>
       </div>
+      <div id="mev-openhint" style="display:none"></div>
       <div id="mev-hint" style="display:none;align-items:center;gap:10px;flex-wrap:wrap;
         background:var(--primary-light);border:1px solid var(--primary-mid);color:var(--primary-dark);
         border-radius:11px;padding:9px 13px;margin-bottom:10px;font-family:var(--watad);font-size:12px"></div>
@@ -4228,7 +4241,7 @@ body.not-admin #open-delreqs{display:none !important}
     <div class="row"><label for="lg-user">اسم المستخدم</label>
       <div class="fld">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>
-        <input id="lg-user" value="admin" autocomplete="username" placeholder="أدخل اسم المستخدم">
+        <input id="lg-user" value="" autocomplete="username" placeholder="أدخل اسم المستخدم">
       </div></div>
     <div class="row"><label for="lg-pass">كلمة المرور</label>
       <div class="fld"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
@@ -4654,6 +4667,14 @@ function renderList(){
     const d=el("button","btn danger sm","حذف");
     d.onclick=async()=>{if(!ask("سيتم حذف العنصر من القائمة.\nهل تريد المتابعة؟"))return;
       DB.lists[LIST_KEY].splice(i,1);await save("dir:lists",DB.lists);renderList();fillAllSelects();toast("حُذف العنصر")};
+    if(u.disabled){
+      const z=el("span","chip");
+      z.style.cssText="font-size:10px;font-weight:800;background:var(--coral-bg);"
+        +"border:1px solid var(--coral);color:var(--coral);margin-inline-end:6px";
+      z.textContent="معطّل";
+      row.appendChild(z);
+      row.style.opacity=".72";
+    }
     row.appendChild(e);row.appendChild(d);box.appendChild(row);
   });
   if(!DB.lists[LIST_KEY].length)box.appendChild(el("div","empty","القائمة فارغة."));
@@ -5025,12 +5046,27 @@ function renderUsers(){
       if($("#u-scope"))$("#u-scope").value=u.scope||"all";
       if($("#u-role"))$("#u-role").value=roleOf(u);
       setPerms(u.perms);$("#u-note").textContent="جاهز للتحديث"};
-    const d=el("button","btn danger sm","حذف");
-    d.onclick=async()=>{if(DB.users.length<2)return toast("لا يمكن حذف آخر مستخدم");
-      if(!ask("سيتم حذف المستخدم: "+u.name+"\nهل تريد المتابعة؟"))return;
-      DB.users=DB.users.filter(x=>x.id!==u.id);
-      if(DB.settings.current===u.id)DB.settings.current=DB.users[0].id;
-      await save("dir:users",DB.users);await save("dir:settings",DB.settings);renderUsers();applyPerms();toast("حُذف المستخدم")};
+    /* المستخدمون لا يُحذفون — يُعطَّلون فقط حفاظًا على السجلات */
+    const d=el("button",u.disabled?"btn sm":"btn ghost sm",u.disabled?"تفعيل":"تعطيل");
+    if(u.disabled){d.style.background="var(--ok)";d.style.borderColor="var(--ok)"}
+    d.onclick=async()=>{
+      if(!u.disabled&&DB.users.filter(x=>!x.disabled).length<2)
+        return alert("لا يمكن تعطيل آخر مستخدم فعّال.");
+      if(!u.disabled&&roleOf(u)==="admin"&&DB.users.filter(x=>!x.disabled&&roleOf(x)==="admin").length<2)
+        return alert("لا يمكن تعطيل آخر مدير نظام.");
+      if(!confirm((u.disabled?"تفعيل":"تعطيل")+" المستخدم: "+u.name
+        +(u.disabled?"":"\n\nلن يستطيع الدخول، وتبقى كل مدخلاته وسجلاته محفوظة.")
+        +"\n\nهل تريد المتابعة؟"))return;
+      u.disabled=!u.disabled;
+      u.disabledAt=u.disabled?new Date().toISOString().slice(0,10):"";
+      if(u.disabled&&DB.settings.current===u.id){
+        const alt=DB.users.find(x=>!x.disabled);
+        if(alt)DB.settings.current=alt.id;
+      }
+      await save("dir:users",DB.users);await save("dir:settings",DB.settings);
+      audit(u.disabled?"تعطيل مستخدم":"تفعيل مستخدم","المستخدمون",u.name);
+      renderUsers();applyPerms();
+      toast(u.disabled?"عُطِّل المستخدم":"فُعِّل المستخدم")};
     row.appendChild(e);row.appendChild(d);box.appendChild(row);
   });
   const sel=$("#u-current");sel.innerHTML="";
@@ -11074,6 +11110,7 @@ function renderMEvents(){
   if(!ALL&&realAdmin()){
     const sel=document.createElement("select");
     sel.style.cssText="max-width:190px;font-size:12px;height:34px";
+    if(!isAdminUser2()){sel.style.display="none";return}
     sel.appendChild(new Option("↔ نقل المرحلة إلى…",""));
     MEV_STATES.forEach(([k,l])=>{if(k!==P.state)sel.appendChild(new Option(l,k))});
     sel.onchange=()=>{if(sel.value)mevSetState(sec,mo,yr,sel.value);sel.value=""};
@@ -11165,7 +11202,24 @@ function renderMEvents(){
         z.style.color="var(--ok)";z.textContent="متكررة شهريًا";c.appendChild(z)}
       /* ===== نتائج التنفيذ داخل المربع ===== */
       const rowP=mevPlan(r.sec,Number(r.month),Number(r.year));
-      if(["approved","running","done"].includes(rowP.state)){
+      const OPEN_ST=["approved","running","done"];
+      if(!OPEN_ST.includes(rowP.state)){
+        /* بيان سبب الإغلاق */
+        const nb=el("div","exec-box");
+        const nh=el("div","eh");
+        nh.appendChild(el("span",null,"نتائج التنفيذ"));
+        const nz=el("span","chip");
+        nz.style.cssText="font-size:10px;font-weight:800;background:var(--surface-alt);"
+          +"border:1px solid var(--border);color:var(--muted)";
+        nz.textContent=rowP.state==="sent"?"بانتظار الاعتماد":"مسودة";
+        nh.appendChild(nz);
+        nb.appendChild(nh);
+        nb.appendChild(el("div","mini",rowP.state==="sent"
+          ?"أُرسلت المدخلات — تُفتح حقول النتائج بعد اعتماد مكتب المساعد."
+          :"تُفتح حقول النتائج بعد اعتماد الخطة."));
+        c.appendChild(nb);
+      }
+      if(OPEN_ST.includes(rowP.state)){
         const ex=el("div","exec-box");
         const eh=el("div","eh");
         eh.appendChild(el("span",null,"نتائج التنفيذ"));
@@ -11200,6 +11254,7 @@ function renderMEvents(){
           inp.value=val==null?"":val;
           inp.onchange=async()=>{
             await fn(inp.value);
+            try{markDirty()}catch(e){}
             inp.classList.add("ok");
             clearTimeout(inp._t);inp._t=setTimeout(()=>{inp.classList.remove("ok");renderMEvents()},700);
             mevLog(r.sec,Number(r.month),Number(r.year),"إدخال نتائج: "+(r.name||""));
@@ -11329,6 +11384,7 @@ function renderMEvents(){
       inp.value=val==null?"":val;
       inp.onchange=async()=>{
         await fn(inp.value);
+        try{markDirty()}catch(e){}
         inp.classList.add("ok");
         clearTimeout(inp._t);inp._t=setTimeout(()=>inp.classList.remove("ok"),900);
         mevLog(r.sec,Number(r.month),Number(r.year),"إدخال نتائج: "+(r.name||""));
@@ -11362,7 +11418,27 @@ function renderMEvents(){
   });
   $("#mev-empty").style.display=rows.length?"none":"block";
   mevBadges();
+  /* بيان حالة الإدخال للقسم */
+  if(!ALL&&mo){
+    const P2=mevPlan(sec,mo,yr);
+    const open=["approved","running","done"].includes(P2.state);
+    const hint2=$("#mev-openhint");
+    if(hint2){
+      hint2.style.display="flex";
+      hint2.className="scope-note";
+      hint2.style.cssText="display:flex;align-items:center;gap:9px;margin-bottom:10px;"
+        +(open?"background:var(--ok-bg);border:1px solid var(--ok);color:#245F3C"
+             :"background:var(--surface-alt);border:1px solid var(--border);color:var(--muted)")
+        +";border-radius:11px;padding:9px 13px;font-family:var(--watad);font-size:12px";
+      hint2.innerHTML=open
+        ?"<b>✓ حقول نتائج التنفيذ مفتوحة</b> — يمكنكم إدخال المستفيدين والمكان وحالة التنفيذ والملاحظات."
+        :("<b>حقول النتائج مغلقة</b> — "+(P2.state==="sent"
+          ?"أُرسلت المدخلات وبانتظار اعتماد مكتب المساعد."
+          :"تُفتح بعد اعتماد الخطة من مكتب المساعد."));
+    }
+  }else{const h3=$("#mev-openhint");if(h3)h3.style.display="none"}
   try{dupCheckNotify(true)}catch(e){}
+  try{applyMevToolbar()}catch(e){}
   /* تنبيه: توجد فعاليات لكن الفلاتر تخفيها */
   const totAll=(DB.plan.mevents||[]).filter(r=>!myScope()||canonSec(r.sec)===myScope()).length;
   const hint=$("#mev-hint");
@@ -11467,6 +11543,9 @@ async function mevSetState(sec,mo,yr,st){
     +"\nإلى: "+mevStateTxt(st)+"\n\nهل تريد المتابعة؟"))return;
   const P0state=P.state;
   P.state=st;
+  if(st==="approved"&&P0state!=="approved"){
+    try{notifyApproved(sec,Number(mo),Number(yr))}catch(e){}
+  }
   /* عند الاعتماد: استحضر المتكررة للأشهر التالية مع الحفاظ على الربط بالخطة */
   if(st==="approved"){
     setTimeout(async()=>{
@@ -13645,6 +13724,167 @@ if($("#mev-sep"))$("#mev-sep").onclick=async()=>{
     +"\n\n\u0627\u0644\u062a\u0627\u0631\u064a\u062e: \u0645\u0646 01-09-2026 \u0625\u0644\u0649 30-09-2026");
 };
 
+
+
+
+/* ===== تحديث البيانات من المصدر ===== */
+let REFRESHING=false;
+async function refreshAll(){
+  if(REFRESHING)return;
+  REFRESHING=true;
+  const b=$("#tb-refresh");
+  if(b)b.classList.add("spin");
+  try{
+    await saveMevNow(true);                 /* احفظ ما لم يُحفظ */
+    const keys=["dir:contacts","dir:mails","dir:tasks","dir:memos","dir:schools",
+      "dir:schMeta","dir:desk","dir:delReqs","dir:changes","dir:msgs","dir:users",
+      "dir:settings","dir:lists","dir:plan_mevents","dir:plan_mplans","dir:plan_exec",
+      "dir:plan_strat","dir:plan_annual","dir:plan_descs"];
+    for(const k of keys){
+      try{
+        const v=await load(k,null);
+        if(v==null)continue;
+        if(k==="dir:contacts")DB.contacts=v;
+        else if(k==="dir:mails")DB.mails=v;
+        else if(k==="dir:tasks")DB.tasks=v;
+        else if(k==="dir:memos")DB.memos=v;
+        else if(k==="dir:schools")DB.schools=v;
+        else if(k==="dir:schMeta")DB.schMeta=v;
+        else if(k==="dir:desk")DB.desk=v;
+        else if(k==="dir:delReqs")DB.delReqs=v;
+        else if(k==="dir:changes")DB.changes=v;
+        else if(k==="dir:msgs")DB.msgs=v;
+        else if(k==="dir:users")DB.users=v;
+        else if(k==="dir:settings")DB.settings=v;
+        else if(k==="dir:lists")DB.lists=v;
+        else if(k==="dir:plan_mevents")DB.plan.mevents=v;
+        else if(k==="dir:plan_mplans")DB.plan.mplans=v;
+        else if(k==="dir:plan_exec")DB.plan.exec=v;
+        else if(k==="dir:plan_strat")DB.plan.strat=v;
+        else if(k==="dir:plan_annual")DB.plan.annual=v;
+        else if(k==="dir:plan_descs")DB.plan.descs=v;
+      }catch(e){}
+    }
+
+    renderAll();
+    try{renderMEvents();applyMevToolbar();applyScopeRules()}catch(e){}
+    toast("حُدِّثت البيانات ✓");
+  }catch(e){toast("تعذّر التحديث: "+e.message)}
+  setTimeout(()=>{if(b)b.classList.remove("spin");REFRESHING=false},700);
+}
+if($("#tb-refresh"))$("#tb-refresh").onclick=refreshAll;
+addEventListener("keydown",e=>{
+  if(e.key==="F5"&&!e.ctrlKey){e.preventDefault();refreshAll()}
+});
+
+/* ================= شريط أدوات القسم: إدخال وإخراج فقط ================= */
+const SEC_ALLOW=["mev-add","mev-import","mev-word-lbl","mev-paste",   /* إدخال */
+  "mev-edit","mev-save","mev-send",                                    /* حفظ وإرسال */
+  "mev-print","mev-print2","mev-view","mev-del"];                      /* إخراج وحذف بطلب */
+/* ما يُسمح به للقسم داخل القوائم — بالعنوان */
+const SEC_ITEMS=["إضافة فعالية","استيراد جدول فعاليات (وورد / إكسل)",
+  "جلب فعاليات من ملف وورد","نسخ ولصق فعاليات","تعديل المحدد",
+  "طباعة الخطة الشهرية","طباعة تقرير التنفيذ"];
+function applyMevToolbar(){
+  const head=document.querySelector("#sheet-events .panel-head");
+  if(!head)return;
+  const adm=isAdminUser2();
+  document.querySelectorAll("#sheet-events .mgrp").forEach(g=>{
+    const gname=(g.querySelector(".mgrp-btn span")||{}).textContent||"";
+    /* القسم يرى مجموعتي الإدخال والإخراج فقط */
+    if(!adm&&!["إدخال","إخراج"].includes(gname.trim())){g.style.display="none";return}
+    let vis=0;
+    g.querySelectorAll(".mgrp-item").forEach(it=>{
+      const lbl=(it.textContent||"").trim();
+      const keep=adm||SEC_ITEMS.some(x=>lbl.startsWith(x.slice(0,14)));
+      it.style.display=keep?"":"none";
+      if(keep)vis++;
+    });
+    g.style.display=vis?"":"none";
+  });
+  /* الأزرار المفردة */
+  head.querySelectorAll(".icon-only,label.icon-only").forEach(b=>{
+    if(!b.id)return;
+    if(["mev-save","mev-send"].includes(b.id)){b.style.display=adm?"none":"";return}
+    if(adm)return;
+    if(!SEC_ALLOW.includes(b.id))b.style.display="none";
+  });
+}
+/* ===== الحفظ اليدوي والتلقائي ===== */
+let MEV_DIRTY=false,MEV_AUTO=null;
+function markDirty(){
+  MEV_DIRTY=true;
+  const b=$("#mev-save");
+  if(b){b.classList.add("dirty");b.title="حفظ التغييرات (غير محفوظة)"}
+  clearTimeout(MEV_AUTO);
+  MEV_AUTO=setTimeout(()=>{saveMevNow(true)},4000);   /* حفظ تلقائي بعد 4 ثوانٍ */
+}
+async function saveMevNow(silent){
+  if(!MEV_DIRTY&&silent)return;
+  const ok=await savePlan();
+  if(ok){
+    MEV_DIRTY=false;
+    const b=$("#mev-save");
+    if(b){b.classList.remove("dirty");b.classList.add("saved");
+      b.title="محفوظ ✓";setTimeout(()=>b.classList.remove("saved"),1400)}
+    if(!silent)toast("حُفظت التغييرات ✓");
+    else toast("حُفظ تلقائيًا");
+  }else if(!silent)alert("تعذّر الحفظ — راجع مساحة التخزين.");
+  return ok;
+}
+if($("#mev-save"))$("#mev-save").onclick=()=>saveMevNow(false);
+/* حفظ عند مغادرة الصفحة */
+addEventListener("beforeunload",e=>{
+  if(MEV_DIRTY){try{savePlan()}catch(err){}}
+});
+/* ===== إرسال المدخلات لمكتب المساعد ===== */
+async function sendMevForReview(){
+  const sec=myScope()||$("#mev-sec").value;
+  if(!sec)return alert("اختر القسم أولًا.");
+  const mo=Number($("#mev-month").value)||0;
+  const yr=Number($("#mev-year").value)||new Date().getFullYear();
+  if(!mo)return alert("اختر الشهر المراد إرساله.");
+  const rows=(DB.plan.mevents||[]).filter(r=>canonSec(r.sec)===canonSec(sec)
+    &&Number(r.month)===mo&&Number(r.year)===yr);
+  if(!rows.length)return alert("لا توجد مدخلات لهذا الشهر.");
+  const P=mevPlan(sec,mo,yr,true);
+  if(P.state==="sent")
+    if(!confirm("سبق إرسال مدخلات هذا الشهر.\n\nهل تريد إعادة الإرسال؟"))return;
+  if(P.state==="approved")
+    return alert("مدخلات هذا الشهر معتمدة بالفعل ✓");
+  if(!confirm("إرسال مدخلات "+monthName(mo)+" "+yr+" إلى مكتب مساعد المدير\n\n"
+    +"القسم: "+sec+"\nعدد الفعاليات: "+rows.length
+    +"\n\nهل تريد المتابعة؟"))return;
+  await saveMevNow(true);
+  P.state="sent";
+  P.sentBy=curUser()?curUser().name:"";
+  P.sentAt=new Date().toISOString().slice(0,16).replace("T"," ");
+  P.history=P.history||[];
+  P.history.push({at:P.sentAt,user:P.sentBy,what:"إرسال المدخلات للتدقيق"});
+  mevLog(sec,mo,yr,"إرسال المدخلات إلى مكتب مساعد المدير");
+  audit("إرسال للتدقيق","الفعاليات الشهرية",sec+" — "+monthName(mo)+" "+yr);
+  try{await logChange("mevent","add",rows.length+" فعالية",
+    "إرسال "+monthName(mo)+" "+yr+" للتدقيق",sec)}catch(e){}
+  if(await savePlan()){
+    renderMEvents();
+    try{await sendMsg([],"مدخلات بانتظار التدقيق — "+sec,
+      "أرسل قسم "+sec+" مدخلات "+monthName(mo)+" "+yr+"\n"
+      +"عدد الفعاليات: "+rows.length+"\nبانتظار التدقيق والاعتماد.")}catch(e){}
+    alert("تم إرسال المدخلات ✓\n\n"
+      +"القسم: "+sec+"\nالشهر: "+monthName(mo)+" "+yr
+      +"\nعدد الفعاليات: "+rows.length
+      +"\n\nسيتم التدقيق والاعتماد من مكتب مساعد المدير.");
+  }
+}
+if($("#mev-send"))$("#mev-send").onclick=sendMevForReview;
+/* إشعار القسم عند الاعتماد */
+async function notifyApproved(sec,mo,yr){
+  try{
+    await sendMsg([sec],"تم اعتماد المدخلات — "+monthName(mo)+" "+yr,
+      "تم اعتماد مدخلات "+monthName(mo)+" "+yr+" من مكتب مساعد المدير ✓\n"
+      +"يمكنكم الآن إدخال نتائج التنفيذ.");
+  }catch(e){}
+}
 
 /* ===== أوضاع العرض الثلاثة ===== */
 const MEV_VIEWS=[["cards","مربعات",'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>'],
@@ -17439,7 +17679,7 @@ function audit(action,target,details){
 
 /* ===== إضافة سنة جديدة ===== */
 function addYearTo(selId,label){
-  if(myScope()||!realAdmin())
+  if(!isAdminUser2())
     return alert("إضافة سنة جديدة من صلاحيات مدير النظام.\n\nتواصل مع الإدارة لفتح السنة.");
   const sel=$(selId);if(!sel)return;
   if(sel.disabled)sel.disabled=false;
@@ -17934,7 +18174,7 @@ const firebaseConfig={
   appId:"1:183460755575:web:9e5021291185c8408b2e72",
   measurementId:"G-FYLY6DYZGQ"
 };
-const APP_BUILD="2026-08-24-X";
+const APP_BUILD="2026-08-24-Z";
 const DEVICE_ID=(()=>{try{let d=LS&&LS.getItem("deviceId");if(!d){d="d"+Math.random().toString(36).slice(2,10);LS&&LS.setItem("deviceId",d)}return d}catch(e){return "d0"}})();
 const SYNC={db:null,ready:false,loaded:false,space:"office-1",last:{},unsub:[],authErr:""};
 const KEYS=["dir:contacts","dir:mails","dir:tasks","dir:memos","dir:lists","dir:users","dir:settings",
