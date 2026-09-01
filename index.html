@@ -2903,6 +2903,9 @@ body.not-admin #open-delreqs{display:none !important}
       </div>
     </div>
     <div id="pz-heads" style="display:none"></div>
+    <div id="pz-bulk" style="display:none;align-items:center;gap:10px;flex-wrap:wrap;
+      background:var(--primary-light);border:1px solid var(--primary-mid);color:var(--primary-dark);
+      border-radius:11px;padding:9px 13px;margin-bottom:10px;font-family:var(--watad);font-size:12px"></div>
     <div id="pz-content"></div>
     <div id="pz-badges" style="margin-top:12px"></div>
   </div>
@@ -6186,6 +6189,15 @@ if($("#dkp-prev"))$("#dkp-prev").onclick=()=>{
 };
 if($("#dkp-save"))$("#dkp-save").onclick=async()=>{
   const P=dkpParse();
+  const dups=P.rows.filter(r=>r.dup);
+  if(dups.length){
+    const det=dups.slice(0,6).map(r=>"• "+[r.day,r.date?fmt(r.date):"",r.kind,r.title||r.name]
+      .filter(Boolean).join(" · ")).join("\n");
+    const keep=confirm("⚠ تنبيه: "+dups.length+" سجل مكرر في الملصق\n\n"+det
+      +(dups.length>6?("\n… و"+(dups.length-6)+" غيرها"):"")
+      +"\n\nاضغط «موافق» لإضافتها رغم التكرار،\nأو «إلغاء» لتخطّيها وإضافة الجديد فقط.");
+    if(keep)P.rows.forEach(r=>{r.dup=false});
+  }
   const rows=P.rows.filter(r=>!r.dup);
   if(!rows.length)return alert("لا توجد بنود جديدة.");
   if(!ask("إضافة "+rows.length+" بند؟"))return;
@@ -15540,6 +15552,91 @@ function pzHeads(){
   h("التقرير الشهري "+(sec?("لقسم "+sec):"للقسمين")+" لشهر "+mo+" لعام "+yr,"18px","var(--primary)");
   return{sec,mo,yr};
 }
+
+/* ===== تحديد وحذف جماعي في المؤسسات العقابية ===== */
+function pzPicked(){
+  return [...document.querySelectorAll("#pz-content .pz-pick:checked")]
+    .map(x=>({id:x.dataset.id,type:x.dataset.type}));
+}
+function pzCount(){
+  const bar=$("#pz-bulk");if(!bar)return;
+  const n=pzPicked().length;
+  if(!n){bar.style.display="none";return}
+  bar.style.display="flex";
+  bar.innerHTML="";
+  bar.appendChild(el("b",null,"المحدد: "+n+" سجل"));
+  const del=el("button","btn sm","حذف المحدد");
+  del.style.cssText="background:var(--coral);border-color:var(--coral)";
+  del.onclick=pzDeleteSel;
+  bar.appendChild(del);
+  const clr=el("button","btn ghost sm","إلغاء التحديد");
+  clr.onclick=()=>{
+    document.querySelectorAll("#pz-content .pz-pick,#pz-content .pz-all")
+      .forEach(x=>x.checked=false);
+    pzCount();
+  };
+  bar.appendChild(clr);
+}
+async function pzDeleteSel(){
+  const picked=pzPicked();
+  if(!picked.length)return toast("حدّد سجلًا واحدًا على الأقل");
+  const ids=picked.map(x=>String(x.id));
+  const rows=(DB.plan.prisons||[]).filter(r=>ids.includes(String(r.id)));
+  if(!canDelete()){
+    for(const r of rows)
+      await requestDelete("prison",r.id,
+        (r.title||r.name||r.day||"سجل")+" — "+(r.date?fmt(r.date):""),canonSec(r.sec));
+    return;
+  }
+  const sample=rows.slice(0,6).map(r=>"• "+(r.title||r.name||"—")
+    +(r.date?(" — "+fmt(r.date)):"")).join("\n");
+  if(!confirm("سيتم حذف "+rows.length+" سجل:\n\n"+sample
+    +(rows.length>6?("\n… و"+(rows.length-6)+" غيرها"):"")
+    +"\n\nهل تريد المتابعة؟"))return;
+  await safetySnap("قبل حذف سجلات المؤسسات");
+  DB.plan.prisons=(DB.plan.prisons||[]).filter(r=>!ids.includes(String(r.id)));
+  audit("حذف","المؤسسات العقابية",rows.length+" سجل");
+  if(await savePlan()){renderPrison();pzCount();toast("حُذف "+rows.length+" سجل ✓")}
+}
+/* ===== كشف التكرار عند الإضافة ===== */
+function pzSig(r){
+  const n=x=>String(x==null?"":x).replace(/\s+/g," ").trim();
+  return [canonSec(r.sec),r.type,Number(r.month)||0,Number(r.year)||0,
+    n(r.day),n(r.date),n(r.kind),n(r.title),n(r.name),n(r.ward)].join("|");
+}
+function pzFindDup(r){
+  const sig=pzSig(r);
+  return (DB.plan.prisons||[]).filter(x=>String(x.id)!==String(r.id)&&pzSig(x)===sig);
+}
+/* تكرار جزئي: نفس الاسم/العنوان في الشهر نفسه */
+function pzFindSimilar(r){
+  const n=x=>String(x==null?"":x).replace(/\s+/g," ").trim();
+  const key=n(r.title||r.name);
+  if(!key)return [];
+  return (DB.plan.prisons||[]).filter(x=>String(x.id)!==String(r.id)
+    &&canonSec(x.sec)===canonSec(r.sec)&&x.type===r.type
+    &&Number(x.month)===Number(r.month)&&Number(x.year)===Number(r.year)
+    &&n(x.title||x.name)===key&&pzSig(x)!==pzSig(r));
+}
+function pzDupConfirm(r,label){
+  const exact=pzFindDup(r);
+  if(exact.length){
+    return confirm("⚠ تنبيه: هذا السجل مكرر تمامًا\n\n"
+      +(label||"")+"\n\nيوجد "+exact.length+" سجل مطابق في "
+      +monthName(Number(r.month))+" "+r.year
+      +"\n\nهل تريد إضافته رغم التكرار؟");
+  }
+  const sim=pzFindSimilar(r);
+  if(sim.length){
+    const det=sim.slice(0,4).map(x=>"• "+[x.day,x.date?fmt(x.date):"",x.kind,x.ward]
+      .filter(Boolean).join(" · ")).join("\n");
+    return confirm("⚠ تنبيه: يوجد سجل بالاسم نفسه في هذا الشهر\n\n"
+      +(label||"")+"\n\nالسجلات المشابهة ("+sim.length+"):\n"+det
+      +"\n\nهل تريد الإضافة رغم ذلك؟");
+  }
+  return true;
+}
+
 function pzTable(type,title,cols,rows,auto){
   const wrap=el("div");wrap.style.marginBottom="20px";
   const t=el("div");t.style.fontFamily="var(--watad)";t.style.fontWeight="800";t.style.fontSize="18px";
@@ -15548,6 +15645,15 @@ function pzTable(type,title,cols,rows,auto){
   const sh=el("div","sheet");const sc=el("div","scroll");
   const tb=document.createElement("table");tb.style.fontSize="11px";
   const th=document.createElement("thead");const trh=document.createElement("tr");
+  const thAll=el("th");thAll.style.width="34px";
+  const ckAll=document.createElement("input");
+  ckAll.type="checkbox";ckAll.style.width="auto";ckAll.title="تحديد الكل";
+  ckAll.className="pz-all";ckAll.dataset.type=type;
+  ckAll.onchange=()=>{
+    tbo.querySelectorAll(".pz-pick").forEach(x=>{x.checked=ckAll.checked});
+    pzCount();
+  };
+  thAll.appendChild(ckAll);trh.appendChild(thAll);
   trh.appendChild(el("th",null,"م"));
   cols.forEach(([,l])=>trh.appendChild(el("th",null,l)));
   trh.appendChild(el("th",null,"إجراءات"));
@@ -15555,6 +15661,12 @@ function pzTable(type,title,cols,rows,auto){
   const tbo=document.createElement("tbody");
   rows.forEach((r,i)=>{
     const tr=el("tr");
+    const tdCk=el("td");
+    const ck=document.createElement("input");
+    ck.type="checkbox";ck.style.width="auto";ck.className="pz-pick";
+    ck.dataset.id=r.id;ck.dataset.type=type;
+    ck.onchange=pzCount;
+    tdCk.appendChild(ck);tr.appendChild(tdCk);
     tr.appendChild(numCell(i+1));
     cols.forEach(([k,,ty])=>{
       const td=el("td");
@@ -15597,7 +15709,7 @@ function pzTable(type,title,cols,rows,auto){
   if(auto){
     const tr=el("tr");tr.style.background="var(--ok-bg)";tr.style.fontWeight="700";
     tr.style.color="var(--ok)";
-    const td=el("td");td.colSpan=cols.length+2;td.style.textAlign="center";
+    const td=el("td");td.colSpan=cols.length+3;td.style.textAlign="center";
     td.textContent="محسوب تلقائيًا من جدول الدروس: إجمالي المواعظ/الدروس = "+auto.lessons
       +"  ·  إجمالي عدد الأيام = "+auto.days;
     tr.appendChild(td);tbo.appendChild(tr);
@@ -15720,10 +15832,30 @@ if($("#pz-save"))$("#pz-save").onclick=async()=>{
   if(!o.jeha&&defs.some(x=>x[0]==="jeha"))o.jeha=PZ_JEHA;
   if(!o.fia&&defs.some(x=>x[0]==="fia"))o.fia=PZ_FIA;
   if(type==="lesson"&&o.date){const dn=dayName(o.date);if(dn&&!o.day)o.day=dn}
-  /* منع التكرار التام */
+  /* كشف التكرار: تام أو جزئي بالاسم/العنوان */
   const sig=x=>[x.sec,x.type,x.month,x.year].concat(defs.map(d=>String(x[d[0]]||"").trim())).join("|");
-  const isDup=(DB.plan.prisons||[]).some(x=>x.id!==PZ_ID&&sig(x)===sig(o));
-  if(isDup&&!confirm("يوجد سجل مطابق تمامًا في هذا الشهر.\nهل تريد إضافته رغم ذلك؟"))return;
+  const mySig=sig(o);
+  const exact=(DB.plan.prisons||[]).filter(x=>x.id!==PZ_ID&&sig(x)===mySig);
+  const nn=x=>String(x==null?"":x).replace(/\s+/g," ").trim();
+  const key=nn(o.title||o.name);
+  const sim=key?(DB.plan.prisons||[]).filter(x=>x.id!==PZ_ID
+    &&canonSec(x.sec)===canonSec(o.sec)&&x.type===o.type
+    &&Number(x.month)===Number(o.month)&&Number(x.year)===Number(o.year)
+    &&nn(x.title||x.name)===key&&sig(x)!==mySig):[];
+  const shownName=nn(o.title||o.name)||"—";
+  if(exact.length){
+    if(!confirm("⚠ تنبيه: سجل مكرر تمامًا\n\n"+shownName
+      +"\n"+[o.day,o.date?fmt(o.date):"",o.kind,o.ward].filter(Boolean).join(" · ")
+      +"\n\nيوجد "+exact.length+" سجل مطابق في "+monthName(Number(o.month))+" "+o.year
+      +"\n\nهل تريد إضافته رغم التكرار؟"))return;
+  }else if(sim.length){
+    const det=sim.slice(0,5).map((x,i2)=>"  "+(i2+1)+") "
+      +[x.day,x.date?fmt(x.date):"",x.kind,x.ward].filter(Boolean).join(" · ")).join("\n");
+    if(!confirm("⚠ تنبيه: يوجد سجل بالاسم نفسه في هذا الشهر\n\n«"+shownName+"»"
+      +"\n\nالسجلات الموجودة ("+sim.length+"):\n"+det
+      +"\n\nالجديد: "+[o.day,o.date?fmt(o.date):"",o.kind,o.ward].filter(Boolean).join(" · ")
+      +"\n\nهل تريد الإضافة رغم ذلك؟"))return;
+  }
   const label=pzLabel(sec,type);
   const shown=String(o[keyField[0]]||"");
   DB.plan.prisons=DB.plan.prisons||[];
@@ -18247,7 +18379,7 @@ const firebaseConfig={
   appId:"1:183460755575:web:9e5021291185c8408b2e72",
   measurementId:"G-FYLY6DYZGQ"
 };
-const APP_BUILD="2026-08-25-E";
+const APP_BUILD="2026-08-25-F";
 const DEVICE_ID=(()=>{try{let d=LS&&LS.getItem("deviceId");if(!d){d="d"+Math.random().toString(36).slice(2,10);LS&&LS.setItem("deviceId",d)}return d}catch(e){return "d0"}})();
 const SYNC={db:null,ready:false,loaded:false,space:"office-1",last:{},unsub:[],authErr:""};
 const KEYS=["dir:contacts","dir:mails","dir:tasks","dir:memos","dir:lists","dir:users","dir:settings",
