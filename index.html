@@ -11229,6 +11229,7 @@ function renderMEvents(){
           +(done?"background:var(--ok-bg);border:1px solid var(--ok);color:var(--ok)"
                 :"background:var(--amber-bg);border:1px solid var(--amber);color:#7A4E12");
         st2.textContent=done?"مُدخلة ✓":"لم تُدخل";
+        st2.className="chip stbadge";
         eh.appendChild(st2);
         if(r.execState){
           const sc2=el("span","chip");
@@ -11253,12 +11254,36 @@ function renderMEvents(){
           inp.className="xlin";
           inp.value=val==null?"":val;
           inp.onchange=async()=>{
-            await fn(inp.value);
+            const p=fn(inp.value);        /* تُطبَّق القيمة فورًا داخل fn */
+            /* حدّث الشارة فورًا قبل انتظار الحفظ */
+            try{
+              const eh2=eh.querySelector(".stbadge");
+              if(eh2){
+                const dn=execFilled(r);
+                eh2.style.cssText="font-size:10px;font-weight:800;"
+                  +(dn?"background:var(--ok-bg);border:1px solid var(--ok);color:var(--ok)"
+                      :"background:var(--amber-bg);border:1px solid var(--amber);color:#7A4E12");
+                eh2.textContent=dn?"مُدخلة ✓":"لم تُدخل";
+              }
+              c.classList.toggle("filled",execFilled(r));
+              c.classList.toggle("nofill",!execFilled(r));
+            }catch(e){}
+            await p;
             try{markDirty()}catch(e){}
             inp.classList.add("ok");
-            clearTimeout(inp._t);inp._t=setTimeout(()=>{inp.classList.remove("ok");renderMEvents()},700);
+            clearTimeout(inp._t);
+            inp._t=setTimeout(()=>inp.classList.remove("ok"),900);
             mevLog(r.sec,Number(r.month),Number(r.year),"إدخال نتائج: "+(r.name||""));
             try{mevBadges()}catch(e){}
+          };
+          /* Enter ينتقل للحقل التالي */
+          inp.onkeydown=e=>{
+            if(e.key==="Enter"){
+              e.preventDefault();
+              const all=[...ex.querySelectorAll(".xlin")];
+              const i2=all.indexOf(inp);
+              if(all[i2+1])all[i2+1].focus();else inp.blur();
+            }
           };
           w.appendChild(inp);
           return w;
@@ -11266,7 +11291,12 @@ function renderMEvents(){
         const lockC=execLocked(r);
         const sw=el("div");sw.style.marginBottom="7px";
         sw.appendChild(fld("حالة التنفيذ",r.execState||"",null,
-          async v=>{await execStateChange(r,v,renderMEvents)},EXEC_STATES));
+          async v=>{
+            const before=execLocked(r);
+            await execStateChange(r,v,null);
+            /* أعد الرسم فقط إن تغيّر قفل الحقول */
+            if(before!==execLocked(r))setTimeout(renderMEvents,60);
+          },EXEC_STATES));
         ex.appendChild(sw);
         if(lockC){
           const w2=el("div","lockmsg");
@@ -18174,7 +18204,7 @@ const firebaseConfig={
   appId:"1:183460755575:web:9e5021291185c8408b2e72",
   measurementId:"G-FYLY6DYZGQ"
 };
-const APP_BUILD="2026-08-24-Z";
+const APP_BUILD="2026-08-25-A";
 const DEVICE_ID=(()=>{try{let d=LS&&LS.getItem("deviceId");if(!d){d="d"+Math.random().toString(36).slice(2,10);LS&&LS.setItem("deviceId",d)}return d}catch(e){return "d0"}})();
 const SYNC={db:null,ready:false,loaded:false,space:"office-1",last:{},unsub:[],authErr:""};
 const KEYS=["dir:contacts","dir:mails","dir:tasks","dir:memos","dir:lists","dir:users","dir:settings",
