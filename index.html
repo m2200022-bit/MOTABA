@@ -41,13 +41,11 @@ html,body{margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--body-font);font-size:var(--fs-base);line-height:var(--lh);
   font-size:15px;line-height:1.6;font-weight:500;font-variant-numeric:lining-nums tabular-nums}
 :focus-visible{outline:2px solid var(--maroon);outline-offset:2px}
-
 .shell{display:block;max-width:none;margin:0 auto;padding:18px;
   background:linear-gradient(168deg,#FCF7EC 0%,#F7EEDC 55%,#F2E6CE 100%);
   border-radius:20px;box-shadow:0 26px 70px rgba(0,0,0,.42),0 2px 0 rgba(255,255,255,.5) inset;
   position:relative;z-index:1}
 body.dark .shell{background:#111C27}
-
 /* ===== سلّم الخطوط الموحّد ===== */
 h1,h2,h3,h4{font-family:var(--watad);line-height:1.5;margin:0}
 .panel-head h2{font-size:var(--fs-h2)}
@@ -75,10 +73,6 @@ td,th{vertical-align:middle}
 dl dd{margin:0 0 6px;line-height:1.6;word-break:break-word}
 dl dt{line-height:1.5}
 h2,h3,.m-title,.xname{overflow-wrap:break-word}
-
-
-
-
 /* ===== شريط علوي احترافي ===== */
 .topbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;position:sticky;top:0;z-index:44;
   background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:16px;
@@ -151,8 +145,6 @@ body.dark .login .box{background:rgba(24,36,48,.88);border-color:rgba(255,255,25
 .login .art .lg,.login .art h1,.login .art p,.login .art .feat{animation:fadeUp .6s cubic-bezier(.2,.8,.2,1) backwards}
 .login .art h1{animation-delay:.08s}.login .art p{animation-delay:.16s}.login .art .feat{animation-delay:.24s}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-
-
 /* ===== تخطيط اللوحات: الأدوات يسارًا والمحتوى يمينًا ===== */
 .panel-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;
   padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid var(--border)}
@@ -179,10 +171,7 @@ body.dark .login .box{background:rgba(24,36,48,.88);border-color:rgba(255,255,25
 .m-title{font-size:14.5px;line-height:1.6}
 .replybox{border-radius:12px}
 .empty{border-radius:12px}
-
-
 /* ===== قائمة جانبية حديثة ===== */
-
 .tab{border-radius:11px;padding:10px 10px 10px 13px;gap:11px;font-size:13.5px;position:relative;
   transition:background .18s,color .18s,transform .16s,box-shadow .18s}
 .tab:hover{background:rgba(255,255,255,.10);transform:translateX(-3px)}
@@ -205,8 +194,6 @@ body.dark .login .box{background:rgba(24,36,48,.88);border-color:rgba(255,255,25
 .sub-list button::before{content:"";width:5px;height:5px;border-radius:50%;
   background:currentColor;opacity:.55;flex:none}
 .side .divider{background:rgba(255,255,255,.10)}
-
-
 /* ===== الإجراءات السريعة والتقويم ===== */
 .qacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
 .qact{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);
@@ -233,8 +220,6 @@ body.dark .login .box{background:rgba(24,36,48,.88);border-color:rgba(255,255,25
   font-weight:800;background:#fff;border-radius:8px;padding:0 4px;border:1px solid #CFE0F3}
 /* زجاجية */
 .dcard,.dbox,.qact{backdrop-filter:blur(8px)}
-
-
 /* ===== خلفية شاشة الدخول المتحركة ===== */
 .login .art .orb{position:absolute;border-radius:50%;filter:blur(2px);opacity:.16;
   background:radial-gradient(circle at 30% 30%,#fff,transparent 62%)}
@@ -251,9 +236,6 @@ body.dark .login .box{background:rgba(24,36,48,.88);border-color:rgba(255,255,25
   linear-gradient(115deg,transparent 30%,rgba(255,255,255,.28) 50%,transparent 70%);
   transform:translateX(-120%)}
 .login .acts .btn:hover::after{transform:translateX(120%);transition:transform .7s}
-
-
-
 /* ================= الدفتر الإلكتروني ================= */
 body{background:linear-gradient(150deg,#0A1E33 0%,#0E2A47 45%,#12314F 100%);
   min-height:100vh;padding:0}
@@ -297,7 +279,6 @@ body.side-mini .nb-side .ns{padding:0 11px}
 body.side-mini .nb-side .ns span{display:none}
 body.side-mini .nb-side .ns:hover span{display:block}
 /* ===== لمسات احترافية للأشرطة ===== */
-
 .nb-side .ns::before{content:"";position:absolute;inset:0;
   background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.06) 50%,transparent 65%);
   transform:translateX(-120%);transition:transform .55s}
@@ -315,13 +296,11 @@ body.side-mini .nb-side .ns .badge{min-width:18px;height:18px;font-size:10px}
   .nb-side .ns span{display:none}
   .nb-side .ns.on span{display:block}
 }
-
 /* ===== أنماط سابقة ===== */
 .mpane{display:none}
 .mpane.on{display:block;animation:paperIn .38s cubic-bezier(.22,.85,.25,1)}
 @keyframes paperIn{from{opacity:0;transform:translateY(-16px) scale(.985)}to{opacity:1;transform:none}}
 .mtabs{position:relative;display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:2px}
-
 .page{animation:pageIn .32s cubic-bezier(.22,.85,.25,1)}
 #ov-stats #page-stats{display:block;animation:none;padding:0}
 #ov-stats .dash{grid-template-columns:repeat(auto-fit,minmax(165px,1fr))}
@@ -330,7 +309,6 @@ body.side-mini .nb-side .ns .badge{min-width:18px;height:18px;font-size:10px}
 .btn,.icon-btn,.icon-only,.mtab{transition:background .16s,color .16s,transform .16s,box-shadow .16s,border-color .16s}
 .btn:hover,.icon-btn:hover{transform:translateY(-1px)}
 .mtab:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(11,59,107,.10)}
-
 /* ===== الشريط العلوي والبحث الموحد ===== */
 .topbar{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 #as-bar{position:fixed;top:0;inset-inline-start:0;inset-inline-end:0;z-index:75;
@@ -401,10 +379,8 @@ body.dark .modal{background:var(--surface)}
 body.dark .modal header{background:var(--surface);color:#CFE0F3;border-color:var(--border)}
 body.dark .modal footer{background:var(--surface)}
 body.dark img.logo,body.dark .brand.vertical .logo{background:#E9EEF3}
-
 /* ===== طي القائمة: وضع الأيقونات فقط ===== */
-
-body.nav-collapsed 
+body.nav-collapsed
 body.nav-collapsed .brand.vertical{padding-bottom:12px;gap:0}
 body.nav-collapsed .brand.vertical .logo{width:46px;height:46px;padding:4px;border-radius:12px}
 body.nav-collapsed .brand.vertical h1,
@@ -429,10 +405,9 @@ body.nav-collapsed #menu-toggle,body.nav-collapsed #app-refresh{width:100%;borde
 /* الشاشات الصغيرة: درج منزلق */
 @media(max-width:820px){
   .shell{padding:12px}
-  
-  body.nav-open 
-  body.nav-collapsed 
-  body.nav-collapsed.nav-open 
+  body.nav-open
+  body.nav-collapsed
+  body.nav-collapsed.nav-open
   body.nav-collapsed .tab{justify-content:flex-start;padding:9px 8px 9px 12px;gap:10px}
   body.nav-collapsed .tab .lbl,body.nav-collapsed .tab .chev{display:inline}
   body.nav-collapsed .tab::after{display:none}
@@ -448,10 +423,7 @@ body.nav-collapsed #menu-toggle,body.nav-collapsed #app-refresh{width:100%;borde
 }
 .side-backdrop{position:fixed;inset:0;background:rgba(11,59,107,.35);z-index:39;display:none}
 body.nav-open .side-backdrop{display:block}
-
-
 /* ===== الشريط الجانبي: الصفحات يمين ===== */
-
 .brand{display:flex;gap:11px;align-items:center;padding:0 6px 18px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:14px}
 .brand.vertical{flex-direction:column;text-align:center;gap:10px;padding-top:6px}
 .brand.vertical .logo{width:100%;max-width:210px;height:78px;border-radius:12px;object-fit:contain;
@@ -473,7 +445,6 @@ nav.tabs{display:flex;flex-direction:column;gap:4px}
 .side .divider{height:1px;background:rgba(255,255,255,.12);margin:14px 0}
 .whoami{font-size:12px;color:#A9C6E4}
 .whoami b{display:block;color:#fff;font-family:var(--watad);font-size:13.5px}
-
 /* ===== الإحصائية يسار ===== */
 /* شريط الإحصائية المصغّر في الأعلى */
 .topstats{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
@@ -484,13 +455,11 @@ nav.tabs{display:flex;flex-direction:column;gap:4px}
 .statcard .v small{font-size:10px;color:var(--muted);font-weight:400}
 .statcard .l{font-size:11.5px;color:var(--muted);font-family:var(--watad)}
 .statcard.late .v{color:var(--late)} .statcard.soon .v{color:var(--soon)} .statcard.ok .v{color:var(--ok)}
-
 section.page{display:none} section.page.on{display:block}
 .panel{background:#FEFCF8;border:1px solid #E8DCC4;border-radius:var(--r);padding:18px;
   margin-bottom:16px;box-shadow:var(--shadow)}
 .panel-head{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-bottom:14px}
 .panel-head h2{margin:0;font-family:var(--watad);font-size:16px;font-weight:800;color:var(--primary-dark);flex:1}
-
 /* ===== أزرار ===== */
 button{cursor:pointer;font-family:var(--watad)}
 .btn{display:inline-flex;align-items:center;gap:6px;background:var(--primary);color:#fff;
@@ -514,7 +483,6 @@ button{cursor:pointer;font-family:var(--watad)}
   transform:translateY(-2px);box-shadow:0 6px 16px rgba(91,58,22,.30)}
 .icon-only:active{transform:translateY(0)}
 .icon-only svg{width:21px;height:21px;stroke-width:1.9}
-
 /* ===== جداول على شكل بطاقة ===== */
 .sheet{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:#fff;box-shadow:var(--shadow)}
 .sheet .scroll{overflow-x:auto}
@@ -529,7 +497,6 @@ body.nav-collapsed .fgrid{grid-template-columns:repeat(auto-fit,minmax(230px,1fr
 #sch-table{table-layout:auto;width:100%}
 #sch-table .w-chk{width:30px}
 #sch-table .w-seq{width:34px}
-
 #sch-table .w-school{width:1%;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis}
 #sch-table .w-type{width:1%;white-space:nowrap}
 #sch-table .w-sec{width:1%;white-space:nowrap}
@@ -553,7 +520,6 @@ tbody tr:hover{background:var(--surface-alt)}
 #page-mail td{color:var(--blue)} #page-mail .num{color:var(--blue)}
 .rowtools{white-space:nowrap}
 .sub{font-size:11px;color:var(--muted);display:block}
-
 .tools{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-bottom:12px}
 input,select,textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);background:#fff;
   border-radius:9px;font-family:inherit;font-size:13.5px;color:var(--ink)}
@@ -567,7 +533,6 @@ label{display:block;font-size:12px;color:var(--primary-dark);font-weight:700;mar
 .tools input[type=search],.tools select{max-width:210px}
 .empty{color:var(--muted);font-size:13px;padding:12px 2px}
 .pill{display:inline-block;font-size:11.5px;padding:2px 10px;border:1px solid currentColor;border-radius:20px}
-
 /* ===== النوافذ ===== */
 .overlay{position:fixed;inset:0;background:rgba(15,25,20,.45);display:none;align-items:flex-start;
   justify-content:center;padding:24px 14px;overflow:auto;z-index:20}
@@ -605,7 +570,6 @@ body.nav-collapsed .modal[style*="max-width"]{max-width:min(96vw,1000px) !import
 .permbox{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
 .permbox label{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;color:var(--ink)}
 .permbox input{width:auto}
-
 /* ===== شريط الاستحقاق ===== */
 .due-strip{border:1px solid #EFD9B4;background:var(--amber-bg);border-radius:var(--r);padding:14px 16px;margin-bottom:16px}
 .due-strip.has-late{border-color:#EFCBD0;background:var(--late-bg)}
@@ -618,7 +582,6 @@ body.nav-collapsed .modal[style*="max-width"]{max-width:min(96vw,1000px) !import
 .bar{height:5px;background:var(--grid);border-radius:4px;margin-top:8px;overflow:hidden}
 .bar i{display:block;height:100%;background:var(--soon)}
 .due-card.late .bar i{background:var(--late)}
-
 /* ===== بطاقات المهام ===== */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:13px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
@@ -642,9 +605,6 @@ tr.soon td:first-child{box-shadow:inset 4px 0 var(--soon)}
 tr.soon{background:var(--soon-bg)} tr.late{background:var(--late-bg)}
 .legend{font-size:12px;color:var(--muted);margin-top:11px;display:flex;gap:15px;flex-wrap:wrap}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-left:5px}
-
-
-
 /* ===== شاشة الدخول ===== */
 .shell{visibility:hidden}
 body.authed .shell{visibility:visible}
@@ -799,7 +759,6 @@ body.nav-collapsed .modal[style*="max-width"]{max-width:min(96vw,1000px) !import
 .permbox{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
 .permbox label{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;color:var(--ink)}
 .permbox input{width:auto}
-
 /* ===== شريط الاستحقاق ===== */
 .due-strip{border:1px solid #EFD9B4;background:var(--amber-bg);border-radius:var(--r);padding:14px 16px;margin-bottom:16px}
 .due-strip.has-late{border-color:#EFCBD0;background:var(--late-bg)}
@@ -812,7 +771,6 @@ body.nav-collapsed .modal[style*="max-width"]{max-width:min(96vw,1000px) !import
 .bar{height:5px;background:var(--grid);border-radius:4px;margin-top:8px;overflow:hidden}
 .bar i{display:block;height:100%;background:var(--soon)}
 .due-card.late .bar i{background:var(--late)}
-
 /* ===== بطاقات المهام ===== */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:13px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
@@ -836,9 +794,6 @@ tr.soon td:first-child{box-shadow:inset 4px 0 var(--soon)}
 tr.soon{background:var(--soon-bg)} tr.late{background:var(--late-bg)}
 .legend{font-size:12px;color:var(--muted);margin-top:11px;display:flex;gap:15px;flex-wrap:wrap}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-left:5px}
-
-
-
 /* ===== شاشة الدخول ===== */
 .shell{visibility:hidden}
 body.authed .shell{visibility:visible}
@@ -934,7 +889,6 @@ body.nav-collapsed .modal[style*="max-width"]{max-width:min(96vw,1000px) !import
 .permbox{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
 .permbox label{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;color:var(--ink)}
 .permbox input{width:auto}
-
 /* ===== شريط الاستحقاق ===== */
 .due-strip{border:1px solid #EFD9B4;background:var(--amber-bg);border-radius:var(--r);padding:14px 16px;margin-bottom:16px}
 .due-strip.has-late{border-color:#EFCBD0;background:var(--late-bg)}
@@ -947,7 +901,6 @@ body.nav-collapsed .modal[style*="max-width"]{max-width:min(96vw,1000px) !import
 .bar{height:5px;background:var(--grid);border-radius:4px;margin-top:8px;overflow:hidden}
 .bar i{display:block;height:100%;background:var(--soon)}
 .due-card.late .bar i{background:var(--late)}
-
 /* ===== بطاقات المهام ===== */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:13px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
@@ -971,9 +924,6 @@ tr.soon td:first-child{box-shadow:inset 4px 0 var(--soon)}
 tr.soon{background:var(--soon-bg)} tr.late{background:var(--late-bg)}
 .legend{font-size:12px;color:var(--muted);margin-top:11px;display:flex;gap:15px;flex-wrap:wrap}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-left:5px}
-
-
-
 /* ===== شاشة الدخول ===== */
 .shell{visibility:hidden}
 body.authed .shell{visibility:visible}
@@ -1025,8 +975,6 @@ body.authed .shell{visibility:visible}
 .lateA-col .it:last-child{border:0}
 td.reply-cell{min-width:180px}
 .mini{font-size:11.5px;color:var(--muted)}
-
-
 .followrow{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;margin-top:6px}
 .late-list .lm{display:grid;grid-template-columns:70px 1fr auto;gap:10px;align-items:center;
   background:#fff;border:1px solid #EFCBD0;border-radius:9px;padding:8px 11px;margin-bottom:7px}
@@ -1035,8 +983,6 @@ td.reply-cell{min-width:180px}
 .late-list .lm .d{font-size:12px;color:var(--late);font-family:var(--watad);white-space:nowrap}
 .late-total{display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:#fff;
   border-radius:20px;padding:5px 14px;font-family:var(--watad);font-size:12px;font-weight:700}
-
-
 /* ===== بطاقة المذكرة (تصميم الأسطر) ===== */
 .arch-card{border:1px solid var(--border) !important;border-radius:var(--r);padding:14px 16px;
   box-shadow:var(--shadow);display:flex;flex-direction:column;gap:7px}
@@ -1071,7 +1017,6 @@ td.reply-cell{min-width:180px}
 .late-list .lm .t{font-size:13px;margin-top:3px;display:block}
 .late-list .lm .d{display:inline-block;margin-top:6px;background:var(--late);color:#fff;border-radius:20px;
   padding:2px 10px;font-size:12px;font-family:var(--watad)}
-
 /* ===== نموذج المذكرة كجدول ===== */
 .form-tbl{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:13.5px}
 .form-tbl th{background:var(--primary-light);color:var(--primary-dark);padding:9px 10px;border:1px solid #CFE0F3;text-align:center;font-size:12.5px;font-weight:700}
@@ -1110,7 +1055,6 @@ td.reply-cell{min-width:180px}
 .barrow .track i{display:block;height:100%;background:var(--maroon)}
 .barrow .n{text-align:left;direction:ltr;font-family:var(--watad);color:var(--maroon)}
 .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
-
 .synced{display:flex;align-items:center;gap:7px;font-size:11.5px;color:#A9C6E4;margin-top:10px}
 .dot{width:9px;height:9px;border-radius:50%;background:var(--muted);flex:none}
 .dot.on{background:var(--ok)} .dot.off{background:var(--late)} .dot.wait{background:var(--soon)}
@@ -1259,18 +1203,14 @@ body.plan-draft .ex-col{display:none}
 .scope-note{display:flex;gap:9px;align-items:flex-start;background:var(--primary-light);border:1px solid #CFE0F3;
   border-radius:10px;padding:10px 13px;margin-bottom:12px;color:var(--blue);font-size:13.5px;line-height:1.6}
 .scope-note svg{width:18px;height:18px;flex:none;margin-top:2px}
-
 .toast{position:fixed;bottom:18px;left:18px;background:var(--primary-dark);color:#fff;padding:11px 18px;border-radius:9px;
   font-size:13px;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none;z-index:40}
 .toast.on{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
-
 @media(max-width:720px){.shell{padding:12px}
   nav.tabs{flex-direction:row;flex-wrap:wrap}.tab{flex:1;justify-content:center}.tab .chev{display:none}}
-
 /* الشريط الجانبي القديم مستبدل بشريط الصفحات العلوي */
 aside.side{display:none !important}
-
 .tb-meta{display:flex;flex-direction:column;gap:1px;min-width:0}
 .tb-meta b,.tb-meta span{display:block}
 /* ===== ضبط أحجام الشريط العلوي (نهائي) ===== */
@@ -1307,11 +1247,6 @@ aside.side{display:none !important}
 .nb-side .ns .badge{min-width:18px;height:17px;font-size:9.5px}
 .nb-side .sep{height:22px}
 /* ===== الصفحة الرئيسية: خطوط وأيقونات أصغر ===== */
-
-
-
-
-
 .hm-kpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px;margin-bottom:11px}
 .hm-k{padding:11px 9px;border-radius:12px}
 .hm-k .ic{width:32px;height:32px;border-radius:10px;margin-bottom:6px}
@@ -1347,7 +1282,6 @@ aside.side{display:none !important}
   .tb-brand,.tb-sync{display:none}
   .tb-user b,.tb-user span{max-width:88px}
 }
-
 /* ===== الشريط العلوي: نهائي مضغوط ===== */
 .topbar{gap:7px;padding:6px 10px;margin-bottom:9px}
 .tb-sync{width:30px;height:30px;padding:0;border-radius:50%;justify-content:center;
@@ -1396,7 +1330,6 @@ aside.side{display:none !important}
 /* مجموعة أدوات موحّدة */
 .panel-head{align-items:center}
 .panel-head h2{margin-inline-end:auto}
-
 /* مجموعة الأيقونات */
 .tb-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap;
   background:rgba(255,255,255,.55);border:1px solid var(--border);border-radius:12px;padding:5px 7px}
@@ -1405,7 +1338,6 @@ body.dark .tb-group{background:rgba(255,255,255,.05)}
 .tb-group .icon-btn{margin:0}
 .tb-group .pz-inline{margin-inline-start:4px;padding-inline-start:7px;border-inline-start:1px solid var(--border)}
 @media(max-width:700px){.tb-group{background:transparent;border:0;padding:0}}
-
 /* ===== الشريط العلوي (نهائي) ===== */
 .topbar{display:flex;align-items:center;gap:8px;padding:6px 10px;margin-bottom:9px;
   background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border:1px solid var(--border);
@@ -1440,12 +1372,7 @@ body.dark .tb-group{background:rgba(255,255,255,.05)}
 .tb-txt span{font-size:9px;color:var(--muted);white-space:nowrap}
 @media(max-width:1000px){.tb-brand .tb-txt,.tb-sync .sy{display:none}}
 @media(max-width:760px){.tb-brand{display:none}.tb-user b{max-width:90px}}
-
 /* ===== الرئيسية: مربعات متجاورة ===== */
-
-
-
-
 /* بطاقات مربعة متساوية */
 .hm-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:9px}
 .hm-k{aspect-ratio:1/.92;display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -1467,7 +1394,6 @@ body.dark .tb-group{background:rgba(255,255,255,.05)}
   font-weight:800;color:var(--nb-navy);margin:16px 0 9px}
 .hm-sec-title svg{width:15px;height:15px;color:var(--nb-gold)}
 .hm-sec-title::after{content:"";flex:1;height:1px;background:var(--border)}
-
 /* ===== خلفية أبراج الدوحة في شاشة الدخول ===== */
 .login .art .sky{position:absolute;inset:0;opacity:.30;
   background:
@@ -1506,7 +1432,6 @@ body.dark .tb-group{background:rgba(255,255,255,.05)}
 .pw-eye{color:#B8933F}
 .pw-eye:hover{background:#F7F0DF;color:#8A6B22}
 .login .row label{color:#7A142D}
-
 /* ===== الشريط العلوي: الطرفان في الأقصى ===== */
 .topbar{justify-content:space-between}
 .tb-left{order:0;margin-inline-end:auto}
@@ -1546,10 +1471,6 @@ td{font-size:11.5px;padding:6px 6px}
 .modal .body{padding:16px 18px}
 .fgrid{gap:11px}
 /* ===== الرئيسية: أصغر وأكثر تناسقًا ===== */
-
-
-
-
 .hm-sec-title{font-size:12px;margin:13px 0 8px}
 .hm-kpis{grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:8px}
 .hm-k{aspect-ratio:1/.95;padding:7px 5px;border-radius:12px}
@@ -1586,7 +1507,6 @@ td{font-size:11.5px;padding:6px 6px}
 .dbox{padding:12px 14px}
 .dbox h3{font-size:12px;margin-bottom:9px}
 .qact{padding:8px 10px;font-size:11px}
-
 /* ===== بطاقة المستخدم مع المزامنة ===== */
 .tb-user{align-items:center;gap:8px;padding:4px 11px}
 .tb-user .uinfo{display:flex;flex-direction:column;gap:1px;min-width:0;line-height:1.3}
@@ -1619,7 +1539,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 .login::-webkit-scrollbar{display:none}
 .login .side{overflow-y:auto;scrollbar-width:none}
 .login .side::-webkit-scrollbar{display:none}
-
 /* ===== ضمان قابلية النقر على أشرطة الصفحات ===== */
 .nb-side{position:relative !important;z-index:46 !important;pointer-events:auto !important}
 .nb-side .ns{pointer-events:auto !important;position:relative;z-index:2;
@@ -1629,7 +1548,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 .topbar{position:relative !important;z-index:44}
 .page::before{pointer-events:none}
 .paper-stack::before,.paper-stack::after{pointer-events:none}
-
 /* ===== ترويسة الصفحة الرئيسية (موحّدة) ===== */
 #page-home .hm-hero{display:flex;align-items:center;justify-content:space-between;gap:14px;
   flex-wrap:wrap;background:linear-gradient(115deg,#0E2A47,#123B63 58%,#1B5FA6);
@@ -1655,7 +1573,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
   #page-home .hm-hero{padding:11px 13px}
   #page-home .hm-date{width:100%;justify-content:center}
 }
-
 /* ===== نتائج التنفيذ داخل المربعات ===== */
 .exec-box{background:var(--surface-alt);border:1px dashed var(--border);border-radius:11px;
   padding:9px 11px;margin-top:4px}
@@ -1670,7 +1587,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 .exec-box .xlin.ok{background:#E4F1E8;border-color:var(--ok)}
 .mev-card.nofill{border-inline-start:4px solid var(--amber)}
 .mev-card.filled{border-inline-start:4px solid var(--ok)}
-
 /* ===== جدول قابل للتحرير كإكسل ===== */
 #gp-table{border-collapse:collapse}
 #gp-table th{background:#DCE9F7;color:#0B3B6B;border:1px solid #9FBEDD;
@@ -1688,7 +1604,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 #gp-table tbody tr:hover td{background:#F7FBFF}
 #gp-table tbody tr:hover td.xl{background:#FFFDF4}
 #ov-gaps .sheet .scroll{max-height:52vh;overflow:auto}
-
 /* ===== خلايا الإدخال في جدول الفعاليات ===== */
 #mev-table td.xl{padding:0;background:#FFFEF9}
 #mev-table .xlin{width:100%;min-width:70px;border:0;background:transparent;padding:6px 7px;
@@ -1699,7 +1614,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 #mev-table select.xlin{cursor:pointer;appearance:none}
 #mev-table th.ex-col{background:#EAF3E9;color:#245F3C}
 .exec-box .xlin.ok{background:#E4F1E8}
-
 /* ===== شريط التنقل بين الأقسام ===== */
 .secnav{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;
   background:var(--surface-alt);border:1px solid var(--border);border-radius:12px;padding:8px 10px}
@@ -1716,7 +1630,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 .secnav button.done .n{background:var(--ok);color:#fff}
 .secnav .all{background:var(--nb-navy);color:#fff;border-color:var(--nb-navy)}
 .secnav .all.on{background:var(--nb-gold);border-color:var(--nb-gold);color:#3A2A08}
-
 /* ===== إغلاق حقول التنفيذ ===== */
 #mev-table td.lockcell{background:#F4F4F4;color:#9AA6B2;font-size:11px;padding:5px}
 .exec-box .lockmsg{background:var(--amber-bg);border:1px dashed var(--amber);color:#7A4E12;
@@ -1725,7 +1638,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 .exec-box .xlin.need:focus{box-shadow:0 0 0 3px rgba(192,57,43,.14)}
 #mev-table tr.notdone td{background:#FDF2F0}
 #mev-table tr.postponed td{background:#FFF9E8}
-
 /* ===== إصلاح ظهور نتائج البحث ===== */
 .topbar{overflow:visible !important}
 .search-wrap{position:relative;overflow:visible}
@@ -1741,7 +1653,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 .gres .ghd:first-child{border-top:0;margin-top:0}
 .gres .gitem .gt b{display:block;font-family:var(--watad);font-size:12.5px;color:var(--ink)}
 .gres .gitem .gt .mini{font-size:10.5px}
-
 /* شريط التصفية */
 #filter-bar{position:fixed;bottom:18px;inset-inline-start:50%;transform:translateX(50%) translateY(120%);
   display:flex;align-items:center;gap:11px;background:var(--nb-navy);color:#fff;
@@ -1749,7 +1660,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
   box-shadow:0 14px 34px rgba(0,0,0,.32);z-index:70;transition:transform .28s;white-space:nowrap}
 #filter-bar.on{transform:translateX(50%) translateY(0)}
 #filter-bar .btn{background:#fff;color:var(--nb-navy);border-color:#fff;padding:4px 13px;font-size:11.5px}
-
 /* ===== رزنامة المكتب ===== */
 #home-tabs{margin-bottom:14px}
 .desk-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;
@@ -1777,7 +1687,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 .hm-box.cal-wide{grid-column:span 2}
 @media(max-width:900px){.hm-box.cal-wide{grid-column:span 1}}
 .hm-box h3 .cnt{margin-inline-start:auto}
-
 /* ===== قوائم الأيقونات المجمّعة ===== */
 .mgrp{position:relative;display:inline-block}
 .mgrp-btn{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 12px;
@@ -1800,7 +1709,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 .mgrp-item:hover{background:var(--surface-alt);color:var(--gc,var(--primary-dark))}
 .mgrp-item svg{width:15px;height:15px;flex:none;opacity:.85}
 @media(max-width:700px){.mgrp-btn span{display:none}.mgrp-btn{padding:0 9px}}
-
 /* ===== رزنامة المكتب: عرض تقويمي ===== */
 .dkcal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:10px}
 .dkcal .hd{text-align:center;font-family:var(--watad);font-size:11px;color:var(--muted);
@@ -1837,7 +1745,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 .dkyear .mbox .it:last-child{border:0}
 .dkyear .mbox .it .dot2{width:7px;height:7px;border-radius:50%;flex:none}
 .dkyear .mbox .it span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
 /* ===== لوحة الأعمال المتكررة ===== */
 .dk-hero{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
   background:linear-gradient(120deg,#0E2A47,#123B63 58%,#1B5FA6);
@@ -1922,7 +1829,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 .dk-mon.on span{color:#D8E8F8}
 .dk-mon .st{display:flex;gap:4px;justify-content:center;margin-top:5px}
 .dk-mon .st i{width:6px;height:6px;border-radius:50%}
-
 /* ===== لوحة الأقسام ===== */
 .dk-map{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:11px;margin-bottom:18px}
 .dks-card{background:var(--surface);border:1px solid var(--border);border-inline-start:5px solid var(--sc,#7A8C9C);
@@ -1952,7 +1858,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 #dks-wait td{font-size:11px}
 .wait-chip{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:2px 9px;
   font-size:10px;font-weight:800}
-
 /* ===== مسار انتقال العمل ===== */
 .route-box{background:var(--surface-alt);border:1px solid var(--border);border-radius:11px;padding:10px 12px}
 .route-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
@@ -1987,7 +1892,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 .dk-job .waitline{background:var(--amber-bg);border:1px dashed var(--amber);color:#7A4E12;
   border-radius:9px;padding:6px 9px;font-size:10.5px;line-height:1.6}
 .dk-job .waitline.late{background:var(--coral-bg);border-color:var(--coral);color:var(--coral)}
-
 /* ===== لوحة التسليم ===== */
 .dkd-head{background:var(--surface-alt);border:1px solid var(--border);border-radius:12px;
   padding:12px 14px;margin-bottom:12px}
@@ -2005,7 +1909,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 .dkd-row.ok .ic{background:var(--ok-bg);color:var(--ok)}
 .dkd-row .t{flex:1;min-width:0}
 .dkd-row .t b{font-family:var(--watad);font-size:12.5px;color:var(--ink)}
-
 /* شارات أقسام التسليم */
 .sec-chips{display:flex;gap:5px;flex-wrap:wrap}
 .sec-chip{display:inline-flex;align-items:center;border-radius:20px;padding:3px 10px;font-size:10px;
@@ -2016,7 +1919,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 .job-acts{display:flex;gap:7px;align-items:center}
 .job-acts .act{flex:1}
 .job-acts .icon-only{width:34px;height:34px;flex:none;margin:0}
-
 /* ===== لوحة الرزنامة: هوية زرقاء ===== */
 #hsheet-desk .panel{background:linear-gradient(165deg,#0B2136 0%,#0E2A47 45%,#123B63 100%);
   border-color:rgba(255,255,255,.08);box-shadow:0 20px 50px rgba(8,22,38,.32)}
@@ -2089,7 +1991,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 #hsheet-desk .late-total{box-shadow:none}
 #hsheet-desk .btn.ghost{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.18);color:#fff}
 #hsheet-desk .btn.ghost:hover{background:#E8C88A;color:#0E2A47;border-color:#E8C88A}
-
 .dk-block{background:rgba(192,57,43,.16);border:1px solid rgba(192,57,43,.45);color:#F3B5AE;
   border-radius:12px;padding:11px 14px;margin-bottom:12px;font-family:var(--watad);font-size:12px}
 .dk-block .btn{background:#fff;color:#8A1538;border-color:#fff;margin-inline-start:auto}
@@ -2097,7 +1998,6 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
   border-radius:9px;padding:8px 11px;margin-bottom:7px;font-size:11.5px}
 .dk-logrow b{font-family:var(--watad);color:var(--nb-navy)}
 .dk-logrow .mini{margin-inline-start:7px}
-
 /* ===== الشبكة السنوية ===== */
 .dk-grid12{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:12px}
 .dky-m{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);border-radius:14px;
@@ -2119,13 +2019,11 @@ body::-webkit-scrollbar{width:0;height:0;display:none}
 .dky-m .st{display:flex;gap:9px;font-size:9.5px;color:#A9C6E4;margin-top:7px}
 .dky-m .st span{display:inline-flex;align-items:center;gap:4px}
 .dky-m .st i{width:6px;height:6px;border-radius:50%}
-
 #ts-xl td.xl{padding:0;background:#FFFEF9}
 #ts-xl .xlin{width:100%;border:0;background:transparent;padding:6px 7px;font-size:11px;
   text-align:center;font-family:inherit;color:var(--ink);outline:none}
 #ts-xl .xlin:focus{background:#fff;box-shadow:inset 0 0 0 2px var(--primary-mid)}
 #ts-xl .xlin.ok{background:#E4F1E8}
-
 /* وضع الإكسل في جدول الفعاليات */
 body.mev-xl #mev-table td{padding:0}
 body.mev-xl #mev-table td:not(.xl):not(.rowtools){padding:5px 6px}
@@ -2133,18 +2031,15 @@ body.mev-xl #mev-table .xlin{min-width:80px}
 body.mev-xl #mev-table th{background:#DCE9F7;color:#0B3B6B;position:sticky;top:0;z-index:3}
 body.mev-xl #mev-table td{border:1px solid #D8E4F0}
 body.mev-xl #mev-table tbody tr:hover td{background:#F7FBFF}
-
 /* إخفاء أدوات المدير عن غير المدير */
 body.not-admin #open-settings,body.not-admin #tb-set,
 body.not-admin #open-restore,body.not-admin #open-asview,
 body.not-admin #open-delreqs{display:none !important}
-
 /* أيقونة الحفظ */
 #mev-save.dirty{background:var(--amber-bg);border-color:var(--amber);color:#7A4E12;
   animation:pulseSave 1.6s ease-in-out infinite}
 #mev-save.saved{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);animation:none}
 @keyframes pulseSave{0%,100%{box-shadow:0 0 0 0 rgba(212,175,99,.5)}50%{box-shadow:0 0 0 6px rgba(212,175,99,0)}}
-
 #tb-refresh.spin svg{animation:spin360 .7s linear}
 @keyframes spin360{from{transform:rotate(0)}to{transform:rotate(-360deg)}}
 </style>
@@ -4332,7 +4227,6 @@ async function idbUsage(){
   return{used:0,quota:0};
 }
 
-
 /* ===== ترحيل التخزين إلى IndexedDB مرة واحدة ===== */
 async function migrateToIdb(){
   try{
@@ -4494,6 +4388,34 @@ const canonSec=x=>SEC_MAP[x]||x;
 const DAWA="إدارة الدعوة والإرشاد الديني";
 const $=sel=>{try{return (sel&&sel!=="#")?document.querySelector(sel):null}catch(e){return null}};
 window.addEventListener("error",e=>{try{toast("خطأ: "+(e.message||""))}catch(_){}});
+
+
+/* ===== تحسين الأداء: تأجيل ودمج عمليات الرسم ===== */
+const RAF=(fn)=>{
+  if(typeof requestAnimationFrame==="function")return requestAnimationFrame(fn);
+  return setTimeout(fn,16);
+};
+let RENDER_Q=null;
+function queueRender(fn){
+  clearTimeout(RENDER_Q);
+  RENDER_Q=setTimeout(()=>RAF(fn),40);
+}
+/* رسم الجداول الكبيرة على دفعات لتبقى الواجهة سلسة */
+function paintRows(tbody,rows,make,chunk){
+  chunk=chunk||60;
+  tbody.innerHTML="";
+  if(rows.length<=chunk){rows.forEach((r,i)=>tbody.appendChild(make(r,i)));return}
+  let i=0;
+  const step=()=>{
+    const frag=document.createDocumentFragment();
+    const end=Math.min(i+chunk,rows.length);
+    for(;i<end;i++)frag.appendChild(make(rows[i],i));
+    tbody.appendChild(frag);
+    if(i<rows.length)RAF(step);
+  };
+  step();
+}
+
 const el=(t,c,x)=>{const n=document.createElement(t);if(c)n.className=c;if(x!=null)n.textContent=x;return n};
 const DAY=864e5;
 const today=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
@@ -4691,6 +4613,14 @@ function renderList(){
     const d=el("button","btn danger sm","حذف");
     d.onclick=async()=>{if(!ask("سيتم حذف العنصر من القائمة.\nهل تريد المتابعة؟"))return;
       DB.lists[LIST_KEY].splice(i,1);await save("dir:lists",DB.lists);renderList();fillAllSelects();toast("حُذف العنصر")};
+    if(!u.user||!String(u.pass||"")){
+      const w2=el("span","chip");
+      w2.style.cssText="font-size:10px;font-weight:800;background:var(--amber-bg);"
+        +"border:1px solid var(--amber);color:#7A4E12;margin-inline-end:6px";
+      w2.textContent=!u.user?"بلا اسم دخول":"بلا كلمة مرور";
+      w2.title="لن يستطيع الدخول — اضغط «تعديل» واضبط البيانات";
+      row.appendChild(w2);
+    }
     if(u.disabled){
       const z=el("span","chip");
       z.style.cssText="font-size:10px;font-weight:800;background:var(--coral-bg);"
@@ -4732,7 +4662,6 @@ function fillAllSelects(){
   document.querySelectorAll("select[data-secfor]").forEach(s=>{const d=document.getElementById(s.dataset.secfor);
     fillSecSelect(s,d?d.value:"",s.value)});
 }
-
 
 /* ===== الإدارات وأقسامها ===== */
 function migrateDepts(){
@@ -5107,17 +5036,44 @@ if($("#u-role"))$("#u-role").onchange=()=>{
     :"مدير النظام يملك كل الصلاحيات بما فيها الإعدادات.";
 };
 $("#u-add").onclick=async()=>{
-  const n=$("#u-name").value.trim();if(!n)return toast("اكتب اسم المستخدم");
+  const n=$("#u-name").value.trim();
   const un=(($("#u-user")&&$("#u-user").value)||"").trim();
-  if(un&&DB.users.some(x=>(x.user||"").toLowerCase()===un.toLowerCase()))return toast("اسم المستخدم مستخدم مسبقًا");
+  const pw=(($("#u-pass")&&$("#u-pass").value)||"");
+  /* تحقق كامل قبل الإضافة */
+  const miss=[];
+  if(!n)miss.push("الاسم");
+  if(!un)miss.push("اسم الدخول");
+  if(!pw)miss.push("كلمة المرور");
+  if(miss.length)return alert("لم يُضف المستخدم — المطلوب:\n\n• "+miss.join("\n• ")
+    +"\n\nبدونها لن يستطيع الدخول إلى النظام.");
+  if(un.length<3)return alert("اسم الدخول قصير — 3 أحرف على الأقل.");
+  if(pw.length<4)return alert("كلمة المرور قصيرة — 4 أحرف على الأقل.");
+  if(DB.users.some(x=>(x.user||"").toLowerCase()===un.toLowerCase()))
+    return alert("اسم الدخول مستخدم مسبقًا — اختر غيره.");
+  const scope=($("#u-scope")&&$("#u-scope").value)||"all";
+  const perms=readPerms();
+  if(!Object.values(perms).some(Boolean))
+    return alert("حدّد صلاحية واحدة على الأقل (الدليل · المهام · التخطيط …).");
   DB.users.push({id:Date.now(),name:n,job:$("#u-job").value.trim(),
-    user:un,pass:(($("#u-pass")&&$("#u-pass").value)||""),
+    user:un,pass:pw,disabled:false,
     phone:(($("#u-phone")&&$("#u-phone").value)||"").replace(/\D/g,"").slice(0,8),
     email:(($("#u-mail2")&&$("#u-mail2").value)||"").trim(),
     role:($("#u-role")&&$("#u-role").value)||"user",
     scope:($("#u-scope")&&$("#u-scope").value)||"all",perms:readPerms(),permsSetByAdmin:true});
-  normalizeUser(DB.users[DB.users.length-1]);
-  await save("dir:users",DB.users);$("#u-name").value="";$("#u-job").value="";U_ID=null;renderUsers();toast("أُضيف المستخدم");
+  const nu=DB.users[DB.users.length-1];
+  normalizeUser(nu);
+  const ok=await saveVerified("dir:users",DB.users,"المستخدمون");
+  if(!ok){DB.users.pop();return alert("تعذّر حفظ المستخدم — أعد المحاولة.")}
+  audit("إضافة مستخدم","المستخدمون",n+" ("+un+")");
+  ["#u-name","#u-job","#u-user","#u-pass","#u-phone","#u-mail2"].forEach(id=>{
+    const x=$(id);if(x)x.value="";
+  });
+  U_ID=null;renderUsers();
+  alert("أُضيف المستخدم ✓\n\nالاسم: "+n
+    +"\naسم الدخول: "+un
+    +"\nكلمة المرور: "+pw
+    +"\nالنطاق: "+(scope==="all"?"كل الأقسام":scope)
+    +"\n\nيمكنه الدخول الآن بهذه البيانات.");
 };
 $("#u-apply").onclick=async()=>{
   if(!U_ID)return toast("اختر مستخدمًا بزر «تعديل»");
@@ -5134,7 +5090,6 @@ $("#u-apply").onclick=async()=>{
   await save("dir:users",DB.users);U_ID=null;$("#u-name").value="";$("#u-job").value="";$("#u-note").textContent="";
   renderUsers();applyPerms();toast("حُدّث المستخدم");
 };
-
 
 /* ===== فلاتر الإدارة/القسم في كل الصفحات ===== */
 function initFilters(){
@@ -5154,9 +5109,6 @@ function matchDS(rec,k){
   if(sc&&sc.value&&rec.sec!==sc.value)return false;
   return true;
 }
-
-
-
 
 /* ================= حفظ مؤكَّد (كتابة ← قراءة ← تحقق) ================= */
 async function saveVerified(key,val,label){
@@ -5415,7 +5367,6 @@ function renderContacts(){
   $("#c-empty").style.display=rows.length?"none":"block";
   $("#c-count").textContent=DB.contacts.length?("العدد: "+rows.length+" من "+DB.contacts.length):"";
 }
-
 
 /* ================= المراسلات ================= */
 function mailKey(c){return (c.email||"").toLowerCase()||("~"+c.name+"|"+(c.ext||""))}
@@ -5695,13 +5646,6 @@ function renderTasks(){
   }
 }
 
-
-
-
-
-
-
-
 /* ================= لوحة المعلومات ================= */
 function countUp(node,to){
   const from=0,dur=700,t0=performance.now();
@@ -5825,8 +5769,6 @@ function renderDash(){
       ()=>{renderInbox();$("#ov-inbox").classList.add("on")}]),"لا توجد تنبيهات.");
 }
 
-
-
 /* ===== منع التفاف النص: تصغير تلقائي عند الحاجة ===== */
 function fitText(root){
   (root||document).querySelectorAll(".dcard .dl,.dcard .du,.qact span:last-child,.dbox h3")
@@ -5841,11 +5783,6 @@ function fitText(root){
       }
     });
 }
-
-
-
-
-
 
 /* ===== تبويبا الصفحة الرئيسية ===== */
 document.querySelectorAll("#home-tabs .mtab").forEach(b=>{
@@ -6320,8 +6257,6 @@ if($("#dk-word"))$("#dk-word").onclick=()=>{
   dlWord(wordDoc(inner,"رزنامة المكتب",9),"رزنامة_المكتب");
 };
 
-
-
 /* ================= رزنامة المكتب: العرض التقويمي ================= */
 let DKC_M=new Date().getMonth()+1,DKC_Y=new Date().getFullYear();
 function dkColor(r){
@@ -6418,10 +6353,6 @@ if($("#dk-tab-list"))$("#dk-tab-list").onclick=()=>{
   renderDeskSheet();
 };
 
-
-
-
-
 /* ===== التنبيهات الذكية للرزنامة ===== */
 function dkAlerts(){
   const today=new Date().toISOString().slice(0,10);
@@ -6474,10 +6405,6 @@ function renderDkAlerts(){
   });
   box.appendChild(g);
 }
-
-
-
-
 
 /* ===== سجل المتابعة ===== */
 let DKF=null;
@@ -6755,7 +6682,6 @@ function dkEnsureMonth(m,y){
   return n;
 }
 
-
 /* ===== رؤية بنود الرزنامة ===== */
 function dkVisible(r){
   const mine=myScope();
@@ -6866,7 +6792,6 @@ function openDkDeliv(r){
   if(f)f.textContent=P.complete?"مكتمل":(P.pending.length+" قسم لم يسلّم");
   $("#ov-dkdeliv").classList.add("on");
 }
-
 
 if($("#dkd-edit"))$("#dkd-edit").onclick=()=>{
   if(!DKD)return;
@@ -8000,8 +7925,6 @@ function ring(cvId,vId,val,tot,color){
   anim();
 }
 
-
-
 /* ===== ترتيب أيقونات رؤوس الصفحات في مجموعات ===== */
 function tidyToolbars(){
   document.querySelectorAll(".panel-head").forEach(h=>{
@@ -8227,7 +8150,6 @@ function renderCal(){
 }
 if($("#cal-prev"))$("#cal-prev").onclick=()=>{CAL_M--;if(CAL_M<1){CAL_M=12;CAL_Y--}$("#cal-day").innerHTML="";renderCal()};
 if($("#cal-next"))$("#cal-next").onclick=()=>{CAL_M++;if(CAL_M>12){CAL_M=1;CAL_Y++}$("#cal-day").innerHTML="";renderCal()};
-
 
 /* ===== تصفية الصفحة بنتيجة البحث ===== */
 let PAGE_FILTER="";
@@ -8794,8 +8716,6 @@ if($("#rs-cloud"))$("#rs-cloud").onclick=async()=>{
 if($("#open-restore"))$("#open-restore").onclick=()=>openSettings("p-restore");
 setInterval(()=>{takeSnapshot("تلقائي")},3600000);
 
-
-
 /* ===== بناء حقول النماذج ===== */
 function pf(id,label,type,val){
   const w=document.createElement("div");
@@ -9270,7 +9190,6 @@ if($("#exec-clone-year"))$("#exec-clone-year").onclick=async()=>{
   toast("أُنشئت سنة "+yr+" بـ"+n+" برنامجًا");
 };
 
-
 /* ================= نسبة الإنجاز وفق الشهر ================= */
 let pgView="table";
 const qOfMonth=m=>Math.ceil((Number(m)||1)/3);
@@ -9522,7 +9441,6 @@ if($("#pull-events"))$("#pull-events").onclick=async()=>{
     +"\nإجمالي فعاليات الشهر: "+(DB.plan.events||[]).filter(x=>Number(x.year)===yr&&Number(x.month)===mo).length
     +(det?("\n\nحسب القسم:\n"+det):"")+"\n\nالأشهر السابقة محفوظة ولم تتأثر.");
 };
-
 
 /* ================= التقارير الربعية والنصفية والسنوية ================= */
 function qParts(){
@@ -9799,7 +9717,6 @@ async function approveAll(){
 }
 if($("#appr-all"))$("#appr-all").onclick=approveAll;
 if($("#papr-all"))$("#papr-all").onclick=approveAll;
-
 
 /* ===== تنبيه طلبات التسجيل الجديدة ===== */
 let LAST_REQ_N=null;
@@ -10646,10 +10563,6 @@ function renderLate(){
   });
 }
 
-
-
-
-
 /* ===== متابعة: ردّت الأقسام وبقي رد إدارة الدعوة ===== */
 function followRows(){
   return DB.memos.filter(canSeeMemo).filter(m=>{
@@ -10945,8 +10858,6 @@ if($("#mp-save"))$("#mp-save").onclick=async()=>{
   }else alert("تعذّر تأكيد الحفظ — أعد المحاولة أو تحقق من المزامنة.");
 };
 
-
-
 /* ===== قراءة التاريخ بأي صيغة وتصحيحه ===== */
 const AR_MONTHS={"يناير":1,"كانون الثاني":1,"فبراير":2,"شباط":2,"مارس":3,"آذار":3,"اذار":3,
   "أبريل":4,"ابريل":4,"نيسان":4,"مايو":5,"أيار":5,"ايار":5,"يونيو":6,"يونية":6,"حزيران":6,
@@ -10996,8 +10907,6 @@ function smartDate(v,defMonth,defYear){
 }
 const AR_DAYS=["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 const dayName=d=>{const x=parseD(d);return x?AR_DAYS[x.getDay()]:""};
-
-
 
 /* ================= الفعاليات الشهرية (تخطيط ← اعتماد ← تنفيذ) ================= */
 const MEV_STATES=[["draft","مسودة"],["sent","مرسلة للاعتماد"],["approved","معتمدة من المدير"],
@@ -11078,13 +10987,11 @@ function renderMEvents(){
   if(mo){
     if(!ALL)try{mevAutoRepeat(sec,mo,yr)}catch(e){}
     else dawaSecs().forEach(sc=>{try{mevAutoRepeat(sc,mo,yr)}catch(e){}});
-  }else{
-    /* عرض كل الشهور: استحضر المتكررة لكل شهور السنة المعتمدة */
-    const secs=ALL?dawaSecs():[sec];
-    secs.forEach(sc=>{
-      if(annPlan(sc,yr).state!=="approved")return;
-      for(let m2=1;m2<=12;m2++){try{mevAutoRepeat(sc,m2,yr)}catch(e){}}
-    });
+  }else if(!ALL){
+    /* عرض كل الشهور لقسم واحد: استحضر المتكررة إن كانت الخطة السنوية معتمدة */
+    if(annPlan(sec,yr).state==="approved"){
+      for(let m2=1;m2<=12;m2++){try{mevAutoRepeat(sec,m2,yr)}catch(e){}}
+    }
   }
   const approved=ALL?false:["approved","running","done"].includes(P.state);
   const anyOpen=rows.some(r=>{
@@ -11653,12 +11560,6 @@ const mevPicked=()=>{
   return (DB.plan.mevents||[]).filter(r=>ids.includes(String(r.id)));
 };
 
-
-
-
-
-
-
 /* ================= الخطة السنوية والاعتماد السنوي ================= */
 function annKey(sec,yr){return canonSec(sec)+"|Y"+yr}
 function annPlan(sec,yr,create){
@@ -11872,7 +11773,6 @@ if($("#an-word"))$("#an-word").onclick=()=>{
   dlWord(wordDoc(inner,"الخطة السنوية للفعاليات",9),
     "الخطة_السنوية_"+$("#an-sec").value.replace(/\s+/g,"_")+"_"+$("#an-year").value);
 };
-
 
 /* ================= طلبات الحذف (الأقسام تطلب والمدير يوافق) ================= */
 function canDelete(){
@@ -12425,7 +12325,6 @@ if($("#s-mail-now"))$("#s-mail-now").onclick=async()=>{
   alert("أُرسل التذكير إلى "+n+" قسمًا ✓\n\nوصلت الرسالة داخل النظام، وفُتحت رسالة بريد للعناوين المسجّلة.");
 };
 
-
 /* ===== منطق حالة التنفيذ: السبب والتأجيل ===== */
 const EXEC_NEEDS_REASON=["لم تُنفَّذ","مؤجلة","ملغاة"];
 const execLocked=r=>EXEC_NEEDS_REASON.includes(r.execState||"");
@@ -12541,8 +12440,6 @@ function execStats(sec,mo,yr){
     notDone:rows.filter(r=>r.execState==="لم تُنفَّذ").length};
 }
 
-
-
 /* ===== استكمال مدى التكرار للمدخلات القديمة ===== */
 async function mevBackfillRange(){
   await safetySnap("قبل ترحيل تلقائي");
@@ -12610,8 +12507,6 @@ async function fixAllMonths(silent){
   if(!silent)alert("صُحِّح شهر "+n+" فعالية ✓");
   return n;
 }
-
-
 
 /* ===== نسخة أمان قبل العمليات الجماعية ===== */
 async function safetySnap(tag){
@@ -12739,8 +12634,6 @@ async function mevEnsureRepeats(sec,yr){
     await savePlan();renderMEvents()}
   return n;
 }
-
-
 
 /* ===== التاريخ من / إلى (افتراضيًا أول الشهر إلى آخره) ===== */
 function monthSpan(mo,yr){
@@ -13256,10 +13149,6 @@ if($("#mev-word"))$("#mev-word").onchange=async e=>{
   }catch(err){alert("تعذّرت قراءة الملف: "+err.message)}
 };
 
-
-
-
-
 /* ===== مقارنة الملف بالموجود في النظام ===== */
 if($("#mevp-diff"))$("#mevp-diff").onclick=()=>{
   const P=mevpPreview();
@@ -13298,10 +13187,6 @@ if($("#mevp-diff"))$("#mevp-diff").onclick=()=>{
     +"\n\nاضغط «إضافة الفعاليات» لإضافة الناقص فقط — المكرر لن يُضاف.");
 };
 
-
-
-
-
 /* ===== ضمان ظهور ورقة الفعاليات الشهرية ===== */
 function openMonthlyEvents(){
   go("plan");
@@ -13328,8 +13213,6 @@ addEventListener("keydown",e=>{
     e.preventDefault();openMonthlyEvents();
   }
 });
-
-
 
 /* ===== استرجاع من ملف نسخة احتياطية (JSON) ===== */
 async function importBackupFile(file){
@@ -13509,8 +13392,6 @@ async function mevDiagnose(){
   }
 }
 if($("#mev-diag"))$("#mev-diag").onclick=mevDiagnose;
-
-
 
 /* ===== تجميع أيقونات الفعاليات الشهرية في قوائم ===== */
 const MEV_GROUPS=[
@@ -13720,7 +13601,6 @@ function showDupDetails(all){
 }
 if($("#mev-dupchk"))$("#mev-dupchk").onclick=()=>dupCheckNotify(false);
 
-
 const AUG2026=[{"id": 1756000000000, "sec": "الإرشاد الديني", "name": "إقامة محاضرات دعوية في المساجد والمؤسسات الحكومية والعسكرية والمدارس والمراكز الخاصة لجميع فئات المجتمع", "desc": "إقامة الدروس والمحاضرات في المساجد والمؤسسات الحكومية والمؤسسات العقابية والإصلاحية، والمدارس، والمراكز الخاصة، والفنادق، وغيرها بهدف رفع مستوى الثقافة الإسلامية، وغرس القيم وأخلاق الإسلام، ورفع مستوى الثقافية الإسلامية، من خلال تعريفهم بما لا يسع المسلم جهله في أمور الدين والحياة.", "target": "جميع فئات المجتمع", "time": "حسب المخاطبات", "place": "حسب المخاطبات", "partner": "المدارس-المساجد-المؤسسات الحكومية والعسكرية مراكز خاصة، فنادق، وغيرها", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000001, "sec": "الإرشاد الديني", "name": "الدعوة الإلكترونية", "desc": "نشر مقاطع دعوية على مواقع التواصل الهدف منها: التوعية الدعوية بالمسائل الشرعية واستثمار منصات التواصل الاجتماعي لاستهداف شريحة دعوية أكبر.", "target": "عموم الجمهور", "time": "على مدار الشهر", "place": "وسائل التواصل الاجتماعي", "partner": "وسائل التواصل الاجتماعي الخاصة بالوزارة", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000002, "sec": "الإرشاد الديني", "name": "برنامج (ذخر) إذاعة القرآن الكريم", "desc": "إقامة لقاءات إذاعية في برنامج (ذخر) الهدف منها: حث الجمهور على التبرع ووقف المال لصالح المحتاجين حسب المصارف المتنوعة", "target": "عموم الجمهور", "time": "من 9 -10 مساء", "place": "إذاعة القرآن الكريم", "partner": "إذاعة القرآن الكريم", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000003, "sec": "الإرشاد الديني", "name": "برنامج (فتوى) إذاعة القرآن الكريم", "desc": "إقامة لقاءات مباشرة كل يوم أربعاء لاستقبال فتاوى الجمهور الهدف منها: الرد على استفسارات وتساؤلات الجمهور المتعلقة بالأحكام والفضائل.", "target": "عموم الجمهور", "time": "بعد صلاة المغرب ب 25دقيقة لمدة ساعة كاملة", "place": "إذاعة القرآن الكريم", "partner": "إذاعة القرآن الكريم", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000004, "sec": "الإرشاد الديني", "name": "الدع", "desc": "إقامة لقاءات إذاعية في برنامج كيف أصبحت بهدف رفع مستوى الوعي بأحكام الشريعة، تفعيل دور الأسرة المسلمة، تحصين المجتمع وحمايته من فتن الشهوات والشبهات.", "target": "عموم الجمهور", "time": "السادسة والنصف صباحا", "place": "إذاعة القرآن الكريم", "partner": "إذاعة القرآن الكريم", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000005, "sec": "الإرشاد الديني", "name": "الأنشطة والبرامج الدعوية المدرسية (قيم وقمم)", "desc": "إقامة (26) محاضرة قيمية تقام في المدارس (الفترة الصباحية) بحسب طلب المدرسة بكتاب رسمي.", "target": "طلاب المدارس", "time": "(الفترة الصباحية)", "place": "المدارس", "partner": "وزارة التربية والتعليم", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000006, "sec": "الإرشاد الديني", "name": "الدورات الدينية الإصلاحية لنزلاء الأحداث (اركب معنا)", "desc": "إقامة عدد من الدرس في قسم الحماية الاجتماعية بهدف غرس قيم وأخلاق الإسلامية في نفوس الأحداث واستصلاح الأحداث وتعديل سلوكياتهم السيئة وتوعية أولياء أمور الأحداث بطريقة التعامل الأمثل مع الأحداث.", "target": "نزلاء الأحداث", "time": "بعد صلاة المغرب", "place": "قسم الحماية", "partner": "إدارة الحماية الاجتماعية", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000007, "sec": "الإرشاد الديني", "name": "برنامج أمان حماية وتأهيل (الأسرة)", "desc": "إقامة (5) محاضرات دعوية تهتم بتعزيز منظومة الحماية والتأهيل الاجتماعي مدتها لا تزيد عن (10) دقائق، تُلقى بعد صلاة المغرب بمعدل درس واحد في الأسبوع.", "target": "علاج حالات", "time": "بعد صلاة المغرب", "place": "أمان", "partner": "شؤون الأسرة", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000008, "sec": "الإرشاد الديني", "name": "مركز النور القرآني", "desc": "إقامة (4) محاضرات قيمية تفاعلية تقام بمركز النور القرآني (الفترة المسائية)", "target": "مركز النور القرآني", "time": "(الفترة المسائية)", "place": "مراكز النور (أزغوى)", "partner": "مراكز النور (أزغوى)", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000009, "sec": "الإرشاد الديني", "name": "محاضرات طلاب المنح (المعهد الديني)", "desc": "إقامة (4) محاضرات قيمية تفاعلية تقام كل اربعاء في المعهد الديني لطلاب المنح (الفترة المسائية)", "target": "طلاب المنح (المعهد الديني)", "time": "(الفترة المسائية)", "place": "(المعهد الديني)", "partner": "طلاب المنح (المعهد الديني)", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000010, "sec": "الإرشاد الديني", "name": "برنامج غراس", "desc": "إقامة (100) محاضرة قيمية تفاعلية تقام مراكز تحفيظ القرآن الكريم  (الفترة المسائية)", "target": "مراكز التحفيظ", "time": "(الفترة المسائية)", "place": "مراكز التحفيظ", "partner": "قسم القرآن الكريم", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000011, "sec": "الإرشاد الديني", "name": "محاضرات الأندية والمراكز الشبابية", "desc": "إقامة عدد (2) محاضرات في نادي الوكرة خلال الفترة المسائية", "target": "منتسبي النادي", "time": "بعد صلاة المغرب", "place": "مبنى نادي الوكرة", "partner": "نادي الوكرة", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000012, "sec": "الإرشاد الديني", "name": "برنامج بصائر", "desc": "سلسلة محاضرات علمية، مدتها لا تزيد عن (10) دقائق، تُلقى بعد صلاة العشاء، في عدد 128 من مساجد الدولة المختلفة، بمعدل درس واحد في الأسبوع لكل مسجد.", "target": "الجمهور العام", "time": "بعد صلاة العشاء", "place": "مساجد الدولة المختلفة", "partner": "لا يوجد", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000013, "sec": "الإرشاد الديني", "name": "سلسلة المحاضرات الدعوية (بصائر الموازي)", "desc": "محاضرات دعوية تناقش بعض القضايا المجتمعية، ومحاضرات تهتم بتعزيز الجانب الأخلاقي في المجتمع، تقام في عدد (9) مساجد من مساجد الدولة المختلفة، محاضرة تقام كل يوم أحد، ومحاضرة كل أربعاء بعد العشاء، جميعها بعد صلاة العشاء", "target": "الجمهور العام", "time": "بعد صلاة العشاء", "place": "تسعة مساجد من مساجد الدولة", "partner": "لا يوجد", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000014, "sec": "الإرشاد الديني", "name": "المراكز العلمية (مبادئ العلوم)", "desc": "برنامج علمي يُقام في عدد (4) مراكز علمية، تُدرس فيهما المواد العلمية، من بعد صلاة المغرب وحتى بعد صلاة العشاء، كل أحد أثنين ثلاثاء.", "target": "الجمهور العام", "time": "بعد صلاة المغرب", "place": "جامع الشيخ عبد الرحمن بن محمد آل عبد الرحمن آل ثاني (م. س 1234) جامع عبد اللطيف المنسد (م. س 1181) جامع قنبر الأنصاري (م. س 1209) مسجد الزبير بن العوام (م. س 1166)", "partner": "لا يوجد", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000015, "sec": "الإرشاد الديني", "name": "الدروس العلمية في مساجد قطر", "desc": "محاضرات علمية وفقهيه بواقع (15) في كل أسبوع، مدتها لا تزيد عن (15) دقائق، تُلقى بعد ثلاث صلوات: صلاة العصر وصلاة المغرب وصلاة العشاء، في عدد 18 مسجد من مساجد الدولة المختلفة.", "target": "الجمهور العام", "time": "بعد صلاة العصر، وبعد صلاة المغرب، وبعد صلاة العشاء", "place": "مساجد الدولة المختلفة", "partner": "لا يوجد", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000016, "sec": "الإرشاد الديني", "name": "اليوم العلمي", "desc": "برنامج علمي يقوم على فكرة تدريس كتاب واحد في يوم واحد، بعضها صباحا من 10 صباحا حتى العصر وبعضها مساء من بعد صلاة العصر وحتى صلاة العشاء.", "target": "الجمهور العام", "time": "من الساعة 10 ص إلى العصر من العصر إلى العشاء", "place": "مساجد مختارة", "partner": "لا يوجد", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000017, "sec": "الإرشاد الديني", "name": "مجالس السماع", "desc": "مجلس يقام مرة كل شهرين يتم فيه قراءة كتاب من كتب من الأجزاء الحديثية", "target": "الجمهور العام", "time": "من بعد صلاة المغرب", "place": "مسجد عبدالرحمن بن محمد آل عبدالرحمن آل ثاني (م.س 1234)", "partner": "لا يوجد", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000018, "sec": "القرآن الكريم وعلومه", "name": "دورات وبرامج تحفيظ القرآن", "desc": "دورات وبرامج قرآنية وإقامة الأنشطة التربوية والمسابقات الثقافية للمراكز القرآنية داخل الدولة", "target": "جميع الفئات", "time": "الصباحي والمسائي", "place": "مراكز التحفيظ", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000019, "sec": "القرآن الكريم وعلومه", "name": "دورة الدروس الهجائية", "desc": "دورات للدروس الهجائية تقدم لطلاب المدارس الحكومية والخاصة داخل دولة قطر حسب طلب بخطاب رسمي.", "target": "جميع المراحل العمرية", "time": "الصباحية", "place": "المدارس الحكومية والخاصة", "partner": "وزارة التعليم والتعليم العالي", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000020, "sec": "القرآن الكريم وعلومه", "name": "برنامج تعاهد للرجال", "desc": "برنامج لتعليم القرآن الكريم ابتداءً من التهجي إلى حفظ القرآن الكريم كاملاً- عبر منصة الوزارة في التعليم عن بعد", "target": "الذكور من سن 5 سنوات وما فوق", "time": "بعد صلاة العصر + بعد صلاة المغرب", "place": "منصة الوزارة للتعليم عن بعد عبر تطبيق مايكروسوفت تيمز", "partner": "إدارة النظم والمعلومات", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000021, "sec": "القرآن الكريم وعلومه", "name": "البرنامج التربوي لطلاب مراكز تعليم القرآن الكريم", "desc": "دروس تربوية أسبوعية للطلاب في مراكز تعليم القرآن الكريم", "target": "طلاب مراكز تعليم القرآن الكريم وعلومه", "time": "مساء", "place": "", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000022, "sec": "القرآن الكريم وعلومه", "name": "النشاط الترفيهي لطلاب مراكز تعليم القرآن الكريم", "desc": "رحلات ترفيهية وتربوية لطلاب مراكز تعليم القرآن الكريم", "target": "طلاب مراكز تعليم القرآن الكريم وعلومه", "time": "بعد العصر إلى الساعة 10 ليلا", "place": "", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000023, "sec": "معهد الدعوة والعلوم الإسلامية", "name": "برنامج مسارات ومنارات", "desc": "دورات شرعية مهارية إدارية تثقيفية اجتماعية فكرية لجميع الوظائف الشرعية العاملة في الوزارة (الأئمة والمؤذنين والخطباء والمفتين) للرفع من مستواهم الفكري والإداري والعلمي وأن يكونوا قادرين على أداء وظيفتهم بالشكل والمستوى المطلوب منهم.", "target": "الائمة والمؤذنين والخطباء والمفتين والرقاة الشرعيين", "time": "صباحا ومساء", "place": "حسب البرنامج", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000024, "sec": "معهد الدعوة والعلوم الإسلامية", "name": "برنامج نبراس 2026 (لقاء عن بعد)  8/5", "desc": "تمكين الدعاة من التعامل مع الاتجاهات الفكرية المنحرفة وتحليل التيارات الفكرية الحديثة (مثل الإلحاد، النسوية المتطرفة، الليبرالية المطلقة.. الخ) وكيفية الرد عليها من منطلق شرعي وعقلي.", "target": "الدعاة", "time": "مساءاً", "place": "عن بعد", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000025, "sec": "معهد الدعوة والعلوم الإسلامية", "name": "(برنامج تفقه) دورة مصطلح الحديث", "desc": "تأهيل الجمهور وتثقيفهم في الجوانب العلمية الشرعية   وذلك للمساهمة في تعليم عموم الجمهور مقدمات ومفاتيح العلوم الشرعية، والتي من شأنها تثقيف فئات المجتمع بالعلوم الشرعية ومعرفة أمور الدين والمساهمة في تعزيز تحصين المجتمع من الفتن والشبهات", "target": "الجمهور", "time": "بعد المغرب", "place": "عن قرب", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000026, "sec": "معهد الدعوة والعلوم الإسلامية", "name": "(برنامج تفقه) دورة علوم القرآن", "desc": "تأهيل الجمهور وتثقيفهم في الجوانب العلمية الشرعية   وذلك للمساهمة في تعليم عموم الجمهور مقدمات ومفاتيح العلوم الشرعية، والتي من شأنها تثقيف فئات المجتمع بالعلوم الشرعية ومعرفة أمور الدين والمساهمة في تعزيز تحصين المجتمع من الفتن والشبهات", "target": "الجمهور", "time": "بعد العشاء", "place": "عن قرب", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000027, "sec": "معهد الدعوة والعلوم الإسلامية", "name": "(زاد الدعاة 6/2026) ( التعلم النشط أو دورة الداعية المدرب TOT )", "desc": "تنمية وتطوير معارف ومهارات دعاة الوزارة في مختلف العلوم الشرعية، لتمكينهم من القيام بواجباتهم الدعوية", "target": "الدعاة", "time": "صباحا", "place": "عن قرب", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000028, "sec": "الشبكة الإسلامية", "name": "التسويق لخدمات موقع اسلام ويب ونشر المواد الدعوية الخاصة بالموقع مسموعة ومقروءة ومرئية", "desc": "التسويق لخدمات موقع اسلام ويب ونشر المواد الدعوية الخاصة بالموقع", "target": "جميع فئات المجتمع", "time": "", "place": "الكتروني", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000029, "sec": "الشبكة الإسلامية", "name": "الفتاوى الحية بالذكاء الاصطناعي", "desc": "التعريف بخدمات إسلام ويب في مجال الفتاوى الحية AI بالذكاء الاصطناعي", "target": "عموم الجمهور", "time": "", "place": "الكتروني", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000030, "sec": "الشبكة الإسلامية", "name": "مكتبة إسلام ويب", "desc": "التعريف بمكتبة إسلام ويب على الأجهزة الذكية", "target": "عموم الجمهور", "time": "", "place": "الكتروني", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000031, "sec": "الشبكة الإسلامية", "name": "فيلم قصة القرآن", "desc": "التعريف  بفيلم قصة القرآن الوثائقي", "target": "عموم الجمهور", "time": "", "place": "الكتروني", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000032, "sec": "الشبكة الإسلامية", "name": "موقع الاستشارات", "desc": "التعريف بموقع الاستشارات ومحاوره وأهميته للمجتمع", "target": "عموم الجمهور", "time": "", "place": "الكتروني", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000033, "sec": "الشبكة الإسلامية", "name": "خدمات موقع إسلام ويب", "desc": "التعريف بخدمات موقع (الشبكة الإسلامية) اسلام ويب الدعوية ووسائله المسموعة والمقروءة والمرئية", "target": "عموم الجمهور", "time": "", "place": "الكتروني", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000034, "sec": "الشبكة الإسلامية", "name": "بوابة الصم", "desc": "التعريف ببوابة الصم وقناة الصم على اليو تيوب", "target": "عموم الجمهور", "time": "", "place": "الكتروني", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000035, "sec": "طلاب المنح الدراسية", "name": "محاضرات قيمية تفاعلية", "desc": "إقامة محاضرات قيمية تفاعلية لطلاب المنح (الفترة المسائية)", "target": "طلاب المنح (المعهد الديني)", "time": "(الفترة المسائية)", "place": "(المعهد الديني)", "partner": "طلاب المنح (المعهد الديني)", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000036, "sec": "النشاط النسائي لشؤون الدعوة و العلوم الإسلامية", "name": "إقامة محاضرات دعوية في المساجد والمؤسسات الحكومية والعسكرية والمدارس لجميع فئات المجتمع", "desc": "إقامة الدروس والمحاضرات في المساجد والمؤسسات الحكومية والمؤسسات العقابية والإصلاحية، والمدارس، والفنادق، وغيرها بهدف رفع مستوى الثقافة الإسلامية، وغرس القيم وأخلاق الإسلام، ورفع مستوى الثقافية الإسلامية، من خلال تعريفهم بما لا يسع المسلم جهله في أمور الدين والحياة.", "target": "نساء-فتيات", "time": "صباح ومساء", "place": "المدارس-المساجد-المؤسسات الحكومية والعسكرية، الفنادق، وغيرها", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000037, "sec": "النشاط النسائي لشؤون الدعوة و العلوم الإسلامية", "name": "دروس المساجد", "desc": "- دروس دعوية", "target": "نساء", "time": "مساءً", "place": "مجموعة مساجد", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000038, "sec": "النشاط النسائي لشؤون الدعوة و العلوم الإسلامية", "name": "دروس منهجية", "desc": "شرح كتاب، من خلال عدد من اللقاءات تتخللها عدد من الاختبارات العلمية التي تساهم تحقيق الفائدة المرجوة", "target": "نساء", "time": "صباحاً مساءً", "place": "مراكز التحفيظ النسائية عن بعد", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000039, "sec": "النشاط النسائي لشؤون الدعوة و العلوم الإسلامية", "name": "دورات شرعية علمية", "desc": "لقاءات دينية مستمرة، تحتوي على مجموعة من الدروس الشرعية التي تهدف إلى نشر الوعي الشرعي ورفع الجهل، وتتضمن عدد من الواجبات والاختبارات لقياس فهم الطالبة", "target": "نساء", "time": "صباحاً مساءً", "place": "مراكز التحفيظ النسائية عن بعد", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000040, "sec": "النشاط النسائي لشؤون الدعوة و العلوم الإسلامية", "name": "سلسلة محاضرات متفرقة", "desc": "مجموعة من القيم الدينية والتربوية المستمدة من الكتاب والسنة النبوية، لبناء شخصية متوازنة، واعية", "target": "نساء", "time": "صباحاً مساءً", "place": "مقرّ الإدارة مراكز التحفيظ النسائية عن بعد", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000041, "sec": "النشاط النسائي لشؤون الدعوة و العلوم الإسلامية", "name": "البرنامج الصيفيّ", "desc": "تعزيز الفهم الديني والقيم الأخلاقية للأطفال والفتيات، من خلال تنظيم جلسات تعليمية تفاعلية ومعسرات قيمية تربوية، تركّز على القصص القرآنية والسيرة النبوية وترسيخ القيم", "target": "الفتيات الأطفال", "time": "صباحاً مساءً", "place": "مقرّ الإدارة + مراكز التحفيظ النسائية", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000042, "sec": "النشاط النسائي لشؤون الدعوة و العلوم الإسلامية", "name": "سلاسل تأصيلية", "desc": "تعزيز الفهم الديني وتأصيل العلوم الشرعية للنساء والفتيات والأطفال", "target": "نساء الفتيات الأطفال", "time": "صباحاً مساءً", "place": "مقرّ الإدارة + مراكز التحفيظ النسائية", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000043, "sec": "النشاط النسائي لشؤون القرآن الكريم وعلومه", "name": "دورات وبرامج تحفيظ القرآن", "desc": "برنامج تاج الوقار –برنامج قطوف دانية –برنامج في ظلال القرآن –برنامج غنيمة –برنامج عذبا وسلسلا", "target": "جميع فئات النساء", "time": "الفترة الصباحية والمسائية", "place": "مراكز التحفيظ النسائية وعن بعد في منصة تعاهد", "partner": "هيئة الوقف", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000044, "sec": "النشاط النسائي لشؤون القرآن الكريم وعلومه", "name": "تسجيل الدورات الصيفية في مراكز التحفيظ النسائية", "desc": "دورات حفظ وتلاوة القرآن الكريم الصيفية لاستثمار العطلة الصيفية السنوية", "target": "الإناث", "time": "صباحا ومساء", "place": "مراكز التحفيظ النسائية", "partner": "العلاقات العامة", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000045, "sec": "النشاط النسائي لشؤون القرآن الكريم وعلومه", "name": "بدء الدورات الصيفية في مراكز التحفيظ النسائية", "desc": "دورات حفظ وتلاوة القرآن الكريم الصيفية لاستثمار العطلة الصيفية السنوية", "target": "الإناث", "time": "صباحا ومساء", "place": "مراكز التحفيظ النسائية", "partner": "الهيئة العامة للوقف – الشؤون المالية بند الوزارة -", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000046, "sec": "النشاط النسائي لشؤون القرآن الكريم وعلومه", "name": "استمرار الدورات الصيفية في مراكز التحفيظ النسائية", "desc": "دورات حفظ وتلاوة القرآن الكريم الصيفية لاستثمار العطلة الصيفية السنوية", "target": "الإناث", "time": "صباحا ومساء", "place": "مراكز التحفيظ النسائية", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000047, "sec": "النشاط النسائي لشؤون القرآن الكريم وعلومه", "name": "تسجيل الدورة 20 لحفظ القرآن الكريم في مراكز التحفيظ النسائية وتسجيل منصة تعاهد لحفظ القرآن الكريم عن بعد", "desc": "البرامج الحضورية السنوية لتحفيظ وتلاوة القرآن الكريم  وبرامج تحفيظ وتلاوة القرآن الكريم عن بعد", "target": "الإناث", "time": "صباحا ومساء", "place": "مراكز التحفيظ النسائية  + منصة تعاهد", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000048, "sec": "النشاط النسائي لشؤون القرآن الكريم وعلومه", "name": "اختبار الخاتمات الثاني", "desc": "اختبار الخاتمات الجدد المعتذرات عن الاختبار الأول (والذي أقيم في شهر مايو 2026)", "target": "الخاتمات المعذرات عن الاختبار الأول", "time": "المسائية", "place": "إدارة الدعوة والإرشاد الديني للنشاط النسائي", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}, {"id": 1756000000049, "sec": "النشاط النسائي لشؤون القرآن الكريم وعلومه", "name": "ملتقى المحفظات السنوي الثاني", "desc": "تطوير أداء حلقات القرآن الكريم الخاصة بالفتيات وجذب الفئة المستهدفة (13 -18)", "target": "معلمات فئة الفتيات", "time": "صباحا", "place": "إدارة الدعوة والإرشاد الديني للنشاط النسائي", "partner": "", "prog": "", "month": 8, "year": 2026, "date": "2026-08-01", "dateEnd": "2026-08-31", "repFrom": "2026-08-01", "repTo": "2026-08-31", "monthly": false, "ben": 0, "acts": 0, "realPlace": "", "execState": "", "execNotes": "", "createdAt": "2026-08-24", "by_user": "استيراد أغسطس"}];
 
 /* ===== تحميل فعاليات أغسطس 2026 مرة واحدة ===== */
@@ -13794,9 +13674,6 @@ if($("#mev-sep"))$("#mev-sep").onclick=async()=>{
     +Object.entries(bySec).map(([k,v])=>"\u2022 "+k+": "+v).join("\n")
     +"\n\n\u0627\u0644\u062a\u0627\u0631\u064a\u062e: \u0645\u0646 01-09-2026 \u0625\u0644\u0649 30-09-2026");
 };
-
-
-
 
 /* ===== تحديث البيانات من المصدر ===== */
 let REFRESHING=false;
@@ -14404,7 +14281,6 @@ if($("#mc-go"))$("#mc-go").onclick=async()=>{
   }
 };
 
-
 /* ===== مفتاح تمييز الفعالية: يفرّق بين النسخ المتشابهة ===== */
 const mevNorm=x=>String(x==null?"":x).replace(/\s+/g," ").trim();
 function mevSig(r,m,y){
@@ -14416,7 +14292,6 @@ function mevExists(r,m,y){
   const sig=mevSig(r,m,y);
   return (DB.plan.mevents||[]).some(x=>mevSig(x,x.month,x.year)===sig);
 }
-
 
 /* ===== تشابه الاسم مع اختلاف تفاصيل التنفيذ ===== */
 function mevSimilar(r,m,y){
@@ -14436,7 +14311,6 @@ function mevDiffTxt(a,b){
   });
   return out;
 }
-
 
 /* ================= استيراد جداول الفعاليات (متعدد الصيغ) ================= */
 const IMP_HEADS={
@@ -14948,8 +14822,6 @@ if($("#mevp-save"))$("#mevp-save").onclick=async()=>{
       +"\nحُفظت البيانات وتمت مزامنتها.");
   }
 };
-
-
 
 /* ===== بناء مستند Word أفقي بنفس تنسيق الطباعة ===== */
 function wordDoc(innerHTML,title,fs){
@@ -15916,7 +15788,6 @@ if($("#pz-imp"))$("#pz-imp").onchange=e=>{
   rd.readAsArrayBuffer(f);
 };
 
-
 /* ===== تجميع الإجمالي العام تلقائيًا (بلا تكرار البرنامج) ===== */
 function pzSummary(sec,rowsLesson,rowsPreacher,rowsProgram){
   const map={};
@@ -16181,7 +16052,6 @@ if($("#a-xls"))$("#a-xls").onclick=()=>{
      "المتابعة مع","الردود","تاريخ الرد","الحالة","رقم مذكرة الإنجاز","ملاحظات"],
     "الأرشيف_المركزي"+(sc?("_"+sc):"")+".xlsx","الأرشيف المركزي");
 };
-
 
 /* ================= الصور: ضغط وعرض تدريجي ================= */
 const IMG_MAX=1000, IMG_Q=0.72, IMG_MAX_PER_REC=6;
@@ -16658,10 +16528,6 @@ if($("#sch-link-save"))$("#sch-link-save").onclick=async()=>{
 if($("#sch-reco-save"))$("#sch-reco-save").onclick=async()=>{
   await metaSet("reco",($("#sch-reco").value||"").trim());toast("حُفظت التوصيات")};
 
-
-
-
-
 /* ===== إعلام الأقسام برفع الفعاليات ===== */
 async function notifyUpload(sec,n){
   if(!sec)return;
@@ -16670,7 +16536,6 @@ async function notifyUpload(sec,n){
     "قام قسم "+sec+" برفع "+n+" فعالية بتاريخ "+fmtD(new Date())+"."
     +"\nيمكن لبقية الأقسام الاطلاع على ملخص الإدارة، والاعتماد لدى مدير النظام.");
 }
-
 
 /* ===== شريط الإجراءات على الصفوف المحددة ===== */
 function updateSelCount(){
@@ -17039,8 +16904,6 @@ if($("#pst-data"))$("#pst-data").oninput=()=>{
   if(sec&&$("#pst-data").value.trim())drawPreview();
 };
 
-
-
 /* ================= الرسائل الداخلية ومركز الإشعارات ================= */
 async function sendMsg(secs,subject,body){
   DB.msgs=DB.msgs||[];
@@ -17156,10 +17019,6 @@ if($("#msg-send"))$("#msg-send").onclick=async()=>{
   alert("أُرسلت الرسالة إلى: "+secs.join("، ")+mailNote);
 };
 
-
-
-
-
 /* ================= نافذة الإحصائيات ================= */
 function openStatsBox(){
   const box=$("#stats-body");if(!box)return;
@@ -17205,10 +17064,6 @@ if($("#stats-print"))$("#stats-print").onclick=()=>{
     rows.map(r=>"<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>").join(""),
     "تاريخ التقرير: "+fmtD(new Date()));
 };
-
-
-
-
 
 /* ===== مؤشر الأداء في الشريط الجانبي ===== */
 function drawPerf(){
@@ -17386,7 +17241,6 @@ document.addEventListener("click",e=>{
   });
 })();
 
-
 /* ===== إظهار كلمة المرور وتذكّر المستخدم ===== */
 if($("#lg-eye"))$("#lg-eye").onclick=()=>{
   const i=$("#lg-pass"),b=$("#lg-eye");
@@ -17439,7 +17293,6 @@ function topbarSync(){
     if(btn)btn.title="طلبات الحذف"+(n2?(" ("+n2+")"):"")}
 }
 addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key==="i"){e.preventDefault();openStatsBox()}});
-
 
 /* ================= التصفح كقسم (لمدير النظام) ================= */
 function secAccounts(){
@@ -17628,7 +17481,6 @@ function buildMailto(secs,subject,body){
     +"&body="+encodeURIComponent(body);
 }
 
-
 /* ===== سجل التعديلات داخل الإشعارات ===== */
 function renderInboxLog(){
   const box=$("#inbox-log");if(!box)return;
@@ -17745,8 +17597,6 @@ function audit(action,target,details){
   if(DB.audit.length>800)DB.audit=DB.audit.slice(-800);
   try{save("dir:audit",DB.audit)}catch(e){}
 }
-
-
 
 /* ===== إضافة سنة جديدة ===== */
 function addYearTo(selId,label){
@@ -18234,7 +18084,6 @@ function renderAll(){initFilters();try{renderInbox()}catch(e){}
   try{if($("#ov-stats")&&$("#ov-stats").classList.contains("on"))renderDash()}catch(e){}
   fillAllSelects();applyPerms();try{applyScopeRules();topbarSync();buildNotebook();drawPerf();renderHome();groupMevToolbar();tidyToolbars()}catch(e){}}
 
-
 /* ================= التزامن مع Firebase ================= */
 const firebaseConfig={
   apiKey:"AIzaSyAYn7DzTC03I7Q_My7xuJD33ELQwwuhe84",
@@ -18245,7 +18094,7 @@ const firebaseConfig={
   appId:"1:183460755575:web:9e5021291185c8408b2e72",
   measurementId:"G-FYLY6DYZGQ"
 };
-const APP_BUILD="2026-08-25-B";
+const APP_BUILD="2026-08-25-C";
 const DEVICE_ID=(()=>{try{let d=LS&&LS.getItem("deviceId");if(!d){d="d"+Math.random().toString(36).slice(2,10);LS&&LS.setItem("deviceId",d)}return d}catch(e){return "d0"}})();
 const SYNC={db:null,ready:false,loaded:false,space:"office-1",last:{},unsub:[],authErr:""};
 const KEYS=["dir:contacts","dir:mails","dir:tasks","dir:memos","dir:lists","dir:users","dir:settings",
@@ -18257,7 +18106,6 @@ if($("#sync-chip"))$("#sync-chip").onclick=async()=>{
   try{await initSync();if(SYNC.ready){await pushAll();toast("تم الاتصال")}}catch(e){toast("خطأ: "+e.message)}
 };
 if($("#build-tag"))$("#build-tag").textContent="إصدار "+APP_BUILD;
-
 
 /* ===== نافذة قواعد المزامنة ===== */
 const OPEN_RULES="rules_version = '2';\n"
@@ -18882,7 +18730,6 @@ function hookImport(id,kind){
 hookImport("imp-contact","contact");hookImport("imp-mail","mail");
 hookImport("imp-task","task");hookImport("imp-memo","memo");
 
-
 /* ================= الدخول بحسابات المستخدمين وطلبات الحسابات ================= */
 function findUserByCreds(u,pw){
   const un=(u||"").trim().toLowerCase();
@@ -18990,7 +18837,6 @@ if($("#lg-req"))$("#lg-req").onclick=e=>{e.preventDefault();openRequestForm()};
 if($("#rq-phone"))$("#rq-phone").oninput=e=>{e.target.value=e.target.value.replace(/\D/g,"").slice(0,8)};
 if($("#rq-send"))$("#rq-send").onclick=submitRequest;
 
-
 function welcomeBar(){return;
   /* أُلغي */
   const u=curUser();const bar=$("#welcome-bar");if(!bar||!u)return;
@@ -19002,8 +18848,6 @@ function welcomeBar(){return;
     +(SYNC.lastSync?(" · آخر مزامنة: "+SYNC.lastSync):"");
 }
 if($("#w-out"))$("#w-out").onclick=()=>{LOCAL_CUR=null;applyPerms();showLogin()};
-
-
 
 /* ================= أنواع الحسابات وصلاحياتها ================= */
 const ROLE_LABEL={admin:"مدير نظام",assistant:"مساعد مدير نظام",user:"مستخدم"};
@@ -19115,11 +18959,19 @@ $("#lg-in").onclick=async()=>{
     $("#ov-login").classList.remove("on");lgMsg("");document.body.classList.add("authed");
     renderAll();welcomeBar();popupNewMsgs();return toast("مرحبًا بك");
   }
+  if(!u)return lgMsg("اكتب اسم المستخدم");
+  if(!p)return lgMsg("اكتب كلمة المرور");
   const usr=findUserByCreds(u,p);
   if(!usr){
+    const byName=DB.users.find(x=>(x.user||"").toLowerCase()===u.toLowerCase());
+    if(byName&&byName.disabled)return lgMsg("هذا الحساب معطّل — تواصل مع مدير النظام");
+    if(byName&&!String(byName.pass||""))
+      return lgMsg("لم تُضبط كلمة مرور لهذا الحساب — راجع مدير النظام");
+    if(byName)return lgMsg("كلمة المرور غير صحيحة");
     const pend=(DB.reqs||[]).find(x=>x.status==="pending"&&(x.user||"").toLowerCase()===u.toLowerCase());
-    return lgMsg(pend?"طلبك ما زال بانتظار اعتماد مدير النظام":"اسم المستخدم أو كلمة المرور غير صحيحة");
+    return lgMsg(pend?"طلبك ما زال بانتظار اعتماد مدير النظام":"اسم المستخدم غير مسجّل");
   }
+  if(usr.disabled)return lgMsg("هذا الحساب معطّل — تواصل مع مدير النظام");
   LOCAL_CUR=usr.id;applyPerms();
   $("#ov-login").classList.remove("on");lgMsg("");document.body.classList.add("authed");
   renderAll();welcomeBar();
@@ -19127,7 +18979,6 @@ $("#lg-in").onclick=async()=>{
 };
 $("#lg-pass").addEventListener("keydown",e=>{if(e.key==="Enter")$("#lg-in").click()});
 $("#logout").onclick=()=>{LOCAL_CUR=null;applyPerms();showLogin()};
-
 
 /* ================= زرع بيانات الملفين (مرة واحدة) ================= */
 
@@ -19213,7 +19064,6 @@ async function seedData(force){
   await save("dir:seeded","v2");
 }
 
-
 /* ===== زرع الخطة الاستراتيجية والتنفيذية من الملفين ===== */
 async function seedPlan(force){
   const v=await load("dir:planSeeded",false);
@@ -19237,7 +19087,6 @@ async function seedPlan(force){
     DB.plan.exec.push(Object.assign({id:t++},c));});
   await save("dir:lists",DB.lists);await savePlanParts();await save("dir:planSeeded","v5");
 }
-
 
 /* ================= صلابة المزامنة ================= */
 /* استعادة الطابور المعلّق من التخزين المحلي عند الفتح */
