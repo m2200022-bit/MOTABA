@@ -2791,6 +2791,7 @@ body.not-admin #open-delreqs{display:none !important}
         <button class="icon-only" id="mev-year-rep" title="تكرار المحدد خلال العام"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></button>
         <button class="icon-only" id="mev-clone" title="استنساخ فعاليات من شهر إلى شهر"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 4h12v12"/><rect x="4" y="8" width="12" height="12" rx="2"/><path d="m10 14 2 2 4-4"/></svg></button>
         <button class="icon-only" id="mev-newyear" title="إضافة سنة جديدة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M12 14v5M9.5 16.5h5"/></svg></button>
+        <button class="icon-only" id="mev-next" title="تكرار فعاليات الشهر إلى الشهر القادم" style="color:#245F3C;border-color:#BFE0D2;background:#E6F2EA"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m10 15 2 2 2-2"/><path d="M12 13v4"/></svg></button>
         <button class="icon-only" id="mev-save" title="حفظ التغييرات"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg></button>
         <button class="icon-only" id="mev-send" title="إرسال المدخلات لمكتب المساعد" style="color:#0B3B6B;border-color:#BBD3EA;background:#E5EFFA"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></button>
         <button class="icon-only" id="mev-view" title="تبديل العرض: مربعات / جدول / إكسل"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
@@ -6189,6 +6190,33 @@ if($("#dkp-prev"))$("#dkp-prev").onclick=()=>{
 };
 if($("#dkp-save"))$("#dkp-save").onclick=async()=>{
   const P=dkpParse();
+  const ptype=$("#pzp-type").value;
+  const nn2=x=>String(x==null?"":x).replace(/\s+/g," ").trim();
+  /* الوعاظ: كشف التكرار بالاسم داخل الملصق وفي المحفوظ */
+  if(ptype==="preacher"){
+    const psec=$("#pzp-sec").value,pm=Number($("#pzp-month").value),py=Number($("#pzp-year").value);
+    const saved=(DB.plan.prisons||[]).filter(x=>x.type==="preacher"
+      &&canonSec(x.sec)===canonSec(psec)&&Number(x.month)===pm&&Number(x.year)===py);
+    const seen={};
+    P.rows.forEach(r=>{
+      const k=nn2(r.name);
+      if(!k)return;
+      const inFile=seen[k]?true:false;seen[k]=true;
+      const inDb=saved.some(x=>nn2(x.name)===k);
+      if(inFile||inDb)r.dupName=true;
+    });
+    const dn=P.rows.filter(r=>r.dupName);
+    if(dn.length){
+      const det=dn.slice(0,8).map(r=>"• "+nn2(r.name)+" — العنبر "+(nn2(r.ward)||"—")).join("\n");
+      const keep=confirm("⚠ تنبيه: "+dn.length+" واعظ مكرر\n\n"+det
+        +(dn.length>8?("\n… و"+(dn.length-8)+" غيرهم"):"")
+        +"\n\nالتكرار محسوب بالاسم داخل الملصق وفي المحفوظ لهذا الشهر."
+        +"\n\nاضغط «موافق» لإضافتهم رغم التكرار،"
+        +"\nأو «إلغاء» لتخطّيهم وإضافة الجدد فقط.");
+      if(keep)P.rows.forEach(r=>{r.dup=false;r.dupName=false});
+      else P.rows.forEach(r=>{if(r.dupName)r.dup=true});
+    }
+  }
   const dups=P.rows.filter(r=>r.dup);
   if(dups.length){
     const det=dups.slice(0,6).map(r=>"• "+[r.day,r.date?fmt(r.date):"",r.kind,r.title||r.name]
@@ -13853,7 +13881,7 @@ addEventListener("keydown",e=>{
 
 /* ================= شريط أدوات القسم: إدخال وإخراج فقط ================= */
 const SEC_ALLOW=["mev-add","mev-import","mev-word-lbl","mev-paste",   /* إدخال */
-  "mev-edit","mev-save","mev-send",                                    /* حفظ وإرسال */
+  "mev-edit","mev-save","mev-send","mev-next",                          /* حفظ وإرسال وتكرار للشهر القادم */
   "mev-print","mev-print2","mev-view","mev-del"];                      /* إخراج وحذف بطلب */
 /* ما يُسمح به للقسم داخل القوائم — بالعنوان */
 const SEC_ITEMS=["إضافة فعالية","استيراد جدول فعاليات (وورد / إكسل)",
@@ -13989,6 +14017,80 @@ if($("#mev-view"))$("#mev-view").onclick=()=>{
   setMevView(next);
   paintViewBtn();
 };
+
+
+/* ===== تكرار فعاليات الشهر إلى الشهر القادم (بتعديل الشهر فقط) ===== */
+async function mevRepeatNext(){
+  const mine=myScope();
+  const sec=$("#mev-sec").value||mine||"";
+  if(!sec)return alert("اختر القسم أولًا.");
+  const mo=Number($("#mev-month").value)||0;
+  const yr=Number($("#mev-year").value)||new Date().getFullYear();
+  if(!mo)return alert("اختر الشهر المراد تكراره (لا يعمل مع «كل الشهور»).");
+  const src=(DB.plan.mevents||[]).filter(r=>canonSec(r.sec)===canonSec(sec)
+    &&Number(r.month)===mo&&Number(r.year)===yr);
+  if(!src.length)return alert("لا توجد فعاليات في "+monthName(mo)+" "+yr+".");
+  /* المحدد إن وُجد، وإلا الكل */
+  const picked=(typeof mevPicked==="function")?mevPicked():[];
+  const rows=picked.length?picked.filter(r=>Number(r.month)===mo&&Number(r.year)===yr):src;
+  let nm=mo+1,ny=yr;
+  if(nm>12){nm=1;ny++}
+  const exists=rows.filter(r=>mevExists(Object.assign({},r,{month:nm,year:ny}),nm,ny));
+  const add=rows.filter(r=>!mevExists(Object.assign({},r,{month:nm,year:ny}),nm,ny));
+  if(!add.length)return alert("كل الفعاليات موجودة في "+monthName(nm)+" "+ny+" ✓");
+  if(!confirm("تكرار الفعاليات إلى الشهر القادم\n\n"
+    +"من: "+monthName(mo)+" "+yr+"\nإلى: "+monthName(nm)+" "+ny
+    +"\nالقسم: "+sec
+    +"\n\nستُنسخ: "+add.length+" فعالية"
+    +(exists.length?("\nموجودة مسبقًا: "+exists.length):"")
+    +(picked.length?"\n(المحدد فقط)":"\n(كل فعاليات الشهر)")
+    +"\n\nيتغيّر الشهر والتاريخ فقط، وتبقى البيانات كما هي."
+    +"\nوتُفرَّغ نتائج التنفيذ للشهر الجديد."
+    +"\n\nهل تريد المتابعة؟"))return;
+  await safetySnap("قبل تكرار للشهر القادم");
+  const sp=monthSpan(nm,ny);
+  const t=Date.now();
+  add.forEach((r,i)=>{
+    const c=JSON.parse(JSON.stringify(r));
+    c.id=t+i;
+    c.month=nm;c.year=ny;
+    /* اليوم نفسه من الشهر الجديد إن أمكن */
+    const last=new Date(ny,nm,0).getDate();
+    const d1=Number(String(r.date||"").slice(8,10))||1;
+    const d2=Number(String(r.dateEnd||"").slice(8,10))||last;
+    c.date=ny+"-"+pad(nm)+"-"+pad(Math.min(d1,last));
+    c.dateEnd=ny+"-"+pad(nm)+"-"+pad(Math.min(Math.max(d2,d1),last));
+    if(c.repFrom)c.repFrom=c.date;
+    if(c.repTo)c.repTo=c.dateEnd;
+    if(c.repYear)c.repYear=ny;
+    /* تُفرَّغ نتائج التنفيذ */
+    c.ben=0;c.acts=0;c.realPlace="";c.execState="";c.execNotes="";
+    c.returned=false;c.returnNote="";c.postponedTo="";
+    c.createdAt=new Date().toISOString().slice(0,10);
+    c.by_user=curUser()?curUser().name:"";
+    DB.plan.mevents.push(c);
+  });
+  /* الشهر الجديد يبدأ مسودة ليُرسل للاعتماد */
+  const NP=mevPlan(sec,nm,ny,true);
+  if(!NP.state||NP.state==="draft")NP.state="draft";
+  mevLog(sec,nm,ny,"تكرار "+add.length+" فعالية من "+monthName(mo));
+  audit("تكرار للشهر القادم","الفعاليات الشهرية",sec+" — "+monthName(mo)+" ← "+monthName(nm));
+  try{await logChange("mevent","add",add.length+" فعالية",
+    "تكرار إلى "+monthName(nm)+" "+ny,sec)}catch(e){}
+  if(await savePlan()){
+    const ms=$("#mev-month");if(ms)ms.value=String(nm);
+    const ys=$("#mev-year");
+    if(ys){
+      if(![...ys.options].some(o=>o.value===String(ny)))ys.appendChild(new Option(ny,ny));
+      ys.value=String(ny);
+    }
+    renderMEvents();
+    alert("تم التكرار ✓\n\nنُسخت "+add.length+" فعالية إلى "+monthName(nm)+" "+ny
+      +(exists.length?("\nتُخطّي "+exists.length+" موجودة مسبقًا"):"")
+      +"\n\nراجع التواريخ ثم أرسلها للاعتماد.");
+  }
+}
+if($("#mev-next"))$("#mev-next").onclick=mevRepeatNext;
 
 /* ===== ترحيل الفعاليات المحددة إلى قسم آخر ===== */
 let TS_ROWS=[];
@@ -14950,6 +15052,82 @@ if($("#mevp-save"))$("#mevp-save").onclick=async()=>{
 };
 
 /* ===== بناء مستند Word أفقي بنفس تنسيق الطباعة ===== */
+
+/* ===== هوية التقارير: الخطوط والجداول ===== */
+const RPT_FONTS='@font-face{font-family:"Sakkal Majalla";src:local("Sakkal Majalla"),local("Majalla UI");}'
+  +'@font-face{font-family:"Almohanad";src:local("Almohanad long kaf"),local("Almohanad"),local("AlMohanad");}';
+const RPT_CSS=RPT_FONTS
+  +'*{box-sizing:border-box}'
+  +'body{font-family:"Sakkal Majalla","Majalla UI","Traditional Arabic",Tahoma,serif;'
+  +'margin:0;padding:0;color:#000;font-size:15px;direction:rtl;line-height:1.6}'
+  +'h1,h2,h3,h4,.ttl,.hd .t,.hd h1,th{font-family:"Almohanad","Almohanad long kaf","Sakkal Majalla",Tahoma,serif}'
+  +'.page{padding:6mm 7mm}'
+  /* الترويسة: الشعار يمينًا */
+  +'.hd{display:flex;align-items:center;gap:10px;padding:0 0 8px;border-bottom:2.2px solid #7A5A17;margin-bottom:10px}'
+  +'.hd img,.hd .lg{width:96px;height:32px;object-fit:contain;order:0;flex:none}'
+  +'.hd .mid{flex:1;text-align:center;order:1}'
+  +'.hd .sp{width:96px;flex:none;order:2}'
+  +'.hd h1{margin:0;font-size:17px;font-weight:700;color:#7A5A17}'
+  +'.hd .t{font-size:15px;margin-top:3px;font-weight:700;color:#000}'
+  /* العناوين المرقّمة */
+  +'h3{font-size:16px;font-weight:700;color:#0B3B6B;margin:12px 0 6px;padding:5px 10px;'
+  +'background:#EDF3FA;border-inline-start:4px solid #0B3B6B;border-radius:4px}'
+  +'h3.c{text-align:center}'
+  /* الجداول: خطوط داخلية نحيفة وإطار غليظ */
+  +'table{width:100%;border-collapse:collapse;font-size:14px;table-layout:fixed;'
+  +'border:1.6px solid #4A5A6B;margin-bottom:10px}'
+  +'thead{display:table-header-group}'
+  +'th{background:#E8EEF5;color:#0B3B6B;border:0.4px solid #A9B7C6;border-bottom:1.2px solid #4A5A6B;'
+  +'padding:5px 4px;text-align:center;vertical-align:middle;font-weight:700;font-size:14px}'
+  +'td{border:0.4px solid #C4CFDA;padding:4px 6px;text-align:center;vertical-align:middle;'
+  +'word-wrap:break-word;overflow-wrap:break-word;font-size:14px;line-height:1.55}'
+  +'td.rt{text-align:right}'
+  +'tr.tot td{background:#EDF3FA;font-weight:700;color:#0B3B6B;border-top:1.2px solid #4A5A6B}'
+  +'tr.sechd td{background:#0B3B6B;color:#fff;font-weight:700}'
+  +'.ft{margin-top:8px;padding-top:5px;border-top:1.2px solid #7A5A17;font-size:12px;'
+  +'color:#4A5A6B;display:flex;justify-content:space-between}'
+  +'.reco{border:1.6px solid #4A5A6B;border-radius:5px;padding:8px 10px;font-size:14px;line-height:1.9}'
+  +'@page{size:A4 landscape;margin:6mm}'
+  +'@media print{tr{page-break-inside:avoid}h3{page-break-after:avoid}.bar{display:none}}';
+/* شريط الأدوات الموحّد لنوافذ الطباعة */
+const RPT_BAR='<div class="bar" style="position:sticky;top:0;z-index:9;display:flex;gap:8px;'
+  +'justify-content:center;padding:10px;background:#0E2A47;margin:-0 0 10px">'
+  +'<button onclick="print()" style="display:inline-flex;align-items:center;gap:7px;background:#fff;'
+  +'border:0;border-radius:10px;padding:9px 18px;font-family:Tahoma;font-size:13px;font-weight:700;'
+  +'color:#0E2A47;cursor:pointer">🖨 طباعة</button>'
+  +'<button onclick="rptDl()" style="display:inline-flex;align-items:center;gap:7px;background:#fff;'
+  +'border:0;border-radius:10px;padding:9px 18px;font-family:Tahoma;font-size:13px;font-weight:700;'
+  +'color:#0E2A47;cursor:pointer">⬇ تنزيل</button>'
+  +'<button onclick="print()" style="display:inline-flex;align-items:center;gap:7px;background:#fff;'
+  +'border:0;border-radius:10px;padding:9px 18px;font-family:Tahoma;font-size:13px;font-weight:700;'
+  +'color:#0E2A47;cursor:pointer">📄 PDF</button>'
+  +'<button onclick="close()" style="display:inline-flex;align-items:center;gap:7px;background:#8A1538;'
+  +'border:0;border-radius:10px;padding:9px 18px;font-family:Tahoma;font-size:13px;font-weight:700;'
+  +'color:#fff;cursor:pointer">✕ إغلاق</button></div>';
+/* سكربت التنزيل داخل نافذة التقرير */
+const RPT_JS='<script>function rptDl(){'
+  +'var inner=document.querySelector(".page")?document.querySelector(".page").innerHTML:document.body.innerHTML;'
+  +'var css=document.querySelector("style")?document.querySelector("style").innerHTML:"";'
+  +'var h=\'<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" dir="rtl"><head><meta charset="utf-8">\''
+  +'+\'<meta name="ProgId" content="Word.Document">\''
+  +'+\'<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->\''
+  +'+"<style>@page WordSection1{size:29.7cm 21.0cm;mso-page-orientation:landscape;margin:0.6cm 0.7cm}"'
+  +'+"div.WordSection1{page:WordSection1}"+css+"</style></head><body><div class=\\"WordSection1\\">";'
+  +'var doc=h+inner+"</div></body></html>";'
+  +'var b=new Blob(["\\ufeff"+doc],{type:"application/msword;charset=utf-8"});'
+  +'var a=document.createElement("a");a.href=URL.createObjectURL(b);'
+  +'a.download=(document.title||"تقرير")+".doc";document.body.appendChild(a);a.click();'
+  +'setTimeout(function(){a.remove()},900)}<\/script>';
+function rptOpen(title,inner,extraCss){
+  const w=window.open("","_blank");
+  if(!w)return toast("اسمح بالنوافذ المنبثقة");
+  w.document.write('<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="utf-8">'
+    +'<title>'+title+'</title><style>'+RPT_CSS+(extraCss||"")+'</style></head><body>'
+    +RPT_BAR+'<div class="page">'+inner+'</div>'+RPT_JS+'</body></html>');
+  w.document.close();
+  return w;
+}
+
 function wordDoc(innerHTML,title,fs){
   fs=fs||11;
   return '<html xmlns:o="urn:schemas-microsoft-com:office:office" '
@@ -14967,13 +15145,14 @@ function wordDoc(innerHTML,title,fs){
     +'margin:0.6cm 0.7cm 0.7cm 0.7cm;mso-header-margin:0.3cm;mso-footer-margin:0.3cm}'
     +'div.WordSection1{page:WordSection1}'
     +'@page{size:29.7cm 21.0cm;mso-page-orientation:landscape;margin:0.6cm 0.7cm}'
-    +'body{font-family:"Tajawal","Arial";font-size:'+fs+'pt;color:#000;direction:rtl;margin:0}'
-    +'table{width:100%;border-collapse:collapse;font-size:'+fs+'pt;table-layout:fixed;'
-    +'mso-table-layout-alt:fixed;mso-border-alt:solid #9FBEDD .5pt}'
-    +'th{background:#DCE9F7;color:#0B3B6B;border:0.5pt solid #7FA6CC;padding:3pt 2pt;'
-    +'text-align:center;vertical-align:middle;font-weight:bold;font-size:'+fs+'pt}'
-    +'td{border:0.5pt solid #A8C4E0;padding:2.5pt 3pt;text-align:center;vertical-align:middle;'
-    +'font-size:'+fs+'pt;line-height:1.25}'
+    +'body{font-family:"Sakkal Majalla","Majalla UI","Traditional Arabic",Tahoma;font-size:'+(fs+1)+'pt;color:#000;direction:rtl;margin:0;line-height:1.6}'
+    +'h1,h2,h3,h4,th{font-family:"Almohanad","Almohanad long kaf","Sakkal Majalla",Tahoma}' 
+    +'table{width:100%;border-collapse:collapse;font-size:'+(fs+1)+'pt;table-layout:fixed;'
+    +'border:1.6pt solid #4A5A6B;mso-table-layout-alt:fixed}'
+    +'th{background:#E8EEF5;color:#0B3B6B;border:0.4pt solid #A9B7C6;border-bottom:1.2pt solid #4A5A6B;'
+    +'padding:4pt 3pt;text-align:center;vertical-align:middle;font-weight:bold;font-size:'+(fs+1)+'pt}'
+    +'td{border:0.4pt solid #C4CFDA;padding:3pt 4pt;text-align:center;vertical-align:middle;'
+    +'font-size:'+(fs+1)+'pt;line-height:1.5}'
     +'tr.tot td{background:#E5EFFA;font-weight:bold;color:#0B3B6B}'
     +'tr.sechd td{background:#0B3B6B;color:#fff;font-weight:bold;text-align:center}'
     +'.hd{width:100%;margin-bottom:6pt}'
@@ -15843,18 +16022,38 @@ if($("#pz-save"))$("#pz-save").onclick=async()=>{
     &&Number(x.month)===Number(o.month)&&Number(x.year)===Number(o.year)
     &&nn(x.title||x.name)===key&&sig(x)!==mySig):[];
   const shownName=nn(o.title||o.name)||"—";
-  if(exact.length){
+  const isPreacher=(type==="preacher");
+  /* الوعاظ: التكرار بالاسم وحده — والعنبر قد يختلف */
+  if(isPreacher){
+    const nameOnly=(DB.plan.prisons||[]).filter(x=>x.id!==PZ_ID&&x.type==="preacher"
+      &&canonSec(x.sec)===canonSec(o.sec)
+      &&Number(x.month)===Number(o.month)&&Number(x.year)===Number(o.year)
+      &&nn(x.name)===nn(o.name));
+    if(nameOnly.length){
+      const wards=nameOnly.map(x=>nn(x.ward)||"—");
+      const same=wards.includes(nn(o.ward)||"—");
+      const det=nameOnly.map((x,i2)=>"  "+(i2+1)+") العنبر: "+(nn(x.ward)||"—")).join("\n");
+      if(!confirm("⚠ الواعظ مسجَّل مسبقًا في هذا الشهر\n\n"
+        +"الاسم: "+shownName
+        +"\nالشهر: "+monthName(Number(o.month))+" "+o.year
+        +"\n\nالسجلات الموجودة ("+nameOnly.length+"):\n"+det
+        +"\n\nالجديد: العنبر "+(nn(o.ward)||"—")
+        +(same?"\n\n⚠ الاسم والعنبر متطابقان تمامًا."
+              :"\n\nملاحظة: العنبر مختلف — قد يكون الواعظ يعمل في أكثر من عنبر.")
+        +"\n\nهل توافق على الإضافة رغم التكرار؟"))return;
+    }
+  }else if(exact.length){
     if(!confirm("⚠ تنبيه: سجل مكرر تمامًا\n\n"+shownName
-      +"\n"+[o.day,o.date?fmt(o.date):"",o.kind,o.ward].filter(Boolean).join(" · ")
+      +"\n"+[o.day,o.date?fmt(o.date):"",o.kind].filter(Boolean).join(" · ")
       +"\n\nيوجد "+exact.length+" سجل مطابق في "+monthName(Number(o.month))+" "+o.year
-      +"\n\nهل تريد إضافته رغم التكرار؟"))return;
+      +"\n\nهل توافق على الإضافة رغم التكرار؟"))return;
   }else if(sim.length){
     const det=sim.slice(0,5).map((x,i2)=>"  "+(i2+1)+") "
-      +[x.day,x.date?fmt(x.date):"",x.kind,x.ward].filter(Boolean).join(" · ")).join("\n");
+      +[x.day,x.date?fmt(x.date):"",x.kind].filter(Boolean).join(" · ")).join("\n");
     if(!confirm("⚠ تنبيه: يوجد سجل بالاسم نفسه في هذا الشهر\n\n«"+shownName+"»"
       +"\n\nالسجلات الموجودة ("+sim.length+"):\n"+det
-      +"\n\nالجديد: "+[o.day,o.date?fmt(o.date):"",o.kind,o.ward].filter(Boolean).join(" · ")
-      +"\n\nهل تريد الإضافة رغم ذلك؟"))return;
+      +"\n\nالجديد: "+[o.day,o.date?fmt(o.date):"",o.kind].filter(Boolean).join(" · ")
+      +"\n\nهل توافق على الإضافة رغم ذلك؟"))return;
   }
   const label=pzLabel(sec,type);
   const shown=String(o[keyField[0]]||"");
@@ -16131,166 +16330,85 @@ function pzPrintRows(type,sec,from,to){
     });
 }
 function pzPrintPreview(){
-  const sec=$("#pzr-sec").value,from=$("#pzr-from").value,to=$("#pzr-to").value;
-  const box=$("#pzr-prev");box.innerHTML="";
+  const from=$("#pzr-from").value,to=$("#pzr-to").value;
+  if(!from||!to)return alert("حدّد الفترة (من / إلى).");
+  const sec=$("#pzr-sec").value;
   const secs=sec?[sec]:PZ_SECS;
-  let total=0;
-  const ul=el("div");
-  secs.forEach(sc=>{
-    (PZ_TYPES[sc]||[]).forEach(([type,label])=>{
-      const n=pzPrintRows(type,sc,from,to).length;
-      total+=n;
-      if(n){const d=el("div","mini");d.textContent="• "+sc+" — "+label+": "+n+" سجل";ul.appendChild(d)}
-    });
-  });
-  if(!total)box.appendChild(el("div","empty","لا توجد سجلات في هذه الفترة."));
-  else{box.appendChild(el("div","mini","سيتضمن التقرير:"));box.appendChild(ul)}
-}
-if($("#pz-print"))$("#pz-print").onclick=()=>{
-  $("#pzr-sec").value=$("#pz-sec").value||"";
-  if(!$("#pzr-from").value&&!$("#pzr-to").value){
-    const mo=Number($("#pz-month").value)||new Date().getMonth()+1;
-    const yr=Number($("#pz-year").value)||new Date().getFullYear();
-    $("#pzr-from").value=yr+"-"+String(mo).padStart(2,"0")+"-01";
-    $("#pzr-to").value=new Date(yr,mo,0).toISOString().slice(0,10);
-  }
-  pzPrintPreview();
-  $("#ov-pzprint").classList.add("on");
-};
-["#pzr-from","#pzr-to","#pzr-sec"].forEach(id=>{const n=$(id);if(n)n.onchange=pzPrintPreview});
-if($("#pzr-go"))$("#pzr-go").onclick=()=>{
-  const sec=$("#pzr-sec").value,from=$("#pzr-from").value,to=$("#pzr-to").value;
-  const mo=monthName(Number($("#pz-month").value)||new Date().getMonth()+1);
-  const yr=$("#pz-year").value||new Date().getFullYear();
   const logo=DB.settings.logo||DEF_LOGO,org=DB.settings.appName||"";
-  const secs=sec?[sec]:PZ_SECS;
-  const per=(from||to)?("من "+(from?fmt(from):"—")+" إلى "+(to?fmt(to):"—")):(mo+" "+yr);
-  const tbl=(title,heads,rowsHtml,widths)=>
-    '<h3>'+title+'</h3><table>'
-    +(widths?('<colgroup>'+widths.map(w=>'<col style="width:'+w+'">').join("")+'</colgroup>'):'')
-    +'<tr>'+heads.map(h=>'<th>'+h+'</th>').join("")+'</tr>'+rowsHtml+'</table>';
   const cell=v=>(v===""||v===undefined||v===null)?"—":v;
-  let body="";
+  const tbl=(title,heads,rowsHtml,widths)=>
+    '<h3>'+title+'</h3><table><colgroup>'
+    +(widths||heads.map(()=>"auto")).map(w2=>'<col style="width:'+w2+'">').join("")
+    +'</colgroup><thead><tr>'+heads.map(h=>'<th>'+h+'</th>').join("")+'</tr></thead><tbody>'
+    +rowsHtml+'</tbody></table>';
+  const ORD=["أولاً","ثانيًا","ثالثًا","رابعًا","خامسًا","سادسًا","سابعًا","ثامنًا"];
+  let body="",n=0;
   secs.forEach(sc=>{
-    let sb="";
-    if(sc==="الإرشاد الديني"){
-      const L=pzPrintRows("lesson",sc,from,to);
-      const P=pzPrintRows("preacher",sc,from,to);
-      const G=pzPrintRows("program",sc,from,to);
-      /* 1) الدورات والدروس */
-      if(L.length)sb+=tbl("دورات ودروس المؤسسات العقابية والإصلاحية لقسم الإرشاد الديني",
-        ["م","اليوم","التاريخ","النوع","العنوان","ملاحظات"],
-        L.map((r,i)=>"<tr><td>"+(i+1)+"</td><td>"+cell(r.day)+"</td><td>"+cell(r.date?fmt(r.date):"")
-          +"</td><td>"+cell(r.kind)+"</td><td>"+cell(r.title)+"</td><td>"+cell(r.notes)+"</td></tr>").join("")
-        +'<tr class="tot"><td colspan="5">الإجمالي</td><td>'+L.length+'</td></tr>',
-        ["34px","11%","13%","13%","36%","auto"]);
-      /* 2) أسماء الوعاظ */
-      if(P.length){
-        /* صفحة واحدة: توزيع الوعاظ على عمودين أو ثلاثة حسب العدد */
-        const per=P.length>26?3:(P.length>13?2:1);
-        const rowsN=Math.ceil(P.length/per);
-        let head="",cg="";
-        for(let k=0;k<per;k++){head+='<th>م</th><th>اسم الواعظ</th><th>رقم العنبر</th>';
-          cg+='<col style="width:32px"><col style="width:'+Math.floor(60/per)+'%"><col style="width:'+Math.floor(30/per)+'%">'}
-        let bodyR="";
-        for(let i=0;i<rowsN;i++){
-          bodyR+="<tr>";
-          for(let k=0;k<per;k++){
-            const idx=k*rowsN+i;const r=P[idx];
-            bodyR+=r?("<td>"+(idx+1)+"</td><td>"+cell(r.name)+"</td><td>"+cell(r.ward)+"</td>")
-                    :"<td></td><td></td><td></td>";
-          }
-          bodyR+="</tr>";
+    const L=pzPrintRows("lesson",sc,from,to);
+    const P=pzPrintRows("preacher",sc,from,to);
+    const G=pzPrintRows("program",sc,from,to);
+    const Q=pzPrintRows("quran",sc,from,to);
+    if(!L.length&&!P.length&&!G.length&&!Q.length)return;
+    let sb='<h3 class="c" style="background:#0B3B6B;color:#fff;border:0">'
+      +ORD[n%ORD.length]+": قسم "+sc+'</h3>';
+    n++;
+    if(L.length)sb+=tbl("دورات ودروس المؤسسات العقابية والإصلاحية",
+      ["م","اليوم","التاريخ","النوع","العنوان","ملاحظات"],
+      L.map((r,i2)=>"<tr><td>"+(i2+1)+"</td><td>"+cell(r.day)+"</td><td>"
+        +cell(r.date?fmt(r.date):"")+"</td><td>"+cell(r.kind)+"</td><td class='rt'>"
+        +cell(r.title)+"</td><td class='rt'>"+cell(r.notes)+"</td></tr>").join("")
+      +'<tr class="tot"><td colspan="5">إجمالي الدروس والمواعظ</td><td>'+L.length+'</td></tr>',
+      ["34px","11%","13%","12%","36%","auto"]);
+    if(Q.length)sb+=tbl("حلقات تعليم القرآن الكريم بالمؤسسات العقابية والإصلاحية",
+      pzDefs(sc,"quran").map(c=>c[1]).concat([]).length
+        ?["م"].concat(pzDefs(sc,"quran").map(c=>c[1])):["م"],
+      Q.map((r,i2)=>"<tr><td>"+(i2+1)+"</td>"
+        +pzDefs(sc,"quran").map(c=>"<td"+(c[2]==="text"&&c[0]!=="ward"?" class='rt'":"")+">"
+          +cell(c[2]==="date"?(r[c[0]]?fmt(r[c[0]]):""):r[c[0]])+"</td>").join("")+"</tr>").join("")
+      +'<tr class="tot"><td colspan="'+(pzDefs(sc,"quran").length)+'">الإجمالي</td><td>'+Q.length+'</td></tr>');
+    if(P.length){
+      const per=P.length>26?3:(P.length>13?2:1);
+      const rowsN=Math.ceil(P.length/per);
+      let head="",cg="";
+      for(let k=0;k<per;k++){head+='<th>م</th><th>اسم الواعظ</th><th>رقم العنبر</th>';
+        cg+='<col style="width:30px"><col style="width:'+Math.floor(60/per)+'%"><col style="width:'+Math.floor(28/per)+'%">'}
+      let bodyR="";
+      for(let i2=0;i2<rowsN;i2++){
+        bodyR+="<tr>";
+        for(let k=0;k<per;k++){
+          const idx=k*rowsN+i2,r=P[idx];
+          bodyR+=r?("<td>"+(idx+1)+"</td><td class='rt'>"+cell(r.name)+"</td><td>"+cell(r.ward)+"</td>")
+                  :"<td></td><td></td><td></td>";
         }
-        bodyR+='<tr class="tot"><td colspan="'+(per*3)+'">إجمالي عدد الوعاظ: '
-          +new Set(P.map(x=>(x.name||"").trim()).filter(Boolean)).size+'</td></tr>';
-        sb+='<div class="brk"></div><h3>أسماء الوعاظ المنفذين للبرنامج</h3>'
-          +'<table class="wide"><colgroup>'+cg+'</colgroup><tr>'+head+'</tr>'+bodyR+'</table>';
+        bodyR+="</tr>";
       }
-      /* 3) الإجمالي العام — مجمّع بلا تكرار */
-      const S=pzSummary(sc,L,P,G);
-      if(S.length&&(L.length||P.length||G.length)){
-        const days=new Set(L.map(x=>x.date).filter(Boolean)).size;
-        sb+=(P.length?'<div class="brk"></div>':'')+tbl("الإجمالي العام لدورات ودروس المؤسسات العقابية والإصلاحية",
-          ["م","اسم البرنامج","عدد الوعاظ","عدد الدروس المنفذة","الجهة المتعاونة","الفئة المستهدفة","عدد المستفيدين"],
-          S.map((r,i)=>"<tr><td>"+(i+1)+"</td><td>"+cell(r.name)+"</td><td>"+r.preachers
-            +"</td><td>"+r.lessons+"</td><td>"+r.jeha+"</td><td>"+r.fia+"</td><td>"+money(r.ben)+"</td></tr>").join("")
-          +'<tr class="tot"><td colspan="2">الإجمالي</td><td>'
-          +S.reduce((a,x)=>a+x.preachers,0)+'</td><td>'+S.reduce((a,x)=>a+x.lessons,0)
-          +'</td><td colspan="2">—</td><td>'+money(S.reduce((a,x)=>a+x.ben,0))+'</td></tr>'
-          +'<tr class="auto"><td colspan="2">إجمالي المواعظ والدروس</td><td colspan="2">'+L.length
-          +'</td><td colspan="2">إجمالي عدد الأيام</td><td>'+days+'</td></tr>',
-          ["34px","26%","11%","13%","18%","14%","auto"]);
-      }
-    }else{
-      const Q=pzPrintRows("quran",sc,from,to);
-      if(Q.length)sb+=tbl("حلقات تعليم القرآن الكريم بالمؤسسات العقابية والإصلاحية",
-        ["م","اسم البرنامج","عدد المدرسين","المستفيدين","أيام العمل","إجمالي الحلقات","أيام التنفيذ"],
-        (()=>{const m={};
-          Q.forEach(r=>{const k=(r.name||"").trim()||"حلقات تعليم القرآن الكريم";
-            if(!m[k])m[k]={name:k,teachers:0,ben:0,workdays:0,circles:0,execdays:new Set()};
-            m[k].teachers+=Number(r.teachers)||0;m[k].ben+=Number(r.ben)||0;
-            m[k].workdays+=Number(r.workdays)||0;m[k].circles+=Number(r.circles)||0;
-            if(r.execdays)m[k].execdays.add(r.execdays)});
-          const A=Object.values(m);
-          return A.map((r,i)=>"<tr><td>"+(i+1)+"</td><td>"+cell(r.name)+"</td><td>"+r.teachers
-            +"</td><td>"+money(r.ben)+"</td><td>"+r.workdays+"</td><td>"+r.circles+"</td><td>"
-            +cell([...r.execdays].join("، "))+"</td></tr>").join("")
-            +'<tr class="tot"><td colspan="2">الإجمالي</td><td>'+A.reduce((a,x)=>a+x.teachers,0)
-            +'</td><td>'+money(A.reduce((a,x)=>a+x.ben,0))+'</td><td>'+A.reduce((a,x)=>a+x.workdays,0)
-            +'</td><td>'+A.reduce((a,x)=>a+x.circles,0)+'</td><td>—</td></tr>';
-        })(),
-        ["34px","26%","12%","12%","12%","13%","auto"]);
+      bodyR+='<tr class="tot"><td colspan="'+(per*3)+'">إجمالي عدد الوعاظ: '
+        +new Set(P.map(x=>(x.name||"").trim()).filter(Boolean)).size+'</td></tr>';
+      sb+='<h3>أسماء الدعاة المنفذين للبرنامج</h3><table><colgroup>'+cg+'</colgroup>'
+        +'<thead><tr>'+head+'</tr></thead><tbody>'+bodyR+'</tbody></table>';
     }
-    if(sb)body+='<div class="secblk">'+(body?'<div class="brk"></div>':'')
-      +'<h2>'+(sc==="الإرشاد الديني"?"أولًا: ":"ثانيًا: ")+'قسم '+sc+'</h2>'+sb+'</div>';
+    const S=(typeof pzSummary==="function")?pzSummary(sc,L,P,G):[];
+    if(S.length)sb+=tbl("الإجمالي العام لدورات ودروس المؤسسات العقابية والإصلاحية",
+      ["م","اسم البرنامج","عدد الوعاظ","عدد الدروس المنفذة","الجهة المتعاونة","الفئة المستهدفة","عدد المستفيدين"],
+      S.map((r,i2)=>"<tr><td>"+(i2+1)+"</td><td class='rt'>"+cell(r.name)+"</td><td>"+r.preachers
+        +"</td><td>"+r.lessons+"</td><td>"+cell(r.jeha)+"</td><td>"+cell(r.fia)
+        +"</td><td>"+money(r.ben)+"</td></tr>").join("")
+      +'<tr class="tot"><td colspan="2">الإجمالي</td><td>'+S.reduce((a,x)=>a+x.preachers,0)
+      +'</td><td>'+S.reduce((a,x)=>a+x.lessons,0)+'</td><td colspan="2">—</td><td>'
+      +money(S.reduce((a,x)=>a+x.ben,0))+'</td></tr>',
+      ["30px","24%","10%","12%","16%","16%","auto"]);
+    body+=sb+'<div style="page-break-after:always"></div>';
   });
-  if(!body)return toast("لا توجد بيانات لطباعتها");
-  const html='<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="utf-8"><title>الإحصائية الشهرية التفصيلية للمؤسسات العقابية والإصلاحية</title>'
-    +'<style>@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Tajawal:wght@400;500;700;900&family=Cairo:wght@400;700;800&display=swap");'
-    +'*{box-sizing:border-box}'
-    +'body{font-family:"Tajawal","Cairo",Tahoma;color:#000;font-size:14px;margin:0;padding:0}'
-    +'.page{border:1.4px solid #1B5FA6;border-radius:4px;padding:10px 12px;min-height:calc(100vh - 12px)}'
-    +'.hd{display:flex;align-items:center;gap:12px;padding:4px 2px 8px}'
-    +'.hd .lg{width:190px;height:56px;object-fit:contain}'
-    +'.hd .mid{flex:1;text-align:center}'
-    +'.hd .box{display:inline-block;border:1.4px solid #000;border-radius:14px;padding:7px 26px}'
-    +'.hd .box .t1{color:#C00000;font-weight:800;font-size:16px;line-height:1.4}'
-    +'.hd .box .t2{font-weight:700;font-size:14px;margin-top:2px}'
-    +'.hd .ar{width:190px;text-align:left;font-size:11px;line-height:1.5}'
-    +'h2{color:#8A1538;font-size:14px;font-weight:800;margin:8px 0 5px;text-align:right;'
-    +'border-bottom:1.2px dashed #8A1538;padding-bottom:4px}'
-    +'h3{color:#8A1538;font-size:14px;font-weight:700;margin:7px 0 4px;text-align:right}'
-    +'table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:8px;table-layout:fixed;'
-    +'font-family:"Tajawal","Cairo",Tahoma}'
-    +'th{background:#DCE9F7;color:#0B3B6B;border:1px dashed #9FBEDD;padding:5px 4px;text-align:center;'
-    +'font-weight:700;font-size:14px;vertical-align:middle}'
-    +'td{border:1px dashed #B9CFE6;padding:5px 6px;text-align:center;vertical-align:middle;'
-    +'word-wrap:break-word;overflow-wrap:break-word;line-height:1.45;font-size:14px}'
-    +'tr.tot td{background:#EDF4FC;font-weight:700;color:#0B3B6B}'
-    +'tr.auto td{background:#DCE9F7;font-weight:700;color:#0B3B6B}'
-    +'.ft{margin-top:10px;font-size:12px;color:#000;text-align:center;'
-    +'border-top:1.2px dashed #1B5FA6;padding-top:6px;font-weight:600}'
-    +'.brk{page-break-before:always}'
-    +'table.wide td,table.wide th{padding:3px 4px;font-size:14px;line-height:1.5}'
-    +'@page{size:A4 landscape;margin:6mm}'
-    +'@media print{h2,h3{page-break-after:avoid}tr{page-break-inside:avoid}'
-    +'.page{min-height:auto;border:1.4px solid #1B5FA6}}'
-    +'</style></head><body><div class="page">'
-    +'<div class="hd">'
-    +'<img class="lg" src="'+logo+'">'
-    +'<div class="mid"><div class="box">'
-    +'<div class="t1">الإحصائية الشهرية التفصيلية للمؤسسات العقابية والإصلاحية</div>'
-    +'<div class="t2">'+per+'</div></div></div>'
-    +'<div class="ar"></div></div>'
-    +body
-    +'<div class="ft">وزارة الأوقاف والشؤون الإسلامية — إدارة الدعوة والإرشاد الديني — تاريخ الطباعة: '
-    +fmtD(new Date())+'</div>'
-    +'</div><script>onload=()=>print();<\/script></body></html>';
-  const w=window.open("","_blank");if(!w)return toast("اسمح بالنوافذ المنبثقة");
-  w.document.write(html);w.document.close();
-  $("#ov-pzprint").classList.remove("on");
-};
+  if(!body)return alert("لا توجد بيانات في هذه الفترة.");
+  const head='<div class="hd"><img src="'+logo+'"><div class="mid"><h1>'+org+'</h1>'
+    +'<div class="t">تقرير المؤسسات العقابية والإصلاحية</div>'
+    +'<div style="font-size:13px;color:#4A5A6B">من '+fmt(from)+' إلى '+fmt(to)+'</div>'
+    +'</div><div class="sp"></div></div>';
+  const ft='<div class="ft"><span>وزارة الأوقاف والشؤون الإسلامية — إدارة الدعوة والإرشاد الديني</span>'
+    +'<span>تاريخ الطباعة: '+fmtD(new Date())+'</span></div>';
+  rptOpen("تقرير المؤسسات العقابية والإصلاحية",head+body+ft);
+}
+;
 
 /* ===== تبديل أوراق التخطيط ===== */
 document.querySelectorAll("#plan-tabs .mtab").forEach(b=>{
@@ -18379,7 +18497,7 @@ const firebaseConfig={
   appId:"1:183460755575:web:9e5021291185c8408b2e72",
   measurementId:"G-FYLY6DYZGQ"
 };
-const APP_BUILD="2026-08-25-F";
+const APP_BUILD="2026-08-25-H";
 const DEVICE_ID=(()=>{try{let d=LS&&LS.getItem("deviceId");if(!d){d="d"+Math.random().toString(36).slice(2,10);LS&&LS.setItem("deviceId",d)}return d}catch(e){return "d0"}})();
 const SYNC={db:null,ready:false,loaded:false,space:"office-1",last:{},unsub:[],authErr:""};
 const KEYS=["dir:contacts","dir:mails","dir:tasks","dir:memos","dir:lists","dir:users","dir:settings",
