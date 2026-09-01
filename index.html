@@ -4564,6 +4564,29 @@ function isAdminUser2(){
   const u=curUser();
   return !!(u&&!myScope()&&u.perms&&u.perms.settings);
 }
+
+/* ===== تقييد قوائم الأقسام على قسم المستخدم ===== */
+function lockSecSelects(){
+  const mine=myScope();
+  if(!mine)return;
+  const ids=["#mev-sec","#sch-sec","#gp-sec","#imp-sec","#an-sec","#ts-sec","#dkf-sec",
+    "#dks-sec","#dky-sec","#dkc-sec2","#mevp-sec","#e-sec","#q-sec","#m-sec","#pr-sec",
+    "#msg-sec","#r-sec","#c-sec","#s-sec"];
+  ids.forEach(id=>{
+    const sel=$(id);
+    if(!sel)return;
+    /* أبقِ خيار القسم فقط */
+    [...sel.options].forEach(o=>{
+      if(o.value&&canonSec(o.value)!==canonSec(mine))o.remove();
+      else if(!o.value&&/كل\s*الأقسام/.test(o.text))o.remove();
+    });
+    if(![...sel.options].some(o=>o.value))sel.appendChild(new Option(mine,mine));
+    sel.value=mine;
+    sel.disabled=true;
+    sel.title="مقيّد على قسمك";
+  });
+}
+
 function applyScopeRules(){
   /* المؤسسات العقابية */
   const pt=document.querySelector('#plan-tabs [data-sheet="prison"]');
@@ -4574,6 +4597,7 @@ function applyScopeRules(){
     const first=document.querySelector('#plan-tabs .mtab:not([style*="none"])');
     if(first)first.click();
   }
+  try{lockSecSelects()}catch(e){}
   /* الإعدادات: لمدير النظام فقط */
   const adm=isAdminUser2();
   document.body.classList.toggle("not-admin",!adm);
@@ -5289,6 +5313,23 @@ const isAdminUser=()=>{
   if(ASSCOPE)return false;      /* أثناء التصفح كقسم تُطبَّق قيود القسم */
   return realAdmin();
 };
+
+/* ===== عزل الدليل والمراسلات على القسم ===== */
+function canSeeContact(c){
+  const s=myScope();
+  if(!s)return true;
+  const f=[c.sec,c.dept,c.entity,c.unit].filter(Boolean).map(x=>canonSec(x));
+  if(!f.length)return true;                 /* بلا قسم: عام */
+  return f.some(x=>x===canonSec(s));
+}
+function canSeeMail(m){
+  const s=myScope();
+  if(!s)return true;
+  const f=[m.sec,m.dept,m.entity].filter(Boolean).map(x=>canonSec(x));
+  if(!f.length)return true;
+  return f.some(x=>x===canonSec(s));
+}
+
 function canSeeTask(t){const s=myScope();return !s||(t.entitySecs||[]).includes(s)}
 function canSeeMemo(m){const s=myScope();return !s||(m.follow||[]).some(f=>f.sec===s)}
 function canSeeExec(e){const s=myScope();return !s||canonSec(e.sec)===s}
@@ -5340,7 +5381,7 @@ $("#c-to-mail").onclick=async()=>{
 };
 function renderContacts(){
   const q=$("#c-search").value.trim();
-  const rows=DB.contacts.filter(c=>matchDS(c,"c")).filter(c=>!q||[c.name,c.dept,c.sec,c.ext,c.mob,c.title].join(" ").includes(q));
+  const rows=DB.contacts.filter(canSeeContact).filter(c=>matchDS(c,"c")).filter(c=>!q||[c.name,c.dept,c.sec,c.ext,c.mob,c.title].join(" ").includes(q));
   const b=$("#c-body");b.innerHTML="";
   rows.forEach((c,i)=>{
     const tr=el("tr");
@@ -5396,7 +5437,7 @@ function renderMails(){
   const b=$("#m-body");if(!b)return;
   b.innerHTML="";
   const qm=($("#m-search")&&$("#m-search").value.trim())||"";
-  DB.mails.filter(m=>matchDS(m,"m"))
+  DB.mails.filter(canSeeMail).filter(m=>matchDS(m,"m"))
     .filter(m=>!qm||[m.name,m.email,m.dept,m.sec,m.role].join(" ").includes(qm))
     .forEach((m,i)=>{
     const tr=el("tr");
@@ -11468,7 +11509,7 @@ function renderMEvents(){
     }
   }else{const h3=$("#mev-openhint");if(h3)h3.style.display="none"}
   try{dupCheckNotify(true)}catch(e){}
-  try{applyMevToolbar()}catch(e){}
+  try{applyMevToolbar();lockSecSelects()}catch(e){}
   /* تنبيه: توجد فعاليات لكن الفلاتر تخفيها */
   const totAll=(DB.plan.mevents||[]).filter(r=>!myScope()||canonSec(r.sec)===myScope()).length;
   const hint=$("#mev-hint");
@@ -18204,7 +18245,7 @@ const firebaseConfig={
   appId:"1:183460755575:web:9e5021291185c8408b2e72",
   measurementId:"G-FYLY6DYZGQ"
 };
-const APP_BUILD="2026-08-25-A";
+const APP_BUILD="2026-08-25-B";
 const DEVICE_ID=(()=>{try{let d=LS&&LS.getItem("deviceId");if(!d){d="d"+Math.random().toString(36).slice(2,10);LS&&LS.setItem("deviceId",d)}return d}catch(e){return "d0"}})();
 const SYNC={db:null,ready:false,loaded:false,space:"office-1",last:{},unsub:[],authErr:""};
 const KEYS=["dir:contacts","dir:mails","dir:tasks","dir:memos","dir:lists","dir:users","dir:settings",
