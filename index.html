@@ -2535,6 +2535,15 @@ body.not-admin #open-delreqs{display:none !important}
         <div class="panel-head"><h2 style="font-size:16px;color:#8A6B10" id="appr-title">ردود بانتظار الاعتماد</h2>
           <span id="appr-badges"></span>
           <button class="btn ghost sm" id="appr-all">اعتماد الكل</button></div>
+        <div class="hm-sec-title" style="color:#8A6B10">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg>
+          خطط شهرية بانتظار الاعتماد <span id="sent-count"></span>
+        </div>
+        <div id="sent-plans" style="margin-bottom:16px"></div>
+        <div class="hm-sec-title" style="color:#8A6B10">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          ردود بانتظار الاعتماد
+        </div>
         <div id="appr-list"></div>
         <div class="hm-sec-title" style="margin-top:18px;color:#8A6B10">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
@@ -5065,6 +5074,7 @@ $("#u-add").onclick=async()=>{
   const ok=await saveVerified("dir:users",DB.users,"المستخدمون");
   if(!ok){DB.users.pop();return alert("تعذّر حفظ المستخدم — أعد المحاولة.")}
   audit("إضافة مستخدم","المستخدمون",n+" ("+un+")");
+  usersBackup();
   ["#u-name","#u-job","#u-user","#u-pass","#u-phone","#u-mail2"].forEach(id=>{
     const x=$(id);if(x)x.value="";
   });
@@ -5087,7 +5097,11 @@ $("#u-apply").onclick=async()=>{
     role:($("#u-role")&&$("#u-role").value)||DB.users[i].role||"user",
     scope:($("#u-scope")&&$("#u-scope").value)||"all",perms:readPerms(),permsSetByAdmin:true};
   normalizeUser(DB.users[i]);
-  await save("dir:users",DB.users);U_ID=null;$("#u-name").value="";$("#u-job").value="";$("#u-note").textContent="";
+  const okU=await saveVerified("dir:users",DB.users,"المستخدمون");
+  if(!okU)alert("تحذير: لم يُحفظ التعديل — أعد المحاولة.");
+  audit("تعديل مستخدم","المستخدمون",DB.users[i].name);
+  usersBackup();
+  U_ID=null;$("#u-name").value="";$("#u-job").value="";$("#u-note").textContent="";
   renderUsers();applyPerms();toast("حُدّث المستخدم");
 };
 
@@ -9585,7 +9599,7 @@ async function logChange(kind,action,label,extra,sec){
     at:new Date().toISOString().slice(0,16).replace("T"," "),
     state:"pending"});
   try{await saveVerified("dir:changes",DB.changes,"سجل التغييرات")}catch(e){}
-  try{drawChanges()}catch(e){}
+  try{drawChanges();drawSentPlans()}catch(e){}
 }
 const CHG_ACT={add:"إضافة",edit:"تعديل",del:"حذف"};
 const CHG_KIND={contact:"الدليل",mail:"المراسلات",task:"المهام",memo:"الأرشيف المركزي",
@@ -9648,6 +9662,106 @@ function drawChangesIn(listId,countId){
       d.appendChild(ok);d.appendChild(no);
     }
     box.appendChild(d);
+  });
+}
+
+
+/* ===== الخطط الشهرية المرسلة للاعتماد ===== */
+function sentPlans(){
+  DB.plan.mplans=DB.plan.mplans||{};
+  const mine=myScope();
+  const out=[];
+  Object.keys(DB.plan.mplans).forEach(k=>{
+    const P=DB.plan.mplans[k];
+    if(!P||P.state!=="sent")return;
+    const p=k.split("|");
+    if(p.length!==3)return;
+    const sec=p[0],mo=Number(p[1]),yr=Number(p[2]);
+    if(mine&&canonSec(sec)!==canonSec(mine))return;
+    const n=(DB.plan.mevents||[]).filter(r=>canonSec(r.sec)===canonSec(sec)
+      &&Number(r.month)===mo&&Number(r.year)===yr).length;
+    out.push({key:k,sec,mo,yr,n,P});
+  });
+  return out.sort((a,b)=>(a.yr*12+a.mo)-(b.yr*12+b.mo));
+}
+function drawSentPlans(){
+  ["#sent-plans","#sent-plans2"].forEach(id=>{
+    const box=$(id);if(!box)return;
+    const rows=sentPlans();
+    box.innerHTML="";
+    const cid=id==="#sent-plans"?"#sent-count":"#sent-count2";
+    const c=$(cid);if(c)c.textContent=rows.length?("("+rows.length+")"):"";
+    if(!rows.length){box.appendChild(el("div","empty","لا توجد خطط شهرية بانتظار الاعتماد."));return}
+    rows.forEach(x=>{
+      const d=el("div","list-item");
+      d.style.cssText="align-items:flex-start;gap:10px;background:var(--amber-bg);"
+        +"border:1px solid var(--amber);border-inline-start:4px solid var(--amber)";
+      const t=el("div","nm");
+      t.innerHTML="<b>خطة "+monthName(x.mo)+" "+x.yr+" — "+x.sec+"</b>";
+      t.appendChild(el("span","sub","عدد الفعاليات: "+x.n
+        +(x.P.sentBy?(" · أرسلها: "+x.P.sentBy):"")
+        +(x.P.sentAt?(" · "+x.P.sentAt):"")));
+      t.appendChild(el("div","mini","بانتظار التدقيق والاعتماد من مكتب مساعد المدير"));
+      d.appendChild(t);
+      const view=el("button","btn ghost sm","عرض");
+      view.onclick=()=>{
+        go("plan");
+        setTimeout(()=>{
+          const tb=document.querySelector('#plan-tabs [data-sheet="events"]');
+          if(tb)tb.click();
+          setTimeout(()=>{
+            const ss=$("#mev-sec");if(ss&&!myScope())ss.value=x.sec;
+            const ms=$("#mev-month");if(ms)ms.value=String(x.mo);
+            const ys=$("#mev-year");if(ys)ys.value=String(x.yr);
+            renderMEvents();
+          },200);
+        },200);
+      };
+      d.appendChild(view);
+      if(isAdminUser2()){
+        const ok=el("button","btn sm","اعتماد");
+        ok.onclick=async()=>{
+          if(!confirm("اعتماد خطة "+monthName(x.mo)+" "+x.yr+"\n\nالقسم: "+x.sec
+            +"\nعدد الفعاليات: "+x.n
+            +"\n\nبعد الاعتماد يستطيع القسم إدخال نتائج التنفيذ مباشرة.\n\nهل تريد المتابعة؟"))return;
+          x.P.state="approved";
+          x.P.approvedBy=curUser()?curUser().name:"";
+          x.P.approvedAt=new Date().toISOString().slice(0,10);
+          x.P.history=x.P.history||[];
+          x.P.history.push({at:new Date().toISOString().slice(0,16).replace("T"," "),
+            user:x.P.approvedBy,what:"اعتماد الخطة الشهرية"});
+          audit("اعتماد خطة","الفعاليات الشهرية",x.sec+" — "+monthName(x.mo)+" "+x.yr);
+          if(await savePlan()){
+            try{await sendMsg([x.sec],"تم اعتماد المدخلات — "+monthName(x.mo)+" "+x.yr,
+              "تم اعتماد خطة "+monthName(x.mo)+" "+x.yr+" ✓\n"
+              +"يمكنكم الآن إدخال نتائج التنفيذ مباشرة:\n"
+              +"حالة التنفيذ · عدد المستفيدين · الفعاليات/المنشورات · مكان التنفيذ · الملاحظات.")}catch(e){}
+            drawSentPlans();
+            try{renderMEvents()}catch(e){}
+            alert("اعتُمدت الخطة ✓\n\n"+x.sec+" — "+monthName(x.mo)+" "+x.yr
+              +"\n\nأُبلغ القسم، ويمكنه الآن إدخال نتائج التنفيذ.");
+          }
+        };
+        const no=el("button","btn ghost sm","إرجاع للتعديل");
+        no.onclick=async()=>{
+          const why=prompt("سبب الإرجاع:","");
+          if(why===null)return;
+          x.P.state="draft";
+          x.P.returnWhy=(why||"").trim();
+          x.P.history=x.P.history||[];
+          x.P.history.push({at:new Date().toISOString().slice(0,16).replace("T"," "),
+            user:(curUser()?curUser().name:""),what:"إرجاع للتعديل: "+x.P.returnWhy});
+          audit("إرجاع خطة","الفعاليات الشهرية",x.sec+" — "+monthName(x.mo));
+          if(await savePlan()){
+            try{await sendMsg([x.sec],"أُعيدت الخطة للتعديل — "+monthName(x.mo)+" "+x.yr,
+              "السبب: "+(x.P.returnWhy||"—")+"\nيرجى التعديل وإعادة الإرسال.")}catch(e){}
+            drawSentPlans();toast("أُعيدت للتعديل");
+          }
+        };
+        d.appendChild(ok);d.appendChild(no);
+      }
+      box.appendChild(d);
+    });
   });
 }
 
@@ -18094,7 +18208,7 @@ const firebaseConfig={
   appId:"1:183460755575:web:9e5021291185c8408b2e72",
   measurementId:"G-FYLY6DYZGQ"
 };
-const APP_BUILD="2026-08-25-C";
+const APP_BUILD="2026-08-25-D";
 const DEVICE_ID=(()=>{try{let d=LS&&LS.getItem("deviceId");if(!d){d="d"+Math.random().toString(36).slice(2,10);LS&&LS.setItem("deviceId",d)}return d}catch(e){return "d0"}})();
 const SYNC={db:null,ready:false,loaded:false,space:"office-1",last:{},unsub:[],authErr:""};
 const KEYS=["dir:contacts","dir:mails","dir:tasks","dir:memos","dir:lists","dir:users","dir:settings",
@@ -18181,9 +18295,42 @@ function applyRemote(key,json,remoteAt){
     PENDING[key]=mem[key];scheduleFlush();return;
   }
   if(PENDING[key])return;                    /* هناك تعديل محلي لم يُرفع بعد */
-  /* حماية من الفقد: لا نستبدل قائمة محلية أكبر بقائمة سحابية أصغر بكثير */
+  /* حماية مشددة للمفاتيح الحرجة: المستخدمون والاعتمادات لا تُستبدل بأصغر منها */
+  const CRIT=["dir:users","dir:plan_mplans","dir:settings","dir:delReqs","dir:changes"];
   try{
     const inc=JSON.parse(json), loc=mem[key];
+    if(CRIT.includes(key)){
+      const li=Array.isArray(inc)?inc.length:(inc&&typeof inc==="object"?Object.keys(inc).length:0);
+      const ll=Array.isArray(loc)?loc.length:(loc&&typeof loc==="object"?Object.keys(loc).length:0);
+      if(ll&&li<ll){
+        console.warn("رُفض وارد ناقص لمفتاح حرج:",key,li,"<",ll);
+        PENDING[key]=loc;scheduleFlush();
+        return;
+      }
+      /* دمج المستخدمين بدل الاستبدال */
+      if(key==="dir:users"&&Array.isArray(inc)&&Array.isArray(loc)){
+        const byId={};
+        loc.forEach(u=>{if(u&&u.id!=null)byId[u.id]=u});
+        inc.forEach(u=>{
+          if(!u||u.id==null)return;
+          const cur=byId[u.id];
+          if(!cur){byId[u.id]=u;return}
+          /* لا تفقد كلمة المرور أو اسم الدخول إن كانا فارغين في الوارد */
+          byId[u.id]=Object.assign({},cur,u,{
+            pass:String(u.pass||"")||String(cur.pass||""),
+            user:String(u.user||"")||String(cur.user||"")
+          });
+        });
+        const merged=Object.values(byId);
+        SYNC.last[key]=JSON.stringify(merged);
+        mem[key]=merged;DB.users=merged;
+        if(remoteAt)setStamp(key,remoteAt);
+        lsSet(key,SYNC.last[key],true);
+        try{idbSet(key,SYNC.last[key])}catch(e){}
+        try{renderUsers();applyPerms()}catch(e){}
+        return;
+      }
+    }
     if(Array.isArray(inc)&&Array.isArray(loc)&&loc.length>3&&inc.length<loc.length*0.6){
       console.warn("رُفض وارد أصغر:",key,inc.length,"<",loc.length);
       PENDING[key]=loc;scheduleFlush();
@@ -18857,6 +19004,59 @@ const ROLE_PERMS={
   user:{arch:1,plan:1,schools:1}
 };
 function roleOf(u){if(!u)return "user";if(u.role)return u.role;return (u.perms&&u.perms.settings)?"admin":"user"}
+
+/* ===== نسخة أمان للمستخدمين والاعتمادات ===== */
+function usersBackup(){
+  try{
+    if(!LS)return;
+    const snap={at:new Date().toISOString(),
+      users:DB.users||[],mplans:DB.plan.mplans||{},settings:DB.settings||{}};
+    LS.setItem("usersSafe",JSON.stringify(snap));
+  }catch(e){}
+}
+function usersRestore(){
+  try{
+    const raw=LS&&LS.getItem("usersSafe");
+    if(!raw)return null;
+    return JSON.parse(raw);
+  }catch(e){return null}
+}
+/* استرجاع تلقائي إن فُقد المستخدمون */
+async function guardUsers(){
+  const bk=usersRestore();
+  if(!bk||!Array.isArray(bk.users)||!bk.users.length)return usersBackup();
+  const now=(DB.users||[]).length;
+  if(now>=bk.users.length){usersBackup();return}
+  /* فُقد مستخدمون — استرجع الناقص */
+  const have=new Set((DB.users||[]).map(u=>String(u.id)));
+  let n=0;
+  bk.users.forEach(u=>{
+    if(!have.has(String(u.id))){DB.users.push(u);n++}
+  });
+  if(n){
+    await saveVerified("dir:users",DB.users,"المستخدمون");
+    console.warn("استُرجع "+n+" مستخدمًا من نسخة الأمان");
+    setTimeout(()=>toast("استُرجع "+n+" مستخدمًا من نسخة الأمان"),1200);
+    try{renderUsers()}catch(e){}
+  }
+  /* الاعتمادات */
+  if(bk.mplans&&typeof bk.mplans==="object"){
+    DB.plan.mplans=DB.plan.mplans||{};
+    let m=0;
+    Object.keys(bk.mplans).forEach(k=>{
+      const cur=DB.plan.mplans[k],old=bk.mplans[k];
+      if(!cur){DB.plan.mplans[k]=old;m++;return}
+      /* لا تُفقد حالة الاعتماد */
+      const rank={draft:0,sent:1,approved:2,running:3,done:4};
+      if((rank[old.state]||0)>(rank[cur.state]||0)){
+        DB.plan.mplans[k]=Object.assign({},cur,old);m++;
+      }
+    });
+    if(m){await savePlan();console.warn("استُرجعت "+m+" حالة اعتماد")}
+  }
+  usersBackup();
+}
+
 function normalizeUser(u){
   let ch=false;
   const r=roleOf(u);
@@ -19187,6 +19387,7 @@ async function boot(){
     const t=await load("dir:tasks",{list:[],seq:1});
     DB.tasks=t.list||[];DB.seq=t.seq||DB.tasks.length+1;
     if(permFix)await save("dir:users",DB.users);
+    try{await guardUsers()}catch(e){console.error(e)}
   }catch(e){console.error("load",e);toast("تحذير أثناء تحميل البيانات: "+e.message)}
   SYNC.loaded=true;
   try{await takeSnapshot("عند الفتح")}catch(e){}
