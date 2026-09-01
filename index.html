@@ -15788,18 +15788,57 @@ function pzpParse(){
   const sig=o=>cols.map(c=>String(o[c[0]]||"").trim()).join("|")+"|"+mo+"|"+yr;
   const exist=(DB.plan.prisons||[]).filter(r=>r.sec===sec&&r.type===type).map(sig);
   const out=[];let skip=0;
+  /* قارئ ذكي: يتعرّف على اليوم والتاريخ والنوع مهما كان الفاصل */
+  const KINDS=["خاطرة","محاضرة","درس","دورة","ندوة","كلمة","موعظة","لقاء","ورشة","حلقة","برنامج"];
+  const isDay=v=>AR_DAYS.some(d=>String(v||"").replace(/^ال/,"")===d.replace(/^ال/,"")
+    ||String(v||"").trim()===d);
+  const isDate=v=>/\d{1,4}\s*[\/\-.]\s*\d{1,2}\s*[\/\-.]\s*\d{1,4}/.test(String(v||""));
+  const isKind=v=>KINDS.some(k=>String(v||"").trim()===k||String(v||"").trim().startsWith(k));
   ($("#pzp-data").value||"").split(/\r?\n/).filter(x=>x.trim()).forEach(line=>{
-    let c=line.split(/\t|\||؛/).map(x=>x.trim());
+    /* التاريخ قد يحوي مسافات حول الشرطة: 23 / 08 / 2026 — نوحّده أولًا */
+    let ln=String(line).replace(/(\d{1,4})\s*\/\s*(\d{1,2})\s*\/\s*(\d{1,4})/g,"$1/$2/$3");
+    let c=ln.split(/\t|\||؛/).map(x=>x.trim()).filter(x=>x!=="");
+    /* إن لم توجد فواصل: قسّم بالمسافات المتعددة ثم بالمفردة */
+    if(c.length<2)c=ln.split(/\s{2,}/).map(x=>x.trim()).filter(Boolean);
+    if(c.length<2)c=ln.trim().split(/\s+/);
     const j=c.join(" ");
     if(cols.some(col=>j.includes(col[1]))&&cols.filter(col=>j.includes(col[1])).length>=2){skip++;return}
-    if(/^\d{1,3}$/.test(c[0])&&c.length>cols.length)c=c.slice(1);
+    if(/^\d{1,3}$/.test(c[0])&&c.length>2)c=c.slice(1);
     const o={sec,type,month:mo,year:yr};
-    cols.forEach(([k,,ty],i)=>{
-      let v=(c[i]||"").trim();
-      if(ty==="number")o[k]=Number(String(v).replace(/[^\d.]/g,""))||0;
-      else if(ty==="date")o[k]=v?smartDate(v,mo,yr):"";
-      else o[k]=v;
-    });
+    const wantsDay=cols.some(x=>x[0]==="day");
+    const wantsKind=cols.some(x=>x[0]==="kind");
+    if(wantsDay||wantsKind){
+      /* التقاط ذكي: اليوم والتاريخ والنوع أينما وردت، والباقي عنوان وملاحظات */
+      const rest=[];
+      c.forEach(v=>{
+        if(wantsDay&&!o.day&&isDay(v)){o.day=String(v).trim();return}
+        if(!o.date&&isDate(v)){o.date=smartDate(String(v).trim(),mo,yr)||"";return}
+        if(wantsKind&&!o.kind&&isKind(v)){o.kind=String(v).trim();return}
+        rest.push(v);
+      });
+      /* العنوان: أطول نص متبقٍ، والملاحظات ما بعده */
+      const txt=rest.filter(x=>x&&!/^\d+$/.test(x));
+      if(txt.length){
+        /* رتّب بحسب أعمدة النوع */
+        const order=cols.map(x=>x[0]).filter(k=>!["day","date","kind"].includes(k));
+        order.forEach((k,i)=>{
+          const ty=(cols.find(x=>x[0]===k)||[])[2];
+          let v=txt[i]||"";
+          if(order.length===1)v=txt.join(" ");
+          else if(i===order.length-1&&txt.length>order.length)v=txt.slice(i).join(" ");
+          if(ty==="number")o[k]=Number(String(v).replace(/[^\d.]/g,""))||0;
+          else o[k]=String(v||"").trim();
+        });
+      }
+      cols.forEach(([k,,ty])=>{if(o[k]===undefined)o[k]=(ty==="number")?0:""});
+    }else{
+      cols.forEach(([k,,ty],i)=>{
+        let v=(c[i]||"").trim();
+        if(ty==="number")o[k]=Number(String(v).replace(/[^\d.]/g,""))||0;
+        else if(ty==="date")o[k]=v?smartDate(v,mo,yr):"";
+        else o[k]=v;
+      });
+    }
     /* اليوم يُشتق من التاريخ إن كان فارغًا أو غير مطابق */
     if(cols.some(x=>x[0]==="day")&&o.date){
       const dn=dayName(o.date);
@@ -18208,7 +18247,7 @@ const firebaseConfig={
   appId:"1:183460755575:web:9e5021291185c8408b2e72",
   measurementId:"G-FYLY6DYZGQ"
 };
-const APP_BUILD="2026-08-25-D";
+const APP_BUILD="2026-08-25-E";
 const DEVICE_ID=(()=>{try{let d=LS&&LS.getItem("deviceId");if(!d){d="d"+Math.random().toString(36).slice(2,10);LS&&LS.setItem("deviceId",d)}return d}catch(e){return "d0"}})();
 const SYNC={db:null,ready:false,loaded:false,space:"office-1",last:{},unsub:[],authErr:""};
 const KEYS=["dir:contacts","dir:mails","dir:tasks","dir:memos","dir:lists","dir:users","dir:settings",
